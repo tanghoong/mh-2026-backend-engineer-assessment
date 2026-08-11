@@ -1,0 +1,777 @@
+tenant,customer_id,customer_sku,item_code,customer_description,valid_from,valid_to,source,confidence
+nordic,CUST-001,001914391,NRD-PRAW0097,fjordal prawn,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001444143,ACM-SELF0590,TOLSEN SELF DRILLING SCREW #10 410,2026-01-01,,inferred_match,1.0
+nordic,CUST-007,NRD-FULL0070,NRD-PUFF0068,SISU PUFF PASTRY,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003793659,ACM-ANGL0502,"ANGLE DISC 7"" GRINDING",2026-01-01,,inferred_match,1.0
+acme,CUST-003,003460286,ACM-HEXB0320,hitex hex bolt stainless 316,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002276764,NRD-BEEF0259-OLD,Fjordal Patty 200g 48s,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002672591,NRD-PUFF0258,NORDVIK PUFF PASTRY,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004462718,ACM-SAFE0863,KANTO SAFETY HELMET RATCHET,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008569215,ACM-CABL0499,Vermont Cable Tie 150Mm Black,2026-01-01,,confirmed_order,0.72
+nordic,CUST-005,005797089,NRD-SALM0050,Cape Bay Salmon Fillet D 3Kg,2026-01-01,,manual_import,1.0
+acme,CUST-001,001641929,ACM-PVCP0700,tolsen pvc 50mm class e,2026-01-01,,inferred_match,1.0
+acme,CUST-006,006397294,ACM-HEXB0155,HEX M6X30,2026-01-01,,confirmed_order,1.0
+nordic,CUST-001,001815272,NRD-BEEF0259-OLD,Fjordal Beef Patty 48s,2026-01-01,,manual_import,1.0
+nordic,CUST-006,006559060,NRD-BEEF0187,golden pantry fillet d,2026-01-01,2026-03-31,manual_import,0.72
+acme,CUST-008,008379281,ACM-WALL0330,Stallion Plug 12Mm Blue,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003306026,NRD-PUFF0078-OLD,Nordvik Puff Pastry Sheet,2026-01-01,,manual_import,1.0
+nordic,CUST-007,007049218,NRD-MOZZ0143,Fjordal Mozzarella Shredded,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004411685,NRD-POTA0272,Sisu Potato Fries,2026-01-01,,confirmed_order,0.55
+nordic,CUST-001,NRD-VANI0135,NRD-CHIC0008,Sisu Chicken Breast Strips 2Kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008704474,NRD-BEEF0046,golden pantry beef 200g 12s,2026-01-01,,confirmed_order,0.55
+acme,CUST-002,002193862,ACM-HEXB1059,hex bolt m8x50 hdg,2026-01-01,,inferred_match,0.55
+nordic,CUST-004,004077834,NRD-CHIC0324,FJORDAL CHICKEN BREAST 2KG,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006435030,NRD-CHIC0253-OLD,Nordvik Chicken Breast 5kg,2026-01-01,,manual_import,1.0
+acme,CUST-006,NRD-WALL0324,ACM-BALL0173,TOLSEN BALL VALVE,2026-01-01,,manual_import,0.55
+acme,CUST-008,008608807,ACM-HEXB0603,Stallion Bolt M10X50 Hdg,2026-01-01,,manual_import,1.0
+acme,CUST-005,005150630,ACM-PVCP0284,bosco pvc pipe c,2026-01-01,,confirmed_order,0.72
+acme,CUST-001,001980946,ACM-HEXB1063,bolt m6x30,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002579405,ACM-ANGL0265,"Vermont Grinder Disc 5"" Flap",2026-01-01,,manual_import,1.0
+acme,CUST-002,002028850,ACM-NITR0470,bosco nitrile l blue,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004856772,NRD-PRAW0450,CAPE BAY 31/40,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004750465,ACM-WALL0730-OLD,Vermont Wall Plug 10mm,2026-01-01,,manual_import,1.0
+acme,CUST-001,001550468,ACM-CABL0967,CABLE TIE 100MM WHITE,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006550390,ACM-HEXB0357,kanto,2026-01-01,,inferred_match,0.72
+acme,CUST-006,006572787,ACM-WALL0398,BOSCO WALL PLUG 12MM BLUE,2026-01-01,,manual_import,1.0
+acme,CUST-008,008981867,ACM-NITR0903-OLD,Nitrile Glove Blue,2026-01-01,,manual_import,1.0
+acme,CUST-008,008113383,ACM-SAFE0564,Kanto Hex Bolt M6X50 Stainless,2026-01-01,2026-03-31,manual_import,0.72
+nordic,CUST-003,003804145,NRD-SALM0100,NORDVIK FILLET SIDE,2026-01-01,,confirmed_order,0.55
+acme,CUST-001,001349610,ACM-NITR0487,Stallion Nitrile Glove S,2026-01-01,,confirmed_order,0.72
+nordic,CUST-005,005930696,NRD-CHIC0268,Sisu Breast Diced 2Kg,2026-01-01,,manual_import,0.72
+acme,CUST-002,002100790,ACM-NITR0344,NITRILE GLOVE S BLUE,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008119775,ACM-HEXB0332,HEX M12X60 ZINC PLATED,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006347424,NRD-FULL0339,full milk,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002041858,ACM-PVCP1055B,Vermont Pvc Pipe 50Mm Class (Bulk),2026-01-01,,manual_import,0.72
+acme,CUST-004,004444887,ACM-CABL1080,HITEX CABLE TIE 300MM NATURAL,2026-01-01,,inferred_match,0.72
+nordic,CUST-004,004281420,NRD-BEEF0255,SISU BEEF PATTY 150G 12S,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006426130,ACM-BALL0525,"VERMONT BALL VALVE 2"" SS304",2026-01-01,,confirmed_order,1.0
+nordic,CUST-007,007867982,NRD-PUFF0166,block 1kg,2026-01-01,,confirmed_order,0.72
+nordic,CUST-006,006703262,NRD-PRAW0055-OLD,Bay 2kg,2026-01-01,,manual_import,1.0
+acme,CUST-005,005960593,ACM-CABL0588,BOSCO CABLE TIE 370MM BLACK,2026-01-01,,inferred_match,1.0
+acme,CUST-008,008963914,ACM-SELF0457,"self drilling screw #12 x 2"" zinc plated",2026-01-01,,manual_import,1.0
+acme,CUST-002,002497349,ACM-HEXB0971,M12X60 ZINC PLATED,2026-01-01,,inferred_match,1.0
+nordic,CUST-002,002224218,NRD-PRAW0224,fjordal prawn 31/40 2kg,2026-01-01,,confirmed_order,0.72
+nordic,CUST-004,004840177,NRD-CHIC0043,breast diced 1kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004132891,ACM-HOSE0980B,Bosco Hose Clip 19-25Mm,2026-01-01,,confirmed_order,1.0
+nordic,CUST-007,007698541,NRD-BEEF0301,NORDVIK PATTY 48S,2026-01-01,,inferred_match,0.72
+acme,CUST-004,004305778,ACM-SAFE0984,REMAX HELMET YELLOW STANDARD,2026-01-01,,inferred_match,1.0
+acme,CUST-004,NRD-HEXB0803,ACM-HEXB0780,bosco bolt m6x50 stainless 304,2026-01-01,,manual_import,1.0
+acme,CUST-003,003349465,ACM-PVCP0896,Pvc Pipe 15Mm Class C,2026-01-01,,confirmed_order,1.0
+nordic,CUST-001,001193619,NRD-BEEF0476,Fjordal Beef Patty 150G,2026-01-01,,confirmed_order,0.55
+acme,CUST-002,002634861,ACM-ANGL0343,"angle grinder 4.5""",2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006712028,ACM-SELF0746,"kanto self drilling #12 x 2"" zinc plated",2026-01-01,,manual_import,0.55
+acme,CUST-002,002469423,ACM-HOSE0704,Clip 19-25Mm Zinc,2026-01-01,,inferred_match,0.72
+acme,CUST-006,006508136,ACM-BALL0954-OLD,Ball SS304,2026-01-01,,manual_import,1.0
+acme,CUST-008,008189630,ACM-ANGL0598,"GRINDER DISC 7"" GRINDING",2026-01-01,,confirmed_order,0.72
+nordic,CUST-001,001748249,NRD-WHIP0334B,Cream 38% 1L,2026-01-01,,confirmed_order,0.55
+acme,CUST-005,005541584,ACM-MASK0784,vermont masking tape 24mm high temp,2026-01-01,,confirmed_order,0.55
+acme,CUST-007,007537601,ACM-CABL0095,cable,2026-01-01,,manual_import,1.0
+acme,CUST-004,004954508,ACM-HOSE1069,Stallion Hose 25-38Mm,2026-01-01,,manual_import,0.55
+nordic,CUST-007,007143621,NRD-CHIC0248,Sisu Chicken Whole 5Kg,2026-01-01,,inferred_match,0.55
+acme,CUST-004,004954959,ACM-HEXB0762-OLD,Bosco Hex Bolt M12x60 Stainless 304,2026-01-01,,manual_import,1.0
+acme,CUST-008,NRD-GIWI0663,ACM-ANGL0522,"TOLSEN ANGLE GRINDER 4"" CUTTING",2026-01-01,,manual_import,0.55
+nordic,CUST-007,007414201,NRD-POTA0173,sisu fries 1kg,2026-01-01,,manual_import,1.0
+acme,CUST-008,008705592,ACM-BALL0682,Vermont Ball Pvc,2026-01-01,,confirmed_order,0.72
+acme,CUST-003,003173404,ACM-MASK0521,Bosco Masking 18Mm General,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007857496,ACM-HEXB0639,hitex hex bolt m10x50,2026-01-01,,inferred_match,1.0
+nordic,CUST-006,006390873,NRD-PRAW0308,PRAWN 1KG,2026-01-01,,inferred_match,0.55
+nordic,CUST-005,005984450,NRD-BEEF0209,Beef Patty 200G,2026-01-01,,confirmed_order,0.55
+nordic,CUST-008,008101370,NRD-MOZZ0170,golden mozzarella 2kg,2026-01-01,,inferred_match,1.0
+acme,CUST-002,002382654,ACM-PVCP0260,bosco pvc pipe 50mm class c,2026-01-01,,confirmed_order,0.55
+nordic,CUST-002,002893965,NRD-PUFF0314,puff pastry block 2kg,2026-01-01,,confirmed_order,0.72
+nordic,CUST-004,004645092,NRD-CHIC0073,nordvik chicken breast strips 2kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006438422,ACM-PVCP0306-OLD,Bosco PVC Class C,2026-01-01,,manual_import,1.0
+acme,CUST-001,001225526,ACM-PVCP1060,pvc 32mm class,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002574267,ACM-SAFE0483,Bosco Safety Helmet Ratchet,2026-01-01,,confirmed_order,0.72
+nordic,CUST-005,005535501,NRD-PUFF0125,PANTRY PUFF PASTRY,2026-01-01,,inferred_match,0.55
+nordic,CUST-003,003123376,NRD-BEEF0006,PATTY 100G,2026-01-01,,confirmed_order,0.55
+acme,CUST-001,001969543,ACM-CABL0689,Tolsen Cable Tie 370Mm White,2026-01-01,,confirmed_order,0.55
+nordic,CUST-002,002151357,NRD-PUFF0353,SISU PUFF PASTRY SHEET 2KG,2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006038231,ACM-SAFE0988,safety helmet blue,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006168977,NRD-CHIC0204,sisu breast whole,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002064197,ACM-ANGL1022,"vermont grinder disc 7"" cutting",2026-01-01,,inferred_match,0.72
+acme,CUST-003,003564899,ACM-SAFE0393,HITEX SAFETY HELMET,2026-01-01,,inferred_match,0.55
+acme,CUST-003,003960742,ACM-SELF0669,BOSCO SELF DRILLING #8 PLATED,2026-01-01,,inferred_match,0.72
+acme,CUST-006,006274793,ACM-SAFE0543,SAFETY HELMET YELLOW STANDARD,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008972470,ACM-SELF0105,Drilling Screw X Stainless 410,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003396675,ACM-WALL0651,bosco wall plug 8mm,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005875993,ACM-ANGL0414,"vermont angle grinder 4""",2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003427324,ACM-ANGL0397,ANGLE GRINDER DISC FLAP,2026-01-01,,manual_import,0.55
+nordic,CUST-006,006762665,NRD-CHIC0490,Chicken,2026-01-01,,confirmed_order,1.0
+nordic,CUST-001,001254696,NRD-VANI0427,Vanilla Ice Cream Tub 4L,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005462310,NRD-CHIC0049,HALBERG BREAST WHOLE 2KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008839535,ACM-SELF0204,"bosco drilling #12 x 2"" stainless 410",2026-01-01,,manual_import,1.0
+acme,CUST-004,004784961,ACM-BALL0123,"Kanto Ball Valve 1""",2026-01-01,,confirmed_order,0.55
+nordic,CUST-008,008967318,NRD-MOZZ0356,Golden Pantry Mozzarella 1Kg,2026-01-01,,inferred_match,1.0
+acme,CUST-008,008870051,ACM-SAFE0829,HELMET STANDARD,2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006631500,ACM-WALL0508,Vermont Wall Plug 8Mm Brown,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003704427,ACM-SELF0105-OLD,"Stallion Drilling Screw #10 x 1-1/2"" Stainless 410",2026-01-01,,manual_import,1.0
+nordic,CUST-001,001174007,NRD-CHIC0324-OLD,Fjordal Breast 2kg,2026-01-01,,manual_import,1.0
+acme,CUST-004,004060580,ACM-SELF0416,"bosco drilling screw 1"" stainless",2026-01-01,,inferred_match,1.0
+nordic,CUST-003,003281226,NRD-CHIC0486,FJORDAL STRIPS 1KG,2026-01-01,,confirmed_order,1.0
+nordic,CUST-001,001703023,NRD-PRAW0160,Prawn 31/40 1Kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002208887,ACM-HOSE0373,hose clip 25-38mm ss304,2026-01-01,,manual_import,0.55
+acme,CUST-001,001633956,ACM-HEXB1059,Hex Bolt M8X50 Hdg,2026-01-01,,inferred_match,0.72
+acme,CUST-004,004920247,ACM-SELF0326,KANTO SELF DRILLING SCREW X PLATED,2026-01-01,,confirmed_order,0.55
+acme,CUST-002,002184773,ACM-HEXB0374,stallion bolt m8x50 stainless 316,2026-01-01,,confirmed_order,0.55
+nordic,CUST-005,005972265,NRD-PRAW0384,Pantry Prawn 16/20 1Kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005736367,ACM-ANGL1011,"ANGLE GRINDER 4"" FLAP",2026-01-01,,confirmed_order,0.55
+nordic,CUST-001,001013283,NRD-PUFF0296,nordvik block 5kg,2026-01-01,,inferred_match,1.0
+nordic,CUST-008,008304266,NRD-MOZZ0018,golden pantry mozzarella shredded 2kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007789973,ACM-GIWI0840,Tolsen Soft,2026-01-01,,confirmed_order,0.72
+nordic,CUST-004,004288365,NRD-MOZZ0221,CAPE BAY 1KG,2026-01-01,,inferred_match,1.0
+acme,CUST-003,003468247,ACM-ANGL0336,"Remax Angle Grinder Disc 5"" Grinding",2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008299414,NRD-PRAW0051,Sisu Prawn 31/40 1Kg,2026-01-01,,inferred_match,0.55
+acme,CUST-007,007146119,ACM-PVCP0275,pvc pipe 50mm c,2026-01-01,,confirmed_order,0.72
+nordic,CUST-002,002359119,NRD-POTA0146,GOLDEN PANTRY FRIES WEDGE 2.5KG,2026-01-01,,manual_import,1.0
+acme,CUST-006,006959982,ACM-WALL0429,tolsen wall plug 6mm,2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004763027,ACM-HEXB0350,bosco hex 304,2026-01-01,,manual_import,1.0
+acme,CUST-008,008380055,ACM-HEXB0004,Hitex Hex M6X50 Hdg,2026-01-01,,confirmed_order,0.72
+acme,CUST-008,008165927,ACM-ANGL0280,Angle,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006559060,NRD-SALM0276,golden pantry fillet d,2026-01-01,,inferred_match,0.72
+nordic,CUST-006,006795397,NRD-POTA0231,halberg potato fries wedge 2.5kg,2026-01-01,,inferred_match,0.72
+acme,CUST-007,007751101,ACM-HEXB0782,Bosco M8X30 316,2026-01-01,,manual_import,1.0
+acme,CUST-005,005111427,ACM-ANGL0080,Angle Disc Grinding,2026-01-01,,inferred_match,1.0
+acme,CUST-008,008295113,ACM-GIWI0495,Wire #20 Hard Drawn,2026-01-01,,inferred_match,0.72
+nordic,CUST-007,007893300,NRD-CHIC0026,cape chicken diced 2kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004652072,ACM-WALL0962,kanto wall plug 8mm brown,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002743815,NRD-MOZZ0110,Cape Bay Mozzarella 1Kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001322915,ACM-SELF0718,TIE 370MM BLACK,2026-01-01,2026-03-31,manual_import,0.72
+nordic,CUST-005,005023875,NRD-FULL0416,FJORDAL CREAM MILK FRESH 200ML,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003777560,ACM-MASK0327,masking general,2026-01-01,,confirmed_order,0.72
+acme,CUST-006,006887483,ACM-NITR0804,KANTO GLOVE M BLACK,2026-01-01,,manual_import,1.0
+acme,CUST-005,005855402,ACM-NITR0589,NITRILE GLOVE BLACK,2026-01-01,,manual_import,0.72
+acme,CUST-005,005746193,ACM-BALL0315,kanto ball valve brass,2026-01-01,,inferred_match,1.0
+acme,CUST-005,005191570,ACM-PVCP0994-OLD,PVC Pipe 25mm Class D,2026-01-01,,manual_import,1.0
+acme,CUST-007,007265809,ACM-HEXB0458,REMAX M10X50 HDG,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008373901,ACM-SAFE0916,Kanto Safety Standard,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001945759,ACM-HEXB0181,tolsen hex m8x50 stainless 316,2026-01-01,,manual_import,1.0
+nordic,CUST-007,007113716,NRD-SALM0201,HALBERG FILLET 1KG,2026-01-01,,inferred_match,0.55
+nordic,CUST-002,002529721,NRD-BEEF0265,pantry beef patty 150g 48s,2026-01-01,,inferred_match,0.55
+acme,CUST-004,004370889,ACM-ANGL0328,"Hitex Disc 5""",2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003433473,NRD-PRAW0384,GOLDEN PANTRY PRAWN 16/20 1KG,2026-01-01,,inferred_match,1.0
+acme,CUST-003,003911925,ACM-SELF0681,"STALLION DRILLING SCREW #10 X 1"" ZINC PLATED",2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003791659,ACM-SELF0204,"bosco self screw #12 x 2"" stainless",2026-01-01,,inferred_match,1.0
+acme,CUST-007,007676272,ACM-SAFE0863,Kanto Helmet Blue Ratchet,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004907008,ACM-ANGL0007,"hitex angle 5""",2026-01-01,,confirmed_order,0.55
+nordic,CUST-001,001826738,NRD-MOZZ0189,mozzarella block 1kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-007,007078304,ACM-SELF0813,"SELF #12 X 2"" ZINC",2026-01-01,,inferred_match,1.0
+nordic,CUST-008,008627082,NRD-PRAW0141,16/20 1Kg,2026-01-01,,inferred_match,1.0
+acme,CUST-008,008249483,ACM-MASK0286,masking tape temp,2026-01-01,,inferred_match,0.55
+acme,CUST-005,005583843,ACM-BALL0802,"VERMONT BALL 3/4"" BRASS",2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003901106,NRD-SALM0298,golden pantry salmon fillet 3kg,2026-01-01,,confirmed_order,0.55
+nordic,CUST-007,007750291,NRD-MOZZ0170,Golden Mozzarella 2Kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-005,005061925,NRD-SALM0201,HALBERG SALMON FILLET 1KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005064189,ACM-BALL0952,"BALL 1-1/4"" SS304",2026-01-01,,inferred_match,0.55
+nordic,CUST-008,008350000,NRD-BEEF0284,GOLDEN PANTRY BEEF 150G 24S,2026-01-01,,manual_import,0.55
+acme,CUST-003,003248399,ACM-NITR0497,nitrile,2026-01-01,,inferred_match,0.55
+nordic,CUST-002,002993173,NRD-BEEF0006,HALBERG 100G,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001959043,ACM-HOSE0044,kanto clip zinc,2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003237920,ACM-ANGL0753,"angle disc 4"" flap",2026-01-01,,inferred_match,1.0
+acme,CUST-007,007007999,ACM-BALL0146,"Vermont Valve 1""",2026-01-01,,manual_import,1.0
+acme,CUST-007,007468583,ACM-NITR1012,NITRILE GLOVE,2026-01-01,,confirmed_order,0.72
+acme,CUST-003,003350512,ACM-PVCP0301,pipe 50mm class e,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,NRD-SELF0204,ACM-HEXB0395,hex bolt m6x30 zinc,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008612188,NRD-VANI0327-OLD,Fjordal Vanilla Ice Tub 4L,2026-01-01,,manual_import,1.0
+acme,CUST-005,005031847,ACM-HEXB0292,stallion hex m6x50 hdg,2026-01-01,,inferred_match,1.0
+acme,CUST-007,007962922,ACM-ANGL0036,Hitex Grinder Disc Cutting,2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003787970,ACM-BALL0836,"BALL 1"" BRASS",2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002412609,ACM-HOSE0821,Vermont Clip 19-25Mm Ss304,2026-01-01,,confirmed_order,0.72
+acme,CUST-006,006577874,ACM-HEXB0352,KANTO HEX M6X50 304,2026-01-01,,confirmed_order,0.55
+nordic,CUST-001,001784863,NRD-CHIC0324-OLD,Fjordal Whole 2kg,2026-01-01,,manual_import,1.0
+acme,CUST-003,003604093,ACM-CABL0545,remax cable tie 150mm natural,2026-01-01,,inferred_match,0.72
+acme,CUST-005,005739246,ACM-NITR0903-OLD,Remax Nitrile Glove,2026-01-01,,manual_import,1.0
+acme,CUST-008,008493274,ACM-HEXB0743-OLD,Vermont Hex Bolt Stainless 316,2026-01-01,,manual_import,1.0
+nordic,CUST-004,004384380,NRD-CHIC0197,Nordvik Chicken Breast Strips,2026-01-01,,confirmed_order,0.55
+acme,CUST-005,005464843,ACM-CABL1016,Tolsen Cable Tie 100Mm Natural,2026-01-01,,inferred_match,1.0
+acme,CUST-002,002996660,ACM-HEXB0943-OLD,Remax Hex Bolt Stainless,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002595444,NRD-FULL0038,Sisu Full Milk Fresh 2L,2026-01-01,,inferred_match,0.72
+nordic,CUST-007,007826406,NRD-CHIC0253-OLD,Nordvik Chicken Breast Diced,2026-01-01,,manual_import,1.0
+acme,CUST-002,002049307,ACM-HEXB0743-OLD,Vermont Bolt M8x30 316,2026-01-01,,manual_import,1.0
+acme,CUST-007,007385937,ACM-HOSE0106,Hitex Hose 19-25Mm,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006419931,ACM-HEXB0936,tolsen bolt m8x75 stainless 304,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003076032,ACM-CABL0340,bosco tie 450mm black,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004075597,ACM-HEXB0088,tolsen hex bolt m10x50 304,2026-01-01,,confirmed_order,0.55
+acme,CUST-001,001521072,ACM-BALL0682,"vermont ball valve 1-1/4""",2026-01-01,,confirmed_order,1.0
+nordic,CUST-005,005070778,NRD-POTA0234,Fjordal Squid Ring 1Kg,2026-01-01,2026-03-31,manual_import,1.0
+nordic,CUST-003,003527134,NRD-PUFF0068,Puff Pastry Block,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008746042,ACM-BALL0763,"kanto valve 2"" pvc",2026-01-01,,inferred_match,1.0
+acme,CUST-006,006096712,ACM-PVCP0466,Stallion Class,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001046188,ACM-SAFE1038,Stallion Standard,2026-01-01,,inferred_match,1.0
+nordic,CUST-005,005206758,NRD-POTA0105,CAPE BAY POTATO FRIES 7MM,2026-01-01,,manual_import,0.72
+nordic,CUST-004,004033967,NRD-BEEF0354,fjordal beef patty,2026-01-01,,manual_import,0.72
+nordic,CUST-003,003508914,NRD-CHIC0324-OLD,Fjordal Chicken Breast Whole 2kg,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002226612,NRD-SALM0331B,SISU FILLET TRIM D (BULK),2026-01-01,,inferred_match,1.0
+acme,CUST-008,008400355,ACM-SAFE0847-OLD,Tolsen Safety Helmet Red Ratchet,2026-01-01,,manual_import,1.0
+acme,CUST-003,003041673,ACM-SAFE0749,Stallion Helmet White Ratchet,2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003672659,ACM-SELF0737,KANTO SELF DRILLING SCREW #10 X ZINC PLATED,2026-01-01,,inferred_match,1.0
+acme,CUST-003,003037243,ACM-SELF0945,"Hitex Self Screw #10 1-1/2"" Zinc Plated",2026-01-01,,confirmed_order,0.55
+nordic,CUST-008,008709985,NRD-PUFF0314,PUFF BLOCK 2KG,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002180272,ACM-PVCP0577,TOLSEN PVC PIPE 40MM CLASS E,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002177911,ACM-ANGL1068,"BOSCO ANGLE GRINDER DISC 5"" FLAP",2026-01-01,,inferred_match,1.0
+nordic,CUST-007,007279620,NRD-VANI0424,nordvik vanilla ice cream tub 1l,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007294374,ACM-NITR0707,STALLION XL BLACK,2026-01-01,,inferred_match,0.72
+acme,CUST-001,001935568,ACM-ANGL0051,"ANGLE GRINDER DISC 7"" FLAP",2026-01-01,,inferred_match,0.55
+nordic,CUST-006,006201168,NRD-VANI0390,vanilla cream 4l,2026-01-01,,inferred_match,0.72
+nordic,CUST-006,006795397,NRD-PRAW0385,halberg potato fries wedge 2.5kg,2026-01-01,2026-03-31,manual_import,0.72
+nordic,CUST-002,002360093,NRD-BUTT0029,Pantry Unsalted 250G,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002391580,ACM-WALL1006,STALLION PLUG,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002021765,NRD-POTA0192,sisu crinkle 1kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008055251,ACM-PVCP0941,hitex pipe 15mm e,2026-01-01,,confirmed_order,0.72
+nordic,CUST-001,001026091,NRD-PUFF0150,Pantry Puff Pastry Block 5Kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-001,001127833,ACM-SAFE0582,helmet white standard,2026-01-01,,confirmed_order,0.55
+acme,CUST-007,007051623,ACM-BALL0865,Bosco Ball,2026-01-01,,confirmed_order,0.55
+nordic,CUST-006,006119168,NRD-BUTT0399,CAPE SHEET,2026-01-01,,inferred_match,0.55
+acme,CUST-007,007635526,ACM-PVCP0441,Tolsen Pipe Class D,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001795093,NRD-BUTT0001,nordvik butter unsalted 500g,2026-01-01,,inferred_match,0.55
+acme,CUST-005,005395995,ACM-BALL0601,"REMAX BALL 2"" BRASS",2026-01-01,,inferred_match,1.0
+acme,CUST-007,007169492,ACM-PVCP0799,Stallion Pvc Pipe Class,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008789350,NRD-SALM0117,halberg fillet 5kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003218825,ACM-PVCP0347,kanto pvc pipe class,2026-01-01,,inferred_match,1.0
+nordic,CUST-003,003825126,NRD-PRAW0455,GOLDEN PANTRY PRAWN PDTO,2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006958500,ACM-NITR0881,S,2026-01-01,,confirmed_order,0.72
+acme,CUST-007,007811928,ACM-SAFE0847-OLD,Tolsen Helmet Red Ratchet,2026-01-01,,manual_import,1.0
+acme,CUST-006,006827753,ACM-HOSE0645,remax hose 19-25mm ss304,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004450537,NRD-SQUI0023,BAY SQUID RING BREADED,2026-01-01,,inferred_match,0.55
+acme,CUST-008,008993515,ACM-CABL0074,hitex cable tie natural,2026-01-01,,inferred_match,1.0
+acme,CUST-005,005469122,ACM-NITR0406,KANTO NITRILE GLOVE XL BLACK,2026-01-01,,inferred_match,1.0
+nordic,CUST-001,001252159,NRD-SALM0076,Fillet Trim,2026-01-01,,manual_import,1.0
+acme,CUST-002,002499121,ACM-HEXB0194,Vermont Hex M8X30 Zinc Plated,2026-01-01,,inferred_match,0.72
+acme,CUST-005,005354758,ACM-ANGL0544,grinder disc cutting,2026-01-01,,inferred_match,0.55
+acme,CUST-008,008076426,ACM-NITR0341,STALLION GLOVE L BLACK,2026-01-01,,confirmed_order,0.72
+nordic,CUST-002,002282069,NRD-PRAW0342,NORDVIK PRAWN 31/40 1KG,2026-01-01,,confirmed_order,0.72
+acme,CUST-003,003014977,ACM-NITR0617,Hitex Nitrile Glove L,2026-01-01,,manual_import,0.72
+acme,CUST-001,001794774,ACM-MASK0521,BOSCO MASKING TAPE 18MM GENERAL,2026-01-01,,confirmed_order,0.72
+acme,CUST-005,005676456,ACM-BALL0954-OLD,"Vermont Ball Valve 3/4"" SS304",2026-01-01,,manual_import,1.0
+acme,CUST-008,008916361,ACM-MASK0859,Hitex 12Mm General,2026-01-01,,inferred_match,0.72
+acme,CUST-008,008128159,ACM-SAFE0847,tolsen helmet ratchet,2026-01-01,,inferred_match,0.55
+acme,CUST-006,006947869,ACM-HEXB0873,M12X60 HDG,2026-01-01,,confirmed_order,0.72
+acme,CUST-008,008042011,ACM-HOSE0440,Stallion Clip 13-19Mm Zinc,2026-01-01,,manual_import,1.0
+acme,CUST-008,008319767,ACM-HEXB0639,hitex bolt m10x50 hdg,2026-01-01,,manual_import,0.72
+acme,CUST-005,005762705,ACM-BALL0408,"Hitex Ball 3/4"" Brass",2026-01-01,,manual_import,0.55
+nordic,CUST-005,005513008,NRD-CHIC0324-OLD,Chicken Breast 2kg,2026-01-01,,manual_import,1.0
+acme,CUST-003,003322085,ACM-PVCP1060,TOLSEN PVC 32MM CLASS D,2026-01-01,,manual_import,0.72
+acme,CUST-005,005097271,ACM-BALL0123,"Tolsen Angle Grinder Disc 4.5""",2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-008,008760253,ACM-HEXB0800,REMAX HEX M10X75 PLATED,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006540848,NRD-PRAW0025,fjordal beef 100g 24s,2026-01-01,2026-03-31,manual_import,0.55
+nordic,CUST-004,004872368,NRD-CHIC0253,Nordvik Chicken 5Kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-005,005235558,ACM-BALL0510,"Ball Valve 1-1/4"" Brass",2026-01-01,,inferred_match,0.72
+nordic,CUST-003,003314878,NRD-PRAW0141,halberg prawn 16/20 1kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-005,005656584,NRD-BEEF0423,cape bay beef patty 200g 48s,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001916857,NRD-MOZZ0346,mozzarella 1kg,2026-01-01,,inferred_match,1.0
+nordic,CUST-005,005932621,NRD-VANI0327-OLD,Ice Tub 4L,2026-01-01,,manual_import,1.0
+acme,CUST-007,007428936,ACM-SAFE0579-OLD,Kanto Safety Helmet Yellow Ratchet,2026-01-01,,manual_import,1.0
+nordic,CUST-003,003530845,NRD-PRAW0009,sisu,2026-01-01,,inferred_match,1.0
+acme,CUST-006,006543959,ACM-PVCP0138,PIPE 15MM D,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002101340,ACM-CABL0657,VERMONT CABLE TIE 100MM BLACK,2026-01-01,,manual_import,1.0
+acme,CUST-006,006175773,ACM-PVCP0837,Pvc Pipe Class,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004921949,ACM-BALL0740,Remax Ball Valve Pvc,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002244053,ACM-BALL0123,"VALVE 1"" PVC",2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006496370,ACM-MASK0521,tape 18mm general,2026-01-01,,inferred_match,0.72
+nordic,CUST-005,005270990,NRD-PUFF0222,Sisu Puff Sheet 5Kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002351852,ACM-HOSE0191-OLD,Stallion Hose Clip 25-38mm,2026-01-01,,manual_import,1.0
+acme,CUST-007,007386252,ACM-ANGL1015,angle grinder disc cutting,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003546699,ACM-BALL0946,"BALL VALVE 2"" SS304",2026-01-01,,inferred_match,1.0
+acme,CUST-005,005374682,ACM-CABL0423,tolsen cable tie 370mm natural,2026-01-01,,inferred_match,1.0
+nordic,CUST-006,006176595,NRD-MOZZ0400-OLD,Cape Bay Mozzarella Shredded,2026-01-01,,manual_import,1.0
+nordic,CUST-006,006182545,NRD-POTA0156-OLD,Potato Fries 10mm 1kg,2026-01-01,,manual_import,1.0
+acme,CUST-004,004411270,ACM-HEXB0509,HEX M10X75 STAINLESS,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002837485,NRD-BUTT0052,CAPE UNSALTED 250G,2026-01-01,,confirmed_order,1.0
+nordic,CUST-001,001455536,NRD-BUTT0421,Sisu Butter Unsalted Sheet,2026-01-01,,manual_import,1.0
+acme,CUST-004,004775539,ACM-HEXB0762-OLD,Bosco Hex M12x60 Stainless,2026-01-01,,manual_import,1.0
+acme,CUST-008,008787317,ACM-PVCP0666,Stallion Pipe 40Mm,2026-01-01,,confirmed_order,0.55
+acme,CUST-007,007818288,ACM-SAFE0299,Remax Safety Helmet Standard,2026-01-01,,manual_import,0.55
+nordic,CUST-001,001374251,NRD-FULL0323,CREAM UHT 1L,2026-01-01,,inferred_match,0.72
+acme,CUST-002,002399093,ACM-BALL0507,"ball valve 1"" brass",2026-01-01,,confirmed_order,0.55
+nordic,CUST-005,005293553,NRD-BEEF0185,Beef Patty 200G 12S,2026-01-01,,inferred_match,1.0
+acme,CUST-006,006511359,ACM-HEXB1097,TOLSEN HEX BOLT M10X75 316,2026-01-01,,confirmed_order,0.55
+nordic,CUST-006,006264569,NRD-PUFF0244,CAPE PUFF,2026-01-01,,manual_import,1.0
+nordic,CUST-006,006978903,NRD-POTA0474,Sisu Potato Fries 2.5Kg,2026-01-01,,confirmed_order,0.55
+nordic,CUST-008,008218124,NRD-POTA0231,POTATO FRIES,2026-01-01,,confirmed_order,0.55
+acme,CUST-002,002668002,ACM-HEXB0139,Kanto Hex Bolt M10X75 Stainless 304,2026-01-01,,inferred_match,1.0
+acme,CUST-007,007374339,ACM-HOSE0367,Tolsen Pipe 40Mm Class,2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-001,001220228,ACM-SELF0922,"hitex self drilling screw #10 x 1"" stainless 410",2026-01-01,,confirmed_order,0.72
+acme,CUST-005,005995308,ACM-MASK0521,BOSCO MASKING TAPE 18MM,2026-01-01,,confirmed_order,0.55
+nordic,CUST-008,008844595,NRD-POTA0158,GOLDEN POTATO CRINKLE 2.5KG,2026-01-01,,inferred_match,0.72
+acme,CUST-008,008271033,ACM-HOSE0704,stallion hose clip 19-25mm,2026-01-01,,confirmed_order,0.72
+nordic,CUST-005,005992201,NRD-BUTT0336,Sisu Butter Block,2026-01-01,,manual_import,0.72
+acme,CUST-006,006550711,ACM-PVCP0732,vermont pvc e,2026-01-01,,inferred_match,0.72
+acme,CUST-001,001664099,ACM-HEXB0991,Bolt M12X60 Stainless,2026-01-01,,manual_import,1.0
+acme,CUST-003,003455202,ACM-ANGL0343,"bosco angle disc 4.5"" grinding",2026-01-01,,manual_import,1.0
+nordic,CUST-005,005774511,NRD-POTA0443,NORDVIK POTATO FRIES 2.5KG,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002361229,NRD-BEEF0301,beef 48s,2026-01-01,,manual_import,1.0
+acme,CUST-006,006926258,ACM-GIWI0377,Hitex Gi Wire Soft,2026-01-01,,manual_import,0.55
+acme,CUST-001,001752976,ACM-WALL0002,WALL PLUG 6MM,2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004852475,ACM-BALL0831,bosco wall plug 6mm red,2026-01-01,2026-03-31,manual_import,1.0
+nordic,CUST-005,005957017,NRD-BEEF0259,full cream fresh,2026-01-01,2026-03-31,manual_import,1.0
+nordic,CUST-008,NRD-MOZZ0487,NRD-PUFF0244B,CAPE BAY PUFF PASTRY SHEET 2KG (BULK),2026-01-01,,manual_import,1.0
+acme,CUST-007,007834019,ACM-CABL0287-OLD,Cable Tie Black,2026-01-01,,manual_import,1.0
+acme,CUST-001,001675580,ACM-NITR0536,vermont nitrile xl,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008483129,ACM-GIWI0789,Gi #18 Hard Drawn,2026-01-01,,inferred_match,0.72
+acme,CUST-005,005400853,ACM-MASK0745,masking tape 12mm high temp,2026-01-01,,confirmed_order,0.55
+nordic,CUST-007,007025436,NRD-CHIC0169,Halberg Breast 1Kg,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002908220,NRD-CHIC0087,Sisu Breast Whole 1Kg,2026-01-01,,inferred_match,1.0
+nordic,CUST-008,008778040,NRD-PUFF0063,puff sheet,2026-01-01,,inferred_match,0.55
+nordic,CUST-007,007437181,NRD-CHIC0289,Golden Pantry Chicken Breast Whole 1Kg,2026-01-01,,manual_import,1.0
+acme,CUST-007,NRD-PVCP0432,ACM-NITR0768,GLOVE S BLACK,2026-01-01,,manual_import,0.72
+nordic,CUST-004,004606567,NRD-SALM0142,fillet portion 5kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008099581,NRD-SALM0414,Nordvik Fillet Portion 3Kg,2026-01-01,,manual_import,0.55
+acme,CUST-008,008966835,ACM-PVCP0482,Stallion Pvc Pipe Class D,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006478144,ACM-NITR0808,Vermont Nitrile Glove L Blue,2026-01-01,,manual_import,0.55
+acme,CUST-004,004415344,ACM-ANGL0444,"angle 4.5"" flap",2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006130735,ACM-BALL0493,"ball valve 3/4"" brass",2026-01-01,,inferred_match,0.72
+acme,CUST-003,003124622,ACM-CABL0340,BOSCO CABLE TIE 450MM BLACK,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002505493,NRD-PUFF0444,fjordal puff sheet 5kg,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001671030,ACM-HEXB0566,vermont hex m12x60 zinc,2026-01-01,,inferred_match,1.0
+nordic,CUST-004,004297894,NRD-CHIC0240,GOLDEN PANTRY CHICKEN BREAST STRIPS,2026-01-01,,manual_import,0.72
+acme,CUST-001,001585043,ACM-CABL0321,Remax Cable 450Mm Natural,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004770628,NRD-CHIC0324-OLD,Fjordal Chicken Whole 2kg,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005879161,NRD-SALM0350,nordvik salmon fillet side,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004599144,ACM-CABL0772,Bosco Tie 200Mm Black,2026-01-01,,manual_import,0.55
+nordic,CUST-004,NRD-SQUI0112,NRD-SALM0449,sisu salmon 5kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005444160,ACM-PVCP0284,hex bolt stainless 316,2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-004,004007634,ACM-ANGL0753,"Remax Angle Grinder Disc 4"" Flap",2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002416143,ACM-NITR0903-OLD,Nitrile Glove S Blue,2026-01-01,,manual_import,1.0
+nordic,CUST-004,004479145,NRD-CHIC0466,SISU CHICKEN BREAST,2026-01-01,,manual_import,1.0
+acme,CUST-002,002197854,ACM-MASK0183,kanto masking tape 24mm general,2026-01-01,,inferred_match,0.55
+acme,CUST-002,002816089,ACM-PVCP0099,Hitex Pvc Pipe 32Mm Class C,2026-01-01,,confirmed_order,0.55
+nordic,CUST-006,006791081,NRD-VANI0060,Ice 4L,2026-01-01,,confirmed_order,0.55
+nordic,CUST-007,007272385,NRD-SALM0457,Side 5Kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-005,005758498,ACM-HOSE0911-OLD,Tolsen Clip SS304,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002863410,NRD-SALM0276,Pantry Fillet Trim D 5Kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-007,007458843,ACM-HEXB0848,TOLSEN HEX BOLT M10X50,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006653088,ACM-CABL0958,Cable Tie 200Mm,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008113383,ACM-HEXB0769,Kanto Hex Bolt M6X50 Stainless,2026-01-01,,inferred_match,0.72
+nordic,CUST-005,005013784,NRD-CHIC0468,NORDVIK CHICKEN 5KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003687296,ACM-SELF0995,"SELF DRILLING #10 1-1/2"" STAINLESS 410",2026-01-01,,manual_import,0.72
+nordic,CUST-003,003404338,NRD-BUTT0092,butter sheet 5kg,2026-01-01,,confirmed_order,0.55
+nordic,CUST-003,003448467,NRD-MOZZ0152,Cape Bay Mozzarella Shredded 2Kg,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001687241,NRD-POTA0017,sisu fries 1kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003603835,ACM-CABL1003-OLD,Stallion Cable Tie Black,2026-01-01,,manual_import,1.0
+acme,CUST-005,005291136,ACM-SAFE0822,REMAX HELMET WHITE,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004612851,ACM-GIWI0627,Wire Hard Drawn,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003475568,NRD-POTA0418,GOLDEN POTATO FRIES 7MM,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006904893,NRD-CHIC0096,golden pantry chicken breast diced 10kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007530866,ACM-MASK0878,TOLSEN TAPE 12MM HIGH TEMP,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008432634,ACM-SELF0611,"Stallion Self Drilling Screw X 1"" Zinc Plated",2026-01-01,,manual_import,0.55
+acme,CUST-006,006311610,ACM-NITR0492,Bosco Nitrile Glove Xl Black,2026-01-01,,confirmed_order,0.55
+nordic,CUST-001,001583974,NRD-MOZZ0018,Golden Pantry Mozzarella Shredded,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001366111,ACM-BALL0334,"Ball Valve 3/4"" Pvc",2026-01-01,,manual_import,1.0
+acme,CUST-005,005848136,ACM-HEXB0089B,Hex Bolt Zinc (Bulk),2026-01-01,,manual_import,1.0
+acme,CUST-002,002360473,ACM-HOSE0938,HOSE CLIP 38-50MM SS304,2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004400389,ACM-BALL0622,stallion ball valve ss304,2026-01-01,,confirmed_order,0.55
+nordic,CUST-007,007508438,NRD-BEEF0187,Golden Pantry Beef Patty 150G,2026-01-01,,confirmed_order,0.72
+nordic,CUST-005,005815769,NRD-CHIC0204,10KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007420999,ACM-CABL0287-OLD,Kanto Cable Tie,2026-01-01,,manual_import,1.0
+acme,CUST-001,001583771,ACM-HEXB0476,BOSCO HEX BOLT M12X60 ZINC PLATED,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003568353,NRD-CHIC0107,Chicken Breast Strips 2Kg,2026-01-01,,manual_import,1.0
+acme,CUST-008,008437288,ACM-CABL0654,tie 300mm white,2026-01-01,,manual_import,1.0
+acme,CUST-007,007643595,ACM-HEXB0449,kanto bolt m10x50 stainless,2026-01-01,,manual_import,1.0
+acme,CUST-005,005416010,ACM-HEXB0734,HITEX,2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004785467,ACM-SELF0326,"KANTO SELF DRILLING #8 3/4"" ZINC PLATED",2026-01-01,,manual_import,1.0
+acme,CUST-006,006306096,ACM-PVCP0854,stallion pvc pipe 50mm class d,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008685625,NRD-SALM0216,fjordal salmon fillet 1kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002209510,NRD-VANI0479,HALBERG FULL CREAM MILK UHT,2026-01-01,2026-03-31,manual_import,0.55
+nordic,CUST-004,004046571,NRD-PRAW0475,PANTRY PRAWN 21/25 2KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008426445,ACM-PVCP0640,Bosco Pvc Pipe 15Mm Class D,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001828747,ACM-PVCP0994-OLD,Kanto PVC Pipe Class D,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005185944,NRD-PRAW0384,Golden Pantry Prawn 16/20 1Kg,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001089043,ACM-SELF0979,"VERMONT SCREW X 2"" STAINLESS 410",2026-01-01,,inferred_match,1.0
+acme,CUST-005,005641691,ACM-MASK0596,STALLION MASKING TAPE 48MM GENERAL,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002182042,NRD-BEEF0351,Fjordal Beef 200G,2026-01-01,,manual_import,1.0
+acme,CUST-003,003091531,ACM-GIWI0897,gi wire drawn,2026-01-01,,inferred_match,0.72
+nordic,CUST-002,002729901,NRD-MOZZ0122,Pantry Block 1Kg,2026-01-01,,inferred_match,0.55
+nordic,CUST-005,005610157,NRD-SALM0350,NORDVIK SALMON FILLET SIDE,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005097271,ACM-ANGL0222,"Tolsen Angle Grinder Disc 4.5""",2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003449087,NRD-CHIC0486-OLD,Fjordal Breast 1kg,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002198264,NRD-FULL0236,GOLDEN FULL MILK 1L,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001187045,NRD-POTA0401,SISU POTATO FRIES 2.5KG,2026-01-01,,manual_import,1.0
+acme,CUST-002,002870776,ACM-MASK0291,stallion tape high temp,2026-01-01,,manual_import,0.72
+acme,CUST-006,006111861,ACM-HEXB1044-OLD,Hitex Hex Bolt M12x60 HDG,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005472769,NRD-SALM0100,Nordvik Salmon Fillet Side 5Kg,2026-01-01,,inferred_match,1.0
+acme,CUST-007,007311948,ACM-HOSE0102,kanto hose clip 19-25mm zinc,2026-01-01,,confirmed_order,0.72
+nordic,CUST-003,003221241,NRD-POTA0443,Nordvik Fries Crinkle,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008453863,ACM-HEXB0431,bolt,2026-01-01,,confirmed_order,0.55
+nordic,CUST-008,008072523,NRD-POTA0225,fjordal potato fries 7mm 1kg,2026-01-01,,inferred_match,1.0
+nordic,CUST-006,006125702,NRD-BEEF0255,sisu beef patty 150g,2026-01-01,,manual_import,0.55
+acme,CUST-004,004062880,ACM-WALL0705,Tolsen Wall Plug 10Mm Brown,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006937625,NRD-MOZZ0364,nordvik mozzarella,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001109264,NRD-BEEF0476,Fjordal Beef 150G 24S,2026-01-01,,manual_import,1.0
+nordic,CUST-003,003930918,NRD-MOZZ0400,CAPE BAY MOZZARELLA SHREDDED,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002920999,NRD-SALM0404,Halberg Salmon,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003507185,ACM-ANGL0773,"angle grinder disc 5"" cutting",2026-01-01,,manual_import,0.55
+nordic,CUST-003,003180304,NRD-BUTT0312,cape bay 1kg,2026-01-01,2026-03-31,manual_import,0.55
+nordic,CUST-008,008837509,NRD-MOZZ0483,nordvik mozzarella diced 2kg,2026-01-01,,manual_import,0.55
+acme,CUST-007,007546502,ACM-SAFE1038,SAFETY HELMET,2026-01-01,,confirmed_order,0.72
+acme,CUST-003,003591265,ACM-PVCP0640B,Pipe 15Mm Class (Bulk),2026-01-01,,confirmed_order,0.72
+acme,CUST-005,005087635,ACM-GIWI0252,WIRE SOFT,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008136791,ACM-PVCP0561,40MM,2026-01-01,,inferred_match,1.0
+acme,CUST-004,004475079,ACM-ANGL0448,stallion angle grinder disc grinding,2026-01-01,,confirmed_order,1.0
+nordic,CUST-005,005835981,NRD-CHIC0253-OLD,Diced 5kg,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002465504,NRD-BEEF0185,Squid Raw 2Kg,2026-01-01,2026-03-31,manual_import,0.72
+nordic,CUST-007,007296441,NRD-CHIC0359,fjordal chicken diced 5kg,2026-01-01,,inferred_match,1.0
+nordic,CUST-002,002054633,NRD-CHIC0396,halberg chicken breast 2kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-006,006858772,ACM-WALL1006,Wall,2026-01-01,,confirmed_order,0.72
+acme,CUST-004,NRD-HOSE0317,ACM-GIWI0840,tolsen gi #18,2026-01-01,,inferred_match,0.72
+nordic,CUST-007,007659338,NRD-SALM0350,NORDVIK SALMON FILLET SIDE 1KG,2026-01-01,,manual_import,0.72
+acme,CUST-008,NRD-WALL0184,ACM-SELF0149,self screw #8 x stainless,2026-01-01,,confirmed_order,1.0
+nordic,CUST-001,001042604,NRD-CHIC0359,breast,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003974405,ACM-ANGL0067,"TOLSEN ANGLE GRINDER DISC 7""",2026-01-01,,manual_import,1.0
+nordic,CUST-004,004321889,NRD-SALM0294,HALBERG FILLET SIDE,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003577647,NRD-BUTT0003,Fjordal Butter Block 250G,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008758567,NRD-BEEF0209,NORDVIK BEEF 200G 12S,2026-01-01,,inferred_match,1.0
+nordic,CUST-001,001137542,NRD-BUTT0491-OLD,Halberg Butter,2026-01-01,,manual_import,1.0
+acme,CUST-003,003226443,ACM-HEXB0902,vermont hex bolt m10x50 hdg,2026-01-01,,inferred_match,0.55
+nordic,CUST-002,002680887,NRD-CHIC0375,CAPE CHICKEN BREAST WHOLE 2KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007709101,ACM-HEXB0860,REMAX BOLT M8X75 ZINC,2026-01-01,,manual_import,0.72
+nordic,CUST-007,007661584,NRD-FULL0120,cream 1l,2026-01-01,,inferred_match,1.0
+acme,CUST-003,003377542,ACM-HOSE0980B,BOSCO 19-25MM (BULK),2026-01-01,,inferred_match,0.72
+acme,CUST-002,002727011,ACM-PVCP0192,STALLION PVC PIPE E,2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006495314,ACM-GIWI0811-OLD,Vermont GI #18 Soft,2026-01-01,,manual_import,1.0
+acme,CUST-006,006217843,ACM-BALL0667,"Stallion Ball Valve 1-1/4""",2026-01-01,,confirmed_order,1.0
+nordic,CUST-005,005430165,NRD-POTA0325,Nordvik Potato Fries Wedge 1Kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007385937,ACM-MASK0784,Hitex Hose 19-25Mm,2026-01-01,2026-03-31,manual_import,1.0
+nordic,CUST-003,003270856,NRD-MOZZ0483,NORDVIK MOZZARELLA DICED,2026-01-01,,confirmed_order,0.55
+acme,CUST-005,005832151,ACM-HEXB0658,kanto hex zinc plated,2026-01-01,,manual_import,1.0
+acme,CUST-007,007744439,ACM-WALL1021,Hitex Wall 6Mm Brown,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002679432,ACM-PVCP0171,Tolsen Pipe 32Mm Class E,2026-01-01,,confirmed_order,0.72
+acme,CUST-005,005178210,ACM-PVCP0561-OLD,Stallion Pipe D,2026-01-01,,manual_import,1.0
+acme,CUST-005,005887493,ACM-PVCP0220,vermont pipe 25mm class e,2026-01-01,,manual_import,0.72
+acme,CUST-004,004949441,ACM-BALL0831,"Ball Valve 1/2""",2026-01-01,,confirmed_order,1.0
+nordic,CUST-005,005510016,NRD-BUTT0093-OLD,Golden Pantry Unsalted Sheet,2026-01-01,,manual_import,1.0
+nordic,CUST-004,004540623,NRD-BEEF0423,Cape Beef Patty,2026-01-01,,inferred_match,1.0
+nordic,CUST-006,006139697,NRD-BEEF0351,beef patty 200g 12s,2026-01-01,,inferred_match,1.0
+acme,CUST-005,005977042,ACM-ANGL1000,"STALLION ANGLE GRINDER DISC 4"" CUTTING",2026-01-01,,confirmed_order,0.72
+acme,CUST-001,001529107,ACM-HEXB1062,STALLION HEX M8X30 STAINLESS 316,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008293898,ACM-PVCP0994-OLD,Kanto Pipe D,2026-01-01,,manual_import,1.0
+acme,CUST-008,008448163,ACM-SELF0349,"Self Drilling Screw #8 1"" Stainless 410",2026-01-01,,inferred_match,0.72
+acme,CUST-007,007374339,ACM-PVCP0577,Tolsen Pipe 40Mm Class,2026-01-01,,inferred_match,1.0
+nordic,CUST-005,005430165,NRD-FULL0264,Nordvik Potato Fries Wedge 1Kg,2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-002,002057203,ACM-HEXB0145,TOLSEN HEX BOLT M12X60 STAINLESS 304,2026-01-01,,inferred_match,1.0
+acme,CUST-006,006647827,ACM-CABL0496,BOSCO TIE 100MM BLACK,2026-01-01,,confirmed_order,0.72
+nordic,CUST-002,002262346,NRD-CHIC0167,STRIPS 5KG,2026-01-01,,manual_import,1.0
+nordic,CUST-004,004860137,NRD-PUFF0305,PUFF PASTRY BLOCK,2026-01-01,,inferred_match,0.55
+nordic,CUST-008,008911159,NRD-PUFF0296,PUFF BLOCK 5KG,2026-01-01,,inferred_match,1.0
+acme,CUST-005,005059561,ACM-BALL0618,"valve 1-1/4"" brass",2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005450467,ACM-HEXB0743-OLD,Vermont Hex Bolt Stainless 316,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005020869,NRD-FULL0024,Sisu Full Uht 200Ml,2026-01-01,,manual_import,0.55
+acme,CUST-007,007762988,ACM-SAFE0202,VERMONT HELMET,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004479600,NRD-VANI0075,Halberg Vanilla Cone 4L,2026-01-01,,confirmed_order,0.72
+nordic,CUST-006,006682776,NRD-SALM0405B,HALBERG FILLET PORTION 1KG (BULK),2026-01-01,,inferred_match,0.55
+acme,CUST-005,005645227,ACM-CABL0329,REMAX CABLE 100MM BLACK,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006721808,NRD-SQUI0252,golden pantry squid ring 1kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008692016,ACM-HEXB0848,tolsen hex bolt m10x50 hdg,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007895118,ACM-SAFE0579-OLD,Helmet Yellow,2026-01-01,,manual_import,1.0
+acme,CUST-001,001089337,ACM-CABL0369,CABLE TIE 150MM,2026-01-01,,inferred_match,0.72
+acme,CUST-006,006776472,ACM-BALL0929,Hitex Ball Ss304,2026-01-01,,confirmed_order,0.55
+acme,CUST-001,001219260,ACM-SELF0318,drilling screw #8 x zinc plated,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002433957,ACM-HEXB0456,HITEX HEX ZINC PLATED,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001225526,ACM-NITR0977,pvc 32mm class,2026-01-01,2026-03-31,manual_import,1.0
+nordic,CUST-006,006053336,NRD-BUTT0436,fjordal unsalted block 5kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003507185,ACM-SAFE0920,"angle grinder disc 5"" cutting",2026-01-01,2026-03-31,manual_import,0.55
+acme,CUST-008,008026230,ACM-ANGL0942,"bosco angle grinder 5"" grinding",2026-01-01,,confirmed_order,0.72
+acme,CUST-006,006961791,ACM-BALL0551,"BOSCO BALL VALVE 1-1/4"" BRASS",2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006102644,ACM-BALL0413,Ss304,2026-01-01,,confirmed_order,0.72
+acme,CUST-007,007328951,ACM-PVCP0666B,STALLION PVC PIPE CLASS C,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004123863,NRD-BEEF0019,HALBERG PATTY 150G,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008522446,NRD-BUTT0211,Butter Unsalted Block 500G,2026-01-01,,inferred_match,1.0
+nordic,CUST-001,001426930,NRD-BEEF0355,Golden Pantry Patty 100G 48S,2026-01-01,,inferred_match,0.55
+acme,CUST-002,002782231,ACM-BALL0851,"Bosco Ball Valve 1"" Pvc",2026-01-01,,manual_import,1.0
+nordic,CUST-006,006759563,NRD-CHIC0329,cape bay breast strips 5kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006216604,ACM-SELF0079,"STALLION DRILLING SCREW #12 X 2"" PLATED",2026-01-01,,confirmed_order,0.72
+nordic,CUST-007,NRD-CHIC0370,NRD-CHIC0396,halberg chicken breast strips 2kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-008,008470784,ACM-HEXB0415,vermont hex m6x50 stainless 316,2026-01-01,,inferred_match,0.72
+acme,CUST-007,007921497,ACM-HEXB0893,hex bolt m8x50 hdg,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002979061,ACM-WALL0184,Bosco Wall Plug Red,2026-01-01,,confirmed_order,0.55
+nordic,CUST-003,003362790,NRD-BEEF0343,NORDVIK BEEF PATTY 100G,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001131184,ACM-PVCP0260,Pipe 50Mm C,2026-01-01,,inferred_match,1.0
+nordic,CUST-006,006139697,NRD-WHIP0334,beef patty 200g 12s,2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-008,008690589,ACM-ANGL0020,"hitex angle grinder 7""",2026-01-01,,manual_import,0.72
+acme,CUST-008,008560921,ACM-SELF0777,DRILLING SCREW 410,2026-01-01,,manual_import,0.72
+acme,CUST-003,003207753,ACM-HEXB0572,hex m8x30 hdg,2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003585348,ACM-HEXB0479,stallion hex bolt m6x30 hdg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004053833,NRD-SQUI0071,squid ring breaded,2026-01-01,,confirmed_order,0.72
+acme,CUST-006,006274793,ACM-HEXB0826,SAFETY HELMET YELLOW STANDARD,2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-007,007083112,ACM-HEXB0350,HEX M10X75 304,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005078026,NRD-VANI0327-OLD,Vanilla Ice Cream Tub 4L,2026-01-01,,manual_import,1.0
+acme,CUST-008,008478198,ACM-SELF0696,"bosco self drilling screw #10 1-1/2"" plated",2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008098257,ACM-HEXB0759,Bosco Hex Bolt M6X30 304,2026-01-01,,inferred_match,0.55
+acme,CUST-007,007643291,ACM-HEXB0769,kanto hex bolt m6x50 316,2026-01-01,,inferred_match,1.0
+acme,CUST-006,006048731,ACM-NITR0934,Stallion Nitrile Glove Blue,2026-01-01,,confirmed_order,0.72
+nordic,CUST-003,003906623,NRD-BEEF0131,HALBERG BEEF 100G 24S,2026-01-01,,manual_import,0.55
+nordic,CUST-007,007410924,NRD-BUTT0491-OLD,Halberg Butter Unsalted Sheet 250g,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005346139,NRD-BEEF0235,Nordvik Patty 12S,2026-01-01,,inferred_match,0.72
+acme,CUST-008,008390372,ACM-WALL0494,STALLION WALL PLUG 8MM BLUE,2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006639541,ACM-BALL0612,"ball 1/2"" brass",2026-01-01,,manual_import,0.55
+acme,CUST-003,003793659,ACM-MASK0931,"ANGLE DISC 7"" GRINDING",2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-007,007771127,ACM-MASK0286,Tolsen Masking Tape Temp,2026-01-01,,inferred_match,0.72
+acme,CUST-001,001031846,ACM-PVCP0755,tolsen pipe class,2026-01-01,,manual_import,0.55
+acme,CUST-005,005327586,ACM-PVCP1055B,Pvc 50Mm D (Bulk),2026-01-01,,inferred_match,0.72
+acme,CUST-006,006534373,ACM-WALL0679,vermont wall 6mm brown,2026-01-01,,inferred_match,0.55
+acme,CUST-005,005768221,ACM-WALL0065,hitex wall plug 10mm red,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004263645,NRD-MOZZ0458,SISU MOZZARELLA,2026-01-01,,inferred_match,0.55
+nordic,CUST-002,002301884,NRD-PRAW0291,Sisu Prawn 2Kg,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002711487,NRD-PUFF0281,Halberg Puff Pastry Block,2026-01-01,,confirmed_order,0.72
+nordic,CUST-008,008893275,NRD-BEEF0407,NORDVIK PATTY 150G 48S,2026-01-01,,confirmed_order,0.72
+acme,CUST-007,007528994,ACM-HEXB1020,TOLSEN STAINLESS,2026-01-01,,inferred_match,1.0
+nordic,CUST-005,005313500,NRD-POTA0485,nordvik fries 7mm 1kg,2026-01-01,,confirmed_order,0.72
+nordic,CUST-002,002527572,NRD-BEEF0259,Beef Patty 200G,2026-01-01,,inferred_match,1.0
+acme,CUST-007,007287948,ACM-BALL0011,Bosco Ball Valve,2026-01-01,,manual_import,0.55
+nordic,CUST-005,005028077,NRD-VANI0257,GOLDEN PANTRY CREAM 4L,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006940433,ACM-CABL0833,kanto tie 100mm black,2026-01-01,,manual_import,1.0
+acme,CUST-004,004865224,ACM-NITR0293,TOLSEN NITRILE GLOVE S BLUE,2026-01-01,,inferred_match,0.72
+nordic,CUST-003,003608869,NRD-SALM0201,salmon fillet side 1kg,2026-01-01,,inferred_match,0.72
+acme,CUST-005,005423333,ACM-HEXB0298,bosco bolt m8x50 stainless 304,2026-01-01,,inferred_match,1.0
+nordic,CUST-005,005456611,NRD-PRAW0198,NORDVIK PRAWN 16/20 1KG,2026-01-01,,inferred_match,1.0
+nordic,CUST-003,003324580,NRD-BUTT0047,nordvik butter sheet 250g,2026-01-01,,manual_import,0.55
+acme,CUST-002,002469423,ACM-GIWI0097,Clip 19-25Mm Zinc,2026-01-01,2026-03-31,manual_import,0.72
+nordic,CUST-005,005564748,NRD-BEEF0407,BEEF 150G 48S,2026-01-01,,manual_import,0.55
+nordic,CUST-002,002459982,NRD-WHIP0069,sisu whipping 35%,2026-01-01,,confirmed_order,0.72
+acme,CUST-004,004695541,ACM-HOSE0180,REMAX HOSE 13-19MM SS304,2026-01-01,,manual_import,1.0
+acme,CUST-002,002085847,ACM-SELF0681,"Stallion Self Drilling X 1""",2026-01-01,,manual_import,1.0
+acme,CUST-008,008949295,ACM-NITR1001,vermont nitrile glove l black,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001997165,ACM-HOSE0953,Hose Clip,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007687228,ACM-MASK0839,Masking Tape 12Mm High Temp,2026-01-01,,inferred_match,0.55
+acme,CUST-008,008056932,ACM-GIWI0505,remax wire #14 drawn,2026-01-01,,inferred_match,1.0
+acme,CUST-005,005432750,ACM-HEXB0333,remax hex m8x30 304,2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002774071,ACM-SELF0149,self drilling screw #8,2026-01-01,,inferred_match,1.0
+nordic,CUST-007,007894556,NRD-CHIC0153,CAPE BAY BREAST WHOLE 10KG,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003827800,NRD-PUFF0297-OLD,Sisu Block 2kg,2026-01-01,,manual_import,1.0
+nordic,CUST-008,008343859,NRD-POTA0377,bay potato fries wedge,2026-01-01,,confirmed_order,0.72
+nordic,CUST-005,005087355,NRD-BUTT0003,fjordal butter unsalted block 250g,2026-01-01,,confirmed_order,0.55
+acme,CUST-007,007467889,ACM-HEXB0759,BOSCO HEX 304,2026-01-01,,manual_import,1.0
+acme,CUST-007,007830589,ACM-CABL0096,hitex cable tie 370mm natural,2026-01-01,,manual_import,0.55
+acme,CUST-007,007624930,ACM-HOSE0367,remax hose clip 38-50mm,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001534384,ACM-SELF0105-OLD,"Stallion Self Drilling Screw x 1-1/2"" Stainless",2026-01-01,,manual_import,1.0
+nordic,CUST-001,001977863,NRD-PRAW0461,1kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-006,006949778,ACM-NITR0027,nitrile black,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003906029,ACM-HEXB1033,remax hex bolt m10x75 hdg,2026-01-01,,confirmed_order,0.55
+acme,CUST-001,001614445,ACM-NITR0881,kanto,2026-01-01,,manual_import,0.72
+acme,CUST-007,007849585,ACM-HEXB0877,Vermont Hex M10X75 304,2026-01-01,,manual_import,0.72
+acme,CUST-001,001476817,ACM-GIWI0218,Bosco #18,2026-01-01,,inferred_match,1.0
+acme,CUST-007,007106585,ACM-SELF0636,vermont self #8 zinc plated,2026-01-01,,manual_import,0.72
+nordic,CUST-008,008827086,NRD-FULL0104,FULL CREAM MILK FRESH,2026-01-01,,manual_import,1.0
+acme,CUST-001,001795500,ACM-HEXB0743-OLD,Vermont Bolt M8x30 Stainless,2026-01-01,,manual_import,1.0
+nordic,CUST-003,003047358,NRD-SALM0413,SISU SALMON TRIM,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001279497,ACM-PVCP0609,Vermont Pvc Pipe D,2026-01-01,,manual_import,1.0
+acme,CUST-004,004016226,ACM-BALL0904,"Ball Valve 2""",2026-01-01,,confirmed_order,0.72
+nordic,CUST-007,007617861,NRD-VANI0403,HALBERG ICE CREAM TUB 1L,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008311074,NRD-CHIC0036,halberg,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001485735,ACM-GIWI0652,Bosco Wire #16,2026-01-01,,manual_import,0.55
+nordic,CUST-007,007184961,NRD-PUFF0078-OLD,Nordvik,2026-01-01,,manual_import,1.0
+acme,CUST-007,007520470,ACM-SAFE0819,Helmet Blue Ratchet,2026-01-01,,manual_import,0.72
+nordic,CUST-005,005428037,NRD-SALM0094,FJORDAL SALMON FILLET SIDE,2026-01-01,,inferred_match,1.0
+acme,CUST-002,002764203,ACM-HEXB0764,REMAX HEX BOLT STAINLESS 304,2026-01-01,,manual_import,0.72
+acme,CUST-002,002691894,ACM-WALL0705,TOLSEN 10MM BROWN,2026-01-01,,inferred_match,1.0
+nordic,CUST-004,004046182,NRD-PUFF0296,Nordvik Puff Pastry Block 5Kg,2026-01-01,,manual_import,1.0
+acme,CUST-003,003521570,ACM-SAFE0984,REMAX SAFETY HELMET YELLOW STANDARD,2026-01-01,,manual_import,0.72
+acme,CUST-002,002871380,ACM-GIWI0961,Remax Gi Wire #18 Hard,2026-01-01,,confirmed_order,0.72
+acme,CUST-008,008006173,ACM-SELF0813,"REMAX SELF DRILLING SCREW #12 X 2"" ZINC PLATED",2026-01-01,,inferred_match,1.0
+acme,CUST-002,002566831,ACM-HEXB0266,vermont hex bolt m12x60 stainless 316,2026-01-01,,manual_import,0.72
+acme,CUST-006,006203762,ACM-HOSE0823,Hitex Hose 19-25Mm Zinc,2026-01-01,,confirmed_order,0.72
+acme,CUST-005,005668750,ACM-NITR0172,remax glove m blue,2026-01-01,,inferred_match,0.72
+acme,CUST-006,006223813,ACM-ANGL0303,"BOSCO 4.5""",2026-01-01,,inferred_match,1.0
+nordic,CUST-008,008731131,NRD-BEEF0241,halberg patty 100g 12s,2026-01-01,,inferred_match,1.0
+acme,CUST-004,004449721,ACM-HEXB0870,bolt m6x30 hdg,2026-01-01,,inferred_match,1.0
+nordic,CUST-002,002347330,NRD-PRAW0362,Cape 1Kg,2026-01-01,,manual_import,1.0
+acme,CUST-008,008538522,ACM-GIWI0663,kanto gi #16 hard drawn,2026-01-01,,confirmed_order,0.55
+acme,CUST-001,001591022,ACM-WALL0638,WALL PLUG,2026-01-01,,inferred_match,0.55
+acme,CUST-006,006638022,ACM-SELF0302,REMAX SELF SCREW #10 X STAINLESS 410,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001067354,NRD-SALM0473,Pantry Fillet 1Kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002464543,ACM-CABL0744,CABLE TIE 450MM WHITE,2026-01-01,,confirmed_order,1.0
+nordic,CUST-001,001599350,NRD-BUTT0196,Fjordal Butter Sheet 5Kg,2026-01-01,,inferred_match,0.55
+acme,CUST-007,007852275,ACM-BALL0073,"Remax Ball Valve 1/2"" Ss304",2026-01-01,,inferred_match,1.0
+acme,CUST-005,005264918,ACM-PVCP0164,PIPE 20MM D,2026-01-01,,inferred_match,0.72
+nordic,CUST-002,002771382,NRD-POTA0017,Potato Fries 10Mm 1Kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007674812,ACM-HOSE1014,Remax Hose Clip 19-25Mm Zinc,2026-01-01,,inferred_match,0.72
+acme,CUST-001,001722076,ACM-ANGL0886-OLD,"Kanto Angle Grinder Disc 7"" Grinding",2026-01-01,,manual_import,1.0
+nordic,CUST-005,005058036,NRD-PUFF0222,SISU PUFF PASTRY SHEET,2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006491992,ACM-PVCP0614,Bosco Pipe 20Mm Class,2026-01-01,,inferred_match,0.55
+acme,CUST-004,004198351,ACM-HEXB0139,HEX BOLT,2026-01-01,,inferred_match,0.55
+acme,CUST-001,001959523,ACM-ANGL0886-OLD,"Disc 7"" Grinding",2026-01-01,,manual_import,1.0
+nordic,CUST-004,004746404,NRD-MOZZ0205,MOZZARELLA 2KG,2026-01-01,,inferred_match,1.0
+nordic,CUST-005,005070778,NRD-SQUI0022,Fjordal Squid Ring 1Kg,2026-01-01,,manual_import,1.0
+acme,CUST-003,003154993,ACM-HOSE0911-OLD,Tolsen Hose Clip SS304,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005398398,NRD-SALM0079,GOLDEN PANTRY SALMON FILLET SIDE,2026-01-01,,inferred_match,0.72
+nordic,CUST-004,004351359,NRD-POTA0309,Cape Bay 10Mm 1Kg,2026-01-01,,manual_import,0.55
+acme,CUST-005,005900453,ACM-HEXB0781,Stallion M10X75 Stainless 316,2026-01-01,,confirmed_order,0.55
+acme,CUST-001,001833722,ACM-HOSE0531,HOSE CLIP 38-50MM SS304,2026-01-01,,confirmed_order,0.72
+nordic,CUST-001,001277511,NRD-PUFF0125,golden puff pastry sheet 1kg,2026-01-01,,confirmed_order,0.55
+nordic,CUST-007,007178946,NRD-WHIP0011,CAPE BAY WHIPPING CREAM 1L,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006363092,ACM-CABL0540,bosco cable tie 370mm natural,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001313524,ACM-BALL0213,BALL VALVE SS304,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008942847,NRD-CHIC0219,Bay Chicken Whole 1Kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008942906,ACM-HEXB0273,bolt m10x75 hdg,2026-01-01,,manual_import,1.0
+acme,CUST-006,006990858,ACM-MASK0698,Masking Tape 12Mm General,2026-01-01,,manual_import,0.72
+nordic,CUST-006,006413663,NRD-BEEF0259-OLD,Fjordal Patty 200g 48s,2026-01-01,,manual_import,1.0
+acme,CUST-006,006511359,ACM-BALL0812,TOLSEN HEX BOLT M10X75 316,2026-01-01,2026-03-31,manual_import,0.55
+acme,CUST-006,006521101,ACM-BALL0954,"BALL VALVE 3/4""",2026-01-01,,inferred_match,0.72
+nordic,CUST-005,005959497,NRD-PUFF0367,SISU PASTRY,2026-01-01,,manual_import,0.55
+acme,CUST-002,002081794,ACM-SELF0746,kanto self drilling screw #12 x,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003180304,NRD-MOZZ0110,cape bay 1kg,2026-01-01,,manual_import,0.55
+acme,CUST-001,001407320,ACM-HEXB0932,Hitex Hex Bolt M12X60 Stainless 316,2026-01-01,,manual_import,0.55
+acme,CUST-006,NRD-PVCP0755,ACM-MASK0698,stallion tape 12mm general,2026-01-01,,inferred_match,0.72
+acme,CUST-002,002962104,ACM-PVCP0134,Bosco Pvc Pipe 25Mm,2026-01-01,,confirmed_order,0.55
+acme,CUST-005,005052610,ACM-BALL0674,"Hitex Ball Valve 3/4""",2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007418578,ACM-PVCP0820,BOSCO CLASS C,2026-01-01,,confirmed_order,0.72
+nordic,CUST-008,008006042,NRD-POTA0061,Halberg Potato Fries 7Mm 1Kg,2026-01-01,,inferred_match,1.0
+nordic,CUST-005,005445605,NRD-CHIC0184,halberg whole,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008143902,ACM-PVCP0640B,15Mm D,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005345695,ACM-BALL0346,"Kanto Valve 1-1/4""",2026-01-01,,confirmed_order,1.0
+acme,CUST-002,002993596,ACM-HEXB0800,Hex Zinc Plated,2026-01-01,,manual_import,0.55
+acme,CUST-004,004041373,ACM-WALL0140,Wall Plug 6Mm Brown,2026-01-01,,confirmed_order,0.72
+nordic,CUST-006,006284601,NRD-BEEF0445,BAY PATTY 150G 48S,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001254937,ACM-GIWI0897,GI DRAWN,2026-01-01,,manual_import,1.0
+acme,CUST-006,006543831,ACM-ANGL0477,"Angle Grinder Disc 4.5"" Grinding",2026-01-01,,manual_import,1.0
+nordic,CUST-005,005778836,NRD-CHIC0172,NORDVIK CHICKEN BREAST WHOLE,2026-01-01,,manual_import,0.55
+acme,CUST-007,007853859,ACM-PVCP0755,pvc pipe c,2026-01-01,,manual_import,0.72
+nordic,CUST-002,002084193,NRD-POTA0146,Golden Pantry Potato Fries Wedge 2.5Kg,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001209664,NRD-PRAW0141,Halberg 16/20,2026-01-01,,inferred_match,1.0
+nordic,CUST-002,002457140,NRD-PUFF0316,Fjordal Puff Pastry Sheet 1Kg,2026-01-01,,manual_import,1.0
+acme,CUST-001,001322915,ACM-CABL0055,TIE 370MM BLACK,2026-01-01,,inferred_match,0.72
+acme,CUST-005,005493157,ACM-HEXB0445-OLD,Hitex Hex Bolt M6x30 HDG,2026-01-01,,manual_import,1.0
+nordic,CUST-006,006087938,NRD-VANI0378,fjordal vanilla cream 6s,2026-01-01,,confirmed_order,0.72
+acme,CUST-001,001592723,ACM-HOSE0711,REMAX HOSE CLIP SS304,2026-01-01,,manual_import,0.72
+acme,CUST-005,005444160,ACM-HEXB0201,hex bolt stainless 316,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003207325,NRD-PUFF0078-OLD,Nordvik Puff Pastry 5kg,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005549654,NRD-MOZZ0356,GOLDEN PANTRY MOZZARELLA 1KG,2026-01-01,,manual_import,1.0
+nordic,CUST-004,004447729,NRD-PUFF0297,puff pastry block 2kg,2026-01-01,,manual_import,0.72
+acme,CUST-006,006038310,ACM-MASK0338,hitex 48mm high temp,2026-01-01,,confirmed_order,0.72
+nordic,CUST-007,007066637,NRD-FULL0174,Cream Milk Uht,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007170431,ACM-MASK0784,High Temp,2026-01-01,,manual_import,1.0
+nordic,CUST-003,003119277,NRD-PRAW0099-OLD,Sisu 1kg,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001385510,NRD-SALM0142,nordvik salmon fillet portion 5kg,2026-01-01,,confirmed_order,0.72
+acme,CUST-003,003467690,ACM-CABL0549,Tie 200Mm,2026-01-01,,inferred_match,0.55
+acme,CUST-001,001963177,ACM-CABL0311,Stallion Cable,2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004600419,ACM-PVCP0466,PIPE 32MM CLASS E,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005960076,ACM-ANGL0080,"Vermont Grinder 4.5""",2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001245731,ACM-GIWI0811-OLD,Vermont #18 Soft,2026-01-01,,manual_import,1.0
+acme,CUST-006,006727335,ACM-BALL0827,"ball valve 1""",2026-01-01,,inferred_match,1.0
+acme,CUST-003,003822530,ACM-MASK0713,MASKING TAPE 24MM,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007521035,ACM-WALL0114,WALL PLUG 6MM RED,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005279113,ACM-HEXB0932,hex bolt m12x60 stainless 316,2026-01-01,,manual_import,1.0
+acme,CUST-006,006866065,ACM-ANGL0942,"BOSCO GRINDER 5"" GRINDING",2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005726304,ACM-HOSE0046,Vermont Clip 38-50Mm Zinc,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006024805,ACM-HEXB1099,STALLION M10X75 ZINC PLATED,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005691640,ACM-NITR0487,stallion nitrile glove s black,2026-01-01,,manual_import,0.72
+nordic,CUST-004,004004782,NRD-BEEF0423,CAPE BAY BEEF 48S,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007440552,ACM-CABL0657,CABLE TIE 100MM BLACK,2026-01-01,,manual_import,0.72
+acme,CUST-006,006036614,ACM-WALL0047-OLD,Tolsen Wall Plug 10mm Blue,2026-01-01,,manual_import,1.0
+nordic,CUST-005,005361312,NRD-VANI0190,CAPE BAY ICE CREAM CONE 4L,2026-01-01,,inferred_match,0.72
+acme,CUST-003,003028598,ACM-MASK0183,Kanto Masking Tape 24Mm General,2026-01-01,,confirmed_order,0.72
+nordic,CUST-006,006800756,NRD-SALM0441,CAPE BAY SALMON 1KG,2026-01-01,,manual_import,1.0
+acme,CUST-007,007621574,ACM-ANGL1027,"angle grinder disc 4"" flap",2026-01-01,,confirmed_order,0.72
+acme,CUST-005,005644118,ACM-PVCP0301,PVC PIPE 50MM E,2026-01-01,,manual_import,0.55
+acme,CUST-007,007674812,ACM-ANGL0473,Remax Hose Clip 19-25Mm Zinc,2026-01-01,2026-03-31,manual_import,0.72
+acme,CUST-004,004119495,ACM-BALL0601,"REMAX BALL VALVE 2"" BRASS",2026-01-01,,inferred_match,0.72
+nordic,CUST-004,004941226,NRD-FULL0410,pantry full cream milk fresh,2026-01-01,,manual_import,0.55
+acme,CUST-007,007303841,ACM-PVCP0732,pvc pipe 15mm class e,2026-01-01,,inferred_match,0.55
+nordic,CUST-001,001843644,NRD-PRAW0009,SISU PRAWN 21/25 2KG,2026-01-01,,confirmed_order,0.55
+acme,CUST-002,002717645,ACM-BALL0305,Bosco Valve Ss304,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001020684,ACM-HEXB0216,HEX BOLT M8X50 STAINLESS 304,2026-01-01,,confirmed_order,0.72
+acme,CUST-004,004852475,ACM-WALL0002,bosco wall plug 6mm red,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002028134,NRD-SALM0076,FJORDAL SALMON FILLET TRIM 5KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008300803,ACM-GIWI0453,HITEX GI WIRE #20 HARD DRAWN,2026-01-01,,confirmed_order,0.72
+nordic,CUST-001,001472233,NRD-CHIC0452,fjordal chicken whole 1kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-002,002209510,NRD-FULL0147,HALBERG FULL CREAM MILK UHT,2026-01-01,,manual_import,0.55
+acme,CUST-008,008028729,ACM-HEXB0873,bosco hex bolt,2026-01-01,,manual_import,1.0
+acme,CUST-004,004013371,ACM-SAFE0474,vermont safety ratchet,2026-01-01,,inferred_match,0.55
+acme,CUST-003,003823051,ACM-PVCP1072,Pvc Pipe 50Mm Class C,2026-01-01,,manual_import,1.0
+acme,CUST-008,008866277,ACM-GIWI0789-OLD,Vermont GI Wire Hard Drawn,2026-01-01,,manual_import,1.0
+acme,CUST-007,007817826,ACM-NITR0122,nitrile m black,2026-01-01,,inferred_match,1.0
+nordic,CUST-003,003597677,NRD-SQUI0252,GOLDEN PANTRY SQUID RING 1KG,2026-01-01,,confirmed_order,0.55
+acme,CUST-008,008707032,ACM-CABL0555,cable tie 100mm natural,2026-01-01,,manual_import,0.72
+acme,CUST-002,002467475,ACM-GIWI0789-OLD,GI Wire #18 Hard Drawn,2026-01-01,,manual_import,1.0
+nordic,CUST-002,002465504,NRD-SQUI0381,Squid Raw 2Kg,2026-01-01,,manual_import,0.72
+acme,CUST-003,003516998,ACM-SAFE0725,Safety Helmet Standard,2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003782930,ACM-WALL0186,STALLION WALL PLUG 6MM BLUE,2026-01-01,,inferred_match,0.72
+nordic,CUST-005,005423377,NRD-POTA0146,GOLDEN PANTRY POTATO FRIES WEDGE 2.5KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008325625,ACM-BALL0208,BALL PVC,2026-01-01,,confirmed_order,0.55
+acme,CUST-007,007117104,ACM-BALL0346,"Ball 1-1/4"" Brass",2026-01-01,,confirmed_order,0.55
+nordic,CUST-004,004598292,NRD-PUFF0258,nordvik puff pastry 2kg,2026-01-01,,inferred_match,0.55
+nordic,CUST-001,001924554,NRD-MOZZ0054,mozzarella block 2kg,2026-01-01,,confirmed_order,0.72
+nordic,CUST-005,005864911,NRD-SALM0124,cape bay fillet portion 3kg,2026-01-01,,confirmed_order,0.72
+nordic,CUST-001,001989344,NRD-CHIC0380,GOLDEN CHICKEN 2KG,2026-01-01,,inferred_match,0.55
+nordic,CUST-008,008444696,NRD-BUTT0179,Sisu Butter Sheet 250G,2026-01-01,,manual_import,0.55
+nordic,CUST-002,002667723,NRD-CHIC0471,Nordvik Chicken Breast Strips,2026-01-01,,inferred_match,0.72
+nordic,CUST-001,001355766,NRD-MOZZ0356,golden pantry mozzarella 1kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008553459,NRD-PRAW0040,NORDVIK PRAWN 21/25,2026-01-01,,confirmed_order,1.0
+acme,CUST-004,004048384,ACM-HEXB0445-OLD,Hitex Bolt M6x30,2026-01-01,,manual_import,1.0
+acme,CUST-008,008615916,ACM-HEXB0932,Hitex Hex Bolt Stainless,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006245293,NRD-MOZZ0446,halberg mozzarella shredded 1kg,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008077282,ACM-PVCP1054,stallion pvc 20mm c,2026-01-01,,confirmed_order,1.0
+nordic,CUST-006,006906504,NRD-MOZZ0286,Halberg Mozzarella Diced 2Kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-007,007337275,ACM-CABL0843,Stallion Cable Tie 100Mm Natural,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002489330,ACM-ANGL1022,Vermont Angle Grinder Disc Cutting,2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004404594,ACM-PVCP0616,Pvc 20Mm C,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003871081,ACM-NITR0586,hitex nitrile glove blue,2026-01-01,,inferred_match,0.55
+acme,CUST-007,007111562,ACM-CABL0786,bosco cable tie,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007527437,ACM-HEXB0781,Hex Bolt M10X75 Stainless 316,2026-01-01,,confirmed_order,0.55
+nordic,CUST-005,005578494,NRD-MOZZ0018,GOLDEN PANTRY MOZZARELLA 2KG,2026-01-01,,inferred_match,1.0
+acme,CUST-006,006402725,ACM-CABL0287-OLD,Kanto Cable Tie Black,2026-01-01,,manual_import,1.0
+acme,CUST-005,005844327,ACM-HEXB0491,hitex hex m6x30 stainless 316,2026-01-01,,confirmed_order,1.0
+acme,CUST-008,008874679,ACM-SELF0720,Stallion Drilling Screw #10 X 410,2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005005850,ACM-CABL0422,vermont cable 370mm natural,2026-01-01,,confirmed_order,0.72
+nordic,CUST-008,008741364,NRD-WHIP0005,Whipping Cream 35% 1L,2026-01-01,,confirmed_order,1.0
+acme,CUST-003,003239500,ACM-HEXB0676,hitex bolt stainless 316,2026-01-01,,confirmed_order,0.55
+nordic,CUST-006,006070918,NRD-BUTT0399,Cape Bay Unsalted Sheet 5Kg,2026-01-01,,confirmed_order,0.55
+acme,CUST-005,005558030,ACM-BALL0154,"ball valve 1""",2026-01-01,,confirmed_order,0.72
+nordic,CUST-006,006187354,NRD-MOZZ0170,GOLDEN PANTRY DICED 2KG,2026-01-01,,inferred_match,1.0
+nordic,CUST-003,NRD-POTA0250,NRD-VANI0263,VANILLA CREAM TUB 6S,2026-01-01,,confirmed_order,0.72
+acme,CUST-003,003250279,ACM-WALL1093,Vermont Wall Plug 6Mm Blue,2026-01-01,,manual_import,0.72
+nordic,CUST-005,005957017,NRD-FULL0417,full cream fresh,2026-01-01,,manual_import,1.0
+acme,CUST-001,001090978,ACM-HEXB0900,Hex Bolt M8X30 Stainless 304,2026-01-01,,confirmed_order,0.72
+nordic,CUST-008,008716008,NRD-PRAW0318,Fjordal Prawn 21/25,2026-01-01,,confirmed_order,0.72
+nordic,CUST-001,001948647,NRD-POTA0086,fjordal potato fries,2026-01-01,,manual_import,1.0
+acme,CUST-004,004279195,ACM-SELF0105-OLD,"Stallion Drilling Screw #10 x 1-1/2"" Stainless 410",2026-01-01,,manual_import,1.0
+acme,CUST-007,007682260,ACM-CABL0187,BOSCO 150MM,2026-01-01,,manual_import,0.55
+acme,CUST-003,003992472,ACM-CABL0311,Stallion Cable Tie 300Mm Black,2026-01-01,,confirmed_order,1.0
+acme,CUST-006,006809591,ACM-CABL0496,BOSCO TIE 100MM BLACK,2026-01-01,,inferred_match,1.0
+acme,CUST-004,004387891,ACM-CABL0353,cable tie 450mm black,2026-01-01,,confirmed_order,1.0
+acme,CUST-001,001561607,ACM-ANGL0036,"HITEX ANGLE DISC 4.5"" CUTTING",2026-01-01,,confirmed_order,0.55
+acme,CUST-004,004695541,ACM-HEXB0385,REMAX HOSE 13-19MM SS304,2026-01-01,2026-03-31,manual_import,1.0
+nordic,CUST-006,006232195,NRD-PRAW0097,31/40 1KG,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007832621,ACM-ANGL0473,"Stallion Grinder Disc 7"" Grinding",2026-01-01,,inferred_match,1.0
+acme,CUST-007,007476730,ACM-WALL0039,kanto wall plug 10mm,2026-01-01,,inferred_match,1.0
+nordic,CUST-004,004342627,NRD-PRAW0141,Halberg Prawn 16/20,2026-01-01,,inferred_match,0.72
+acme,CUST-005,NRD-HEXB0675B,ACM-BALL0018,"kanto ball 1"" ss304",2026-01-01,,confirmed_order,1.0
+acme,CUST-005,005542230,ACM-WALL0184,bosco wall plug 8mm red,2026-01-01,,confirmed_order,0.72
+acme,CUST-008,008191857,ACM-NITR0172,nitrile glove m blue,2026-01-01,,manual_import,0.55
+nordic,CUST-004,004334450,NRD-BEEF0259,PATTY 200G 48S,2026-01-01,,inferred_match,1.0
+acme,CUST-001,001520669,ACM-HEXB0010,Stallion Hex M12X60 Stainless 316,2026-01-01,,inferred_match,1.0
+acme,CUST-008,008350272,ACM-PVCP0642,KANTO PVC PIPE CLASS C,2026-01-01,,confirmed_order,1.0
+nordic,CUST-007,007762430,NRD-CHIC0324-OLD,Chicken Whole 2kg,2026-01-01,,manual_import,1.0
+acme,CUST-006,006855772,ACM-NITR0092,nitrile xl,2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003575014,ACM-PVCP0471,Tolsen Pipe 40Mm,2026-01-01,,manual_import,0.55
+acme,CUST-007,007958540,ACM-WALL0065,Wall Plug Red,2026-01-01,,confirmed_order,0.55
+acme,CUST-003,003272637,ACM-CABL0461,Tolsen Cable Tie 100Mm White,2026-01-01,,confirmed_order,0.55
+nordic,CUST-001,001124119,NRD-MOZZ0357,Nordvik Mozzarella Block 1Kg,2026-01-01,,manual_import,1.0
+acme,CUST-007,007773228,ACM-PVCP0099,hitex pvc pipe c,2026-01-01,,inferred_match,0.55
+nordic,CUST-006,006522241,NRD-SALM0482,SALMON FILLET,2026-01-01,,confirmed_order,0.55
+acme,CUST-005,005010367,ACM-ANGL1090,STALLION ANGLE GRINDER DISC,2026-01-01,,confirmed_order,0.72
+acme,CUST-001,NRD-WALL0186,ACM-PVCP0896,PVC PIPE CLASS C,2026-01-01,,confirmed_order,1.0
+acme,CUST-007,007570635,ACM-ANGL0157,"GRINDER 4""",2026-01-01,,inferred_match,1.0
+acme,CUST-002,002206241,ACM-WALL0817,red,2026-01-01,,inferred_match,0.55
+acme,CUST-003,003349465,ACM-PVCP1055B,Pvc Pipe 15Mm Class C,2026-01-01,2026-03-31,manual_import,1.0
+acme,CUST-006,006923895,ACM-PVCP0076,remax pvc pipe 40mm,2026-01-01,,confirmed_order,0.72
+acme,CUST-002,002651466,ACM-BALL0493,"BOSCO BALL VALVE 3/4""",2026-01-01,,confirmed_order,0.55
+nordic,CUST-003,003261639,NRD-POTA0128,Potato Fries Wedge 2.5Kg,2026-01-01,,manual_import,0.55
+acme,CUST-007,007001799,ACM-HEXB1013,hex bolt m8x75 zinc,2026-01-01,,confirmed_order,0.72
+acme,CUST-001,001426999,ACM-WALL0660,Kanto Wall 8Mm Blue,2026-01-01,,inferred_match,0.55
+nordic,CUST-005,005211221,NRD-PRAW0009,Sisu Prawn 21/25 2Kg,2026-01-01,,confirmed_order,1.0
+nordic,CUST-008,008197744,NRD-SQUI0155,Sisu Ring Breaded 1Kg,2026-01-01,,manual_import,0.72
+acme,CUST-002,002376574,ACM-HEXB0743-OLD,Vermont Hex Bolt M8x30 Stainless,2026-01-01,,manual_import,1.0
+acme,CUST-008,008486137,ACM-SELF0105,"Self Drilling Screw X 1-1/2"" 410",2026-01-01,,confirmed_order,0.55
+acme,CUST-006,006921511,ACM-PVCP0699,pvc 50mm d,2026-01-01,,manual_import,0.72
+acme,CUST-002,002374160,ACM-SELF0121,Tolsen Self Drilling Screw Stainless,2026-01-01,,confirmed_order,1.0
+nordic,CUST-004,004712437,NRD-VANI0472,pantry vanilla ice cream,2026-01-01,,confirmed_order,1.0
+nordic,CUST-003,003436731,NRD-FULL0292,Golden Full Cream Milk Uht,2026-01-01,,manual_import,0.72
+acme,CUST-004,004754832,ACM-BALL0165,"Vermont Ball Valve 3/4""",2026-01-01,,confirmed_order,0.72
+acme,CUST-007,007005139,ACM-PVCP0727,kanto pvc pipe 20mm class e,2026-01-01,,manual_import,1.0
+nordic,CUST-003,003279581,NRD-BEEF0423,cape bay beef patty 200g 48s,2026-01-01,,manual_import,0.72
+nordic,CUST-004,004878272,NRD-SALM0114,PANTRY SALMON FILLET SIDE 5KG,2026-01-01,,confirmed_order,1.0
+nordic,CUST-005,005257423,NRD-CHIC0172,Nordvik Whole,2026-01-01,,manual_import,0.55
+acme,CUST-006,006332398,ACM-SELF0979,Vermont Self Screw Stainless 410,2026-01-01,,manual_import,1.0
+nordic,CUST-006,006540848,NRD-BEEF0214B,fjordal beef 100g 24s,2026-01-01,,confirmed_order,0.55
+nordic,CUST-001,001257833,NRD-BUTT0059,SISU BUTTER UNSALTED BLOCK,2026-01-01,,manual_import,1.0
+nordic,CUST-001,001643817,NRD-FULL0338,FJORDAL FULL CREAM MILK FRESH 2L,2026-01-01,,inferred_match,1.0
