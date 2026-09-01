@@ -116,6 +116,57 @@ Legend for **Files touched**: `read` = inspected only · `new` = created · `edi
 
 ---
 
+## Session 03 — Task 1 design
+
+| | |
+|---|---|
+| **Start** | 2026-09-01 15:20 |
+| **End**   | 2026-09-01 16:20 |
+| **Duration** | ~60 min |
+| **Agent** | Claude Code, Opus 5 (1M context) |
+| **Repo state at start** | commit `eb1ba37`, clean |
+
+**Asked for**
+1. Long-running steps flagged; task-to-task dependencies stated; per-task estimates.
+2. Whether any API key or authentication is needed.
+3. Proceed with Task 1 `DESIGN.md`.
+
+**Done**
+- Answered the three open decisions (OD-1/2/3): precision floor + net-value maximisation;
+  no semantic lane for now; `_work/` ships with the submission.
+- **API keys: none, confirmed.** No `urllib`/`requests`/`socket`/`http` anywhere in the
+  repo; the brief bans inference-time network calls outright. Declining the semantic lane
+  removed the only component that would have needed a download.
+- Flagged the one genuinely long-running item: the unmodified `report_query.sql` over the
+  full window (~51 min, recorded in the reference file). Also flagged the hidden cost in
+  Task 4 — ablation over 8 metrics on a full-day slice would be 20+ min of pure waiting, so
+  the plan uses a small tenant-day slice for ranking and a large one only to confirm.
+- Mapped dependencies: **Tasks 4 and 5 sit off the critical path** and can be done in any
+  isolated block; critical path is T1 -> T3 harness -> T2 -> T3 analysis -> ship, ~11.5 h.
+- New probe `p05_objective.py` derives the operating point rather than asserting it:
+  **break-even precision `p* = 92.68 %`** at 20x; **57.14 %** at 3x. At n~250 auto decisions
+  the one-sided 95 % lower bound on a 95 % floor is **92.2 %**, below break-even — which is
+  the actual argument for setting the floor at 98 % rather than at break-even.
+- Wrote `DESIGN.md` (1,510 words against a ~1,500 limit) and `DECISIONS.md` D-01..D-09.
+
+**Files touched**
+- `new`  — `DESIGN.md`, `DECISIONS.md`, `_work/probes/p05_objective.py`
+- `edit` — `_work/TODO.md` (P1 closed, OD-1/2/3 answered), `_work/AI_WORKLOG.md`
+- **`data/` and `starter/` still untouched.**
+
+**Findings carried forward**
+- The naive alias lane is worth **-32,340 operator-seconds** on the 64 train lines that
+  reach it — *worse than not having the alias table at all* (abstaining on all 64 scores
+  -2,560). After the supersession redirect the same 64 lines are worth **+1,280**.
+- D-01, D-02, D-05 and D-06 each carry a reversal trigger that later phases must actually
+  check. D-05's is the important one: if `source` still predicts after the supersession fix,
+  it is real signal; if not, it was a confound and the gate must stay unshipped.
+
+**Open / next**
+- P2, the eval harness — before the matcher, per D-08.
+
+---
+
 <!-- Template for the next entry — copy, do not delete.
 
 ## Session NN — <short title>

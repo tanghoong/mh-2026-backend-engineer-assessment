@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~0.6 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~1.6 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -13,13 +13,14 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | P0 complete → **P1 (Task 1 DESIGN.md) not started** |
-| **Last commit** | `7d44c91 chore: preserve brief, scaffold submission layout` |
-| **Blocking question for the human** | Operating point for the objective function (see P1-a) |
+| **Current phase** | P1 complete → **P2 (eval harness) not started** |
+| **Last commit** | see `git log` — P1 lands as `docs: Task 1 DESIGN.md + first 9 decisions` |
+| **Blocking question for the human** | none open; OD-1/2/3 answered, see §5 |
 | **Nothing is runnable yet** | No `src/`, no tests, no `predictions.csv` |
 
-**One-line status:** the data has been probed and the expensive traps are confirmed with
-numbers; no solution code has been written yet, by design.
+**One-line status:** traps confirmed with numbers, operating point derived (break-even
+92.68 %, floor 98 %), `DESIGN.md` and `DECISIONS.md` D-01..D-09 written. Next executable
+step is the eval harness (P2) — deliberately before the matcher, per D-08.
 
 ---
 
@@ -93,17 +94,19 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[!]` blocked
 - [x] Set up `_work/` (plan, traps, questions, testing, AI log, probes)
 - **Output:** 9 traps CONFIRMED (2 found by us, not in the brief), 1 REFUTED, 3 deferred.
 
-### P1 — Task 1: `DESIGN.md` · **est 2.5 h** · `[ ]`
+### P1 — Task 1: `DESIGN.md` · **est 2.5 h · actual 1.0 h** · `[x]`
 
-- [ ] **P1-a** Objective function from the §1 cost table — **needs a human decision**, see §5
-- [ ] **P1-b** Pipeline decomposition; mark each stage deterministic vs probabilistic
-- [ ] **P1-c** LLM/embeddings section: state the cheaper thing tried first, and the fallback
-- [ ] **P1-d** Six failure modes **on this data** — draw from `TRAPS.md`, cite the numbers
-- [ ] **P1-e** Scope boundary: what is out for 3 days, what production evidence would change it
-- [ ] `DECISIONS.md` D-01..D-04 written as the design is made, not after
+- [x] **P1-a** Objective function — break-even `p* = 92.68 %` derived; floor set at 98 %
+      because the 95 % lower bound at n≈250 on a 95 % floor is 92.2 %, *below* break-even
+- [x] **P1-b** Pipeline decomposition, 7 stages, deterministic vs probabilistic marked
+- [x] **P1-c** LLM/embeddings: declined at inference, argued structurally (twin groups)
+- [x] **P1-d** Six failure modes, each with a measured exposure number
+- [x] **P1-e** Scope boundary + the assumption most likely to be wrong
+- [x] `DECISIONS.md` **D-01..D-09** written during the design
 
-**Done when:** ≤1500 words, and every failure mode in P1-d cites a measured number rather
-than a guess. The `TRAPS.md` evidence is what makes this section survive the walkthrough.
+**Output:** `DESIGN.md` at 1,510 words. New probe `p05_objective.py` derives every §1 number.
+**Carried forward:** D-01, D-02, D-05, D-06 each carry a reversal trigger that P2/P3/P5 must
+actually check — they are open loops, not closed decisions.
 
 ### P2 — Task 3 part 1: the eval harness · **est 1.5 h** · `[ ]`
 
@@ -204,6 +207,7 @@ lost, P3-6 (semantic lane) and P6 are the designed sacrifices; P2 and P5 are not
 | Session | Date | Phase | Est | Actual | Note |
 |---|---|---|---|---|---|
 | 01 | 2026-09-01 | P0 | 0.5 h | 0.6 h | Recon, safety audit, trap verification |
+| 02 | 2026-09-01 | P1 | 2.5 h | 1.0 h | DESIGN.md + DECISIONS.md D-01..D-09 |
 
 ---
 
@@ -213,9 +217,12 @@ Marked here rather than assumed. Each one changes downstream work.
 
 | # | Decision | Why it cannot be defaulted |
 |---|---|---|
-| **OD-1** | The operating point: what precision floor, at what coverage? | It *is* Task 1's objective function, and the walkthrough asks who in the business may move it. A default here is the thing the brief calls "defaulted into". |
-| **OD-2** | Attempt the semantic lane at all? | ~1.5 h. TR-04 suggests the discriminator is a size token, which is lexical. Skipping it and proving why may score better than shipping it. |
-| **OD-3** | Does `_work/` ship in the submission? | Recommendation: **yes**. It is the decision trail §0 says is read first, and §11 invites tool attribution. Cheap to exclude later if unwanted. |
+| **OD-1** | ✅ **Answered:** precision floor + net-value maximisation. Floor 98 %. See D-01, D-02. |
+| **OD-2** | ✅ **Answered:** skip the semantic lane, revisit after measuring. See D-06 — its reversal trigger must actually be checked at P5, not quietly dropped. |
+| **OD-3** | ✅ **Answered:** `_work/` ships. `README.md` explains it; repo root stays limited to the brief's named deliverables. |
+
+No open blocking questions. Next one likely to arise: whether `notes` is an input the
+production matcher receives or a post-hoc annotation (leakage) — `_work/QUESTIONS.md` §1b.
 
 ---
 
