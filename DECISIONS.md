@@ -508,3 +508,38 @@ matcher abstains on most exact matches, which looks over-cautious until you see 
 disagreement is reported rather than assumed away.**
 **Reversal trigger:** confirmation that these are label errors. Then D-24 flips too, and
 coverage rises materially. Filed as the first question in `_work/QUESTIONS.md` §1b.
+
+## D-26 — Strip order language from the query; do not strip unknown tokens
+
+**Context:** the largest refused population was 187 lines below the score floor, 102 of them
+answerable and with the correct item already at rank 1 - blocked at 0.72-0.89 rather than
+mismatched. The blocker turned out not to be the product text.
+
+**What is actually in those lines.** Tokens present in queries and absent from every
+catalogue entry:  (13),  (13),  (12),  (10),  (4); pack
+quantities  (8), , , , , , ; a little Malay (,
+, , ); and genuine misspellings (, , , ).
+Buyers wrap the item in a request and append how many they want. Neither narrows which item
+it is, and both pad the query with trigrams no catalogue entry can match.
+
+**Options:** (a) leave it; (b) an explicit stop-list of order language and pack quantities;
+(c) drop every query token absent from the tenant vocabulary - self-calibrating, no list to
+maintain; (d) both.
+**Chose:** (b). Simulated on existing candidates before writing any of it:
+
+
+
+**Why (c) loses despite more coverage.** It deletes the misspellings too - ,
+,  are absent from the vocabulary by definition - and those are exactly what
+the character trigrams exist to absorb. It buys 1.7 points of coverage by destroying the
+signal that makes the damaged lines matchable at all, and lands 3 points of precision worse
+for a lower net value. The self-calibrating rule is the more elegant one and it is wrong.
+
+**Measured after building:** 28.3% / 99.2% / -10,480 s, reproducing the simulation exactly.
+**Note on symmetry:**  builds the catalogue index as well as the query, so a
+stop-word is removed from both sides. That is deliberate - the two must be comparable - and
+it is why  being both a stop-word and a  is harmless.
+**Reversal trigger:** the stop-list is hand-written, so it is the thing most likely to be
+wrong for a tenant whose buyers write differently. It has one obvious home
+() precisely because a live change in the walkthrough is likely to land
+there.

@@ -58,3 +58,21 @@ def test_dice_is_symmetric_and_bounded():
     assert dice(a, b) == dice(b, a)
     assert dice(a, a) == 1.0
     assert dice(a, set()) == 0.0
+
+
+def test_order_language_is_stripped_but_product_words_are_not():
+    """Buyers wrap the item in a request; that wrapper is not identity.
+    Measured: coverage 26.2% -> 28.3% with precision unchanged (D-26)."""
+    assert normalise("pls send Kanto Masking Tape 24Mm General") == \
+        "kanto masking tape 24mm general"
+    assert normalise("urgent HITEX CABLE TIE 300MM WHITE x24") == \
+        "hitex cable tie 300mm white"
+    # a product word that happens to look like packaging must survive
+    assert "valve" in normalise("Ball Valve 1/2in")
+
+
+def test_a_line_of_pure_order_language_does_not_normalise_to_nothing():
+    """It still has to reach the not-an-item detector rather than vanish into an
+    empty-text abstention that says something different to an operator."""
+    assert normalise("pls send urgent") != ""
+    assert normalise("subtotal") == "subtotal"

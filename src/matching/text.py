@@ -19,6 +19,24 @@ from __future__ import annotations
 
 import re
 
+# Order language, not product identity. Buyers wrap the item in a request ("pls send
+# ... urgent") and append how many they want ("x24", "3 cartons"); neither narrows which
+# item it is, and both dilute a character-similarity score by padding the query with
+# trigrams no catalogue entry can match.
+#
+# Measured, not assumed: dropping these lifts coverage 26.2% -> 28.3% with precision
+# unchanged at 99.2%. The alternative - dropping every query token absent from the tenant
+# vocabulary - reaches 30.0% coverage but falls to 96.0% precision and a WORSE net value,
+# because it also deletes the misspellings ("vermmont", "ttape") that the trigrams are
+# there to absorb. See DECISIONS.md D-26.
+STOP_WORDS = frozenset("""
+pls please send sending urgent urgently need needed want item items order kindly asap
+re and the for of no nos qty
+pc pcs unit units ea each case cases dozen dz pkt packet pack carton ctn box bag tin
+roll set sets
+""".split())
+_PACK_QTY = re.compile(r"^x\d+$|^\d+x$")
+
 _INCH = re.compile(r'(\d)\s*"')
 _SPLIT = re.compile(r"[^0-9a-z/\-.]+")
 _TRIM = re.compile(r"^[/\-.]+|[/\-.]+$")
@@ -34,7 +52,11 @@ def normalise(text: str) -> str:
     # letter/letter and left "valve/2in" joined, which is a delimiter the buyer typed.
     s = re.sub(r"(?<![0-9])/|/(?![0-9])", " ", s)
     s = _SPLIT.sub(" ", s)
-    return " ".join(t for t in (_TRIM.sub("", tok) for tok in s.split()) if t)
+    toks = [t for t in (_TRIM.sub("", tok) for tok in s.split()) if t]
+    kept = [t for t in toks if t not in STOP_WORDS and not _PACK_QTY.match(t)]
+    # Never normalise a line to nothing: a query made entirely of order language still has
+    # to reach the not-an-item detector rather than vanish into an empty-text abstention.
+    return " ".join(kept or toks)
 
 
 def trigrams(text: str) -> set[str]:
