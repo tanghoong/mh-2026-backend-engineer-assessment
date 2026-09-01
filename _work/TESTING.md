@@ -18,8 +18,8 @@ last-day rewrite from silently breaking an earlier claim.
 
 | Tier | Guards against | Runs | Fails the build? |
 |---|---|---|---|
-| **T-C** Contract | The output is malformed or non-deterministic | `pytest tests/contract` | **Yes** |
-| **T-A** Trap | A confirmed trap regresses | `pytest tests/traps` | **Yes** |
+| **T-C** Contract | The output is malformed or non-deterministic | `pytest tests/eval` · **implemented** | **Yes** |
+| **T-A** Trap | A confirmed trap regresses | `pytest tests/sync` done · matcher traps pending P3 | **Yes** |
 | **T-D** Document | A `.md` claims a number the code no longer produces | `python3 _work/verify_docs.py` | **Yes** |
 | **T-W** Walkthrough | *I* cannot re-derive my own decision under questioning | human, out loud | n/a — but it is what is actually graded |
 

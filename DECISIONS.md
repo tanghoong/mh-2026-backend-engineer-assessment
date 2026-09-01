@@ -274,3 +274,46 @@ actual cost, because the model is calibrated for the baseline's correlated-subqu
 now detects that shape and declines rather than answering. An estimator that is confidently
 wrong outside its domain is worse than one that says nothing.
 **Reversal trigger:** none. The cost was recovered inside the same task.
+
+## D-17 — Noise classes as a priority-ordered partition, not overlapping flags
+
+**Context:** section 6.1 requires per-noise-class breakdowns and notes the classes are not
+labelled in the shipped data, so they must be defined and justified.
+**Options:** (a) overlapping boolean tags (has_size, has_abbrev, is_short, ...); (b) a
+priority-ordered partition where every line lands in exactly one class; (c) cluster the
+raw text and name the clusters.
+**Chose:** (b), ordered by *which lane will decide the line* rather than by which words it
+contains.
+**Evidence:** measured 11 candidate features first. Overlapping tags make per-class
+precision unreadable — a line counted in three classes moves three numbers at once, so no
+row of the breakdown can be acted on. The partition discriminates strongly and, more
+importantly, **transfers**: train/holdout shares are 18.3/18.7, 1.4/1.3, 2.9/4.3, 7.6/9.3,
+50.2/47.3, 19.5/19.0. No-answer rate by class on train: `identifier` **0%**,
+`non_item_marker` **100%**, `underspecified` **100%**, `format_noise` 6%, `sized` 28%,
+`plain` **56%**, against a 29.8% base. (c) was rejected as unexplainable in a walkthrough
+and unstable across a re-run.
+**Constraint that shaped it:** every class is computable from the raw line alone. A
+segmentation that reads `gt_item_code` describes the answer key, not the input, and is
+unavailable on the holdout — where the breakdown actually has to hold.
+**Reversal trigger:** if error analysis (P5) shows failures concentrating inside one class
+rather than across classes, the partition is too coarse there and that class splits.
+
+## D-18 — Ship two reference matchers, including a deliberately bad one
+
+**Context:** the harness was built before the matcher (D-08), so it had nothing to measure.
+**Options:** (a) unit-test the metrics only; (b) also build reference matchers and score
+them end to end.
+**Chose:** (b) — `NullMatcher` and `NaiveAliasMatcher`.
+**Evidence:** a harness that cannot separate a catastrophic matcher from a null one is not
+measuring anything, and that claim needs a demonstration rather than an assertion. Scoring
+the naive design turns TR-01's probe number into the harness's own terms: **35.9%
+precision, net -46,580 s against the null matcher's -16,800 s — 2.8x worse than doing
+nothing.** It also produced the section 6.2 answer as a measured fact: accuracy ranks
+`naive_alias` **above** `null` (35.2% vs 29.8%) while net value ranks it far below. And its
+operating-point curve slopes the **wrong way** — raising the confidence floor from 0.55 to
+1.0 drops precision from 35.9% to 22.6% — which is TR-02 visible as a shape rather than a
+table.
+**Cost accepted:** two extra classes to maintain, and their reason codes stay in the
+registered set.
+**Reversal trigger:** none. `NullMatcher` is the permanent zero point; `NaiveAliasMatcher`
+is the permanent "the obvious thing scores this badly" control.

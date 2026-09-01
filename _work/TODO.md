@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~5.6 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~7.1 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -13,15 +13,15 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | **Group A complete** · P2 (eval harness) not started |
+| **Current phase** | Group A complete · **P2 done** · P3 (matcher) not started |
 | **Last commit** | see `git log` — P1 lands as `docs: Task 1 DESIGN.md + first 9 decisions` |
 | **Blocking question for the human** | none open; OD-1/2/3 answered, see §5 |
 | **Nothing is runnable yet** | No `src/`, no tests, no `predictions.csv` |
 
-**One-line status:** **Group A is done, 30% banked.** Task 5: 7 defects, 7/7 tests green.
-Task 4: full window **7.337 s** against a 10 s budget, byte-identical on 13 columns plus
-`p95_latency_ms`, with no index and no schema change. Next is Group B: the eval harness (P2),
-then the matcher (P3).
+**One-line status:** Group A banked (30%). **P2 done**: the eval harness runs one command,
+is covered by 26 tests, and already produced the section 6.2 finding — accuracy ranks
+`naive_alias` above `null` while net value ranks it 2.8x worse. Zero point fixed at
+**-16,800 s**. Next is **P3, the matcher**, built lane by lane against this harness.
 
 ---
 
@@ -130,19 +130,25 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[!]` blocked
 **Carried forward:** D-01, D-02, D-05, D-06 each carry a reversal trigger that P2/P3/P5 must
 actually check — they are open loops, not closed decisions.
 
-### P2 — Task 3 part 1: the eval harness · **est 1.5 h** · `[ ]`
+### P2 — Task 3 part 1: the eval harness · **est 1.5 h · actual 1.5 h** · `[x]`
 
-- [ ] `src/eval/harness.py` — one command over `order_lines_train.csv`
-- [ ] Metrics: precision@auto, coverage, **net value under the 20x cost model**, recall@3,
+- [x] `src/eval/harness.py` — one command over `order_lines_train.csv`
+- [x] Metrics: precision@auto, coverage, **net value under the 20x cost model**, recall@3,
       abstention precision per `reason_code`
-- [ ] Segmentation: per tenant, per channel, and per **self-defined noise class**
+- [x] Segmentation: per tenant, per channel, and per **self-defined noise class**
       (§6.1 — classes are not labelled, we define and justify them)
-- [ ] Precision-vs-coverage curve, not a single point (§6.2)
-- [ ] p95 latency measurement built in from the start (§5.1 requires it *measured*)
-- [ ] Baseline run against a null matcher (abstain on everything) to fix the zero point
+- [x] Precision-vs-coverage curve, not a single point (§6.2)
+- [x] p95 latency measurement built in from the start (§5.1 requires it *measured*)
+- [x] Baseline run against a null matcher (abstain on everything) to fix the zero point
 
-**Done when:** `python3 -m src.eval.harness` prints the full metric block, and running it
-twice gives identical output.
+**Done.** `python3 -m src.eval.harness --matcher null --check-determinism` passes;
+`--compare` shows the accuracy/net-value inversion; 26 tests cover the scorer and the
+matcher contract. Two reference matchers ship (D-18): `null` fixes the zero point at
+-16,800 s, `naive_alias` measures the obvious design at 35.9% precision / -46,580 s.
+
+**Found while building it:** the operating curve originally read `candidates[0]` and
+ignored `item_code`, so a matcher answering without publishing candidates was invisible to
+the sweep. Caught by a test, fixed before any matcher existed to hide behind it.
 
 ### P3 — Task 2: the matcher · **est 4.5 h** · `[ ]`
 
@@ -240,6 +246,7 @@ lost, P3-6 (semantic lane) and P6 are the designed sacrifices; P2 and P5 are not
 | 02 | 2026-09-01 | P1 | 2.5 h | 1.0 h | DESIGN.md + DECISIONS.md D-01..D-09 |
 | 03 | 2026-09-01 | P4b | 2.5 h | 1.8 h | Task 5: 7 defects, 7 invariants, fixes, SYNC.md |
 | 04 | 2026-09-01 | P4a | 2.5 h | 2.2 h | Task 4: ablation, 100 h baseline estimate, 7.337 s fix |
+| 05 | 2026-09-01 | P2 | 1.5 h | 1.5 h | Eval harness, segmentation, 26 tests |
 
 ---
 
