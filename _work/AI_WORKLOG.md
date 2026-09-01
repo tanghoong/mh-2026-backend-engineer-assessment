@@ -338,6 +338,63 @@ Legend for **Files touched**: `read` = inspected only · `new` = created · `edi
 
 ---
 
+## Session 07 — Task 2 finished, Tasks 3 and 6 delivered, submission closed out
+
+| | |
+|---|---|
+| **Start** | 2026-09-01 21:45 |
+| **End**   | 2026-09-02 02:30 |
+| **Duration** | ~4 h 45 m |
+| **Agent** | Claude Code, Opus 5 (1M context) |
+| **Repo state at start** | commit `b03ed25`, paused at P3 |
+
+**Asked for**
+1. Resume P3 and build the matcher lane by lane, verifying after each change.
+2. Do not rush; prioritise data correctness and sound judgement over finishing.
+3. Explain the cold-start stage before moving on.
+4. Write `EVAL.md`, then self-check the whole submission against the brief.
+5. A chronological problem log, and personal handover notes.
+
+**Done**
+- **Task 2 complete.** P3-0 index, P3-1 identifier lanes, P3-2 lexical candidates,
+  P3-3 arbitration, P3-4 abstain classes, P3-5 calibration, P3-7 cold start,
+  P3-8 `predictions.csv`. Final: 28.3% coverage at **99.2% precision**, 1 FP, 0
+  cross-tenant, p95 1.5 ms.
+- **Task 3 complete** (`EVAL.md`) and **Task 6 complete** (`SCALE.md`, 791 words).
+- **`README.md` rewritten** with the three things §11 asks for.
+- **`_work/verify_docs.py` built** — the T-D tier `TESTING.md` had been claiming since
+  session 2 without it existing. It found two problems on its first run.
+- `_work/PROBLEM_LOG.md` (29 obstacles as a causal chain) and `NOTES.md` (gitignored).
+- Verified in `python:3.11-slim`, `--network none`: identical numbers.
+
+**Files touched**
+- `new` — `EVAL.md`, `SCALE.md`, `src/matching/{index,pipeline,text,refusals,calibration}.py`,
+  `src/predict.py`, `tests/matching/*`, `predictions.csv`, `_work/{PROBLEM_LOG,verify_docs}`,
+  `_work/ERROR_ANALYSIS_DRAFT.md`, `NOTES.md`
+- `edit` — `README.md`, `PERF.md` (headline corrected), `DECISIONS.md` (D-17..D-31 + opening)
+- **`data/` untouched. `starter/` untouched except `sync/sync_adapter.py`.**
+
+**Findings carried forward**
+- **D-03 confirmed decisively**: alias precision 35.9% → 100%, exactly as predicted.
+- **The gate that matters is separation, not score** (D-23). The floor moves precision ~2
+  points across its whole range; the margin moves it 81% → 100%.
+- **Two planned components measured and never built** — the size filter (91.8%, below
+  break-even) and the synonym table (improves ranking, degrades separation, net −360 s).
+- **The labels contradict themselves** on 31 of 102 exact unique matches (D-25). The ceiling
+  is label noise: an oracle over the available signals reaches 34.0% coverage and we are at
+  81.4% of the achievable value.
+- **A third instance of one defect shape** — a lane saying "nobody" instead of "not me",
+  found by a build-time guard three files away.
+- **Corrected my own PERF.md headline** from 7.337 s to the measured range 7.3–9.1 s. The
+  single figure was true and presented the best case.
+
+**Open / next**
+- Four items for the human, recorded in `NOTES.md` §1: own the `EVAL.md` §3 conclusions,
+  rehearse the walkthrough, make one scoped code change unaided and time it, send the
+  questions in `_work/QUESTIONS.md` §1.
+
+---
+
 <!-- Template for the next entry — copy, do not delete.
 
 ## Session NN — <short title>

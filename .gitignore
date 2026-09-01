@@ -14,3 +14,6 @@ __pycache__/
 .venv/
 .pytest_cache/
 starter/baseline.json
+
+# personal handover notes, not part of the submission
+NOTES.md
