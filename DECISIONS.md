@@ -726,3 +726,94 @@ hard fail under §5.4.
 **Reversal trigger:** if unknown buyer SKUs turn out to be a useful ops signal ("this buyer
 has a code we have never mapped"), that wants a side-channel, not a refusal. Refusing the
 line to preserve the signal costs 40 s to record something a log line records for free.
+
+## D-30 — Abstentions publish a probability too, and the operating curve got shorter
+
+**Context:** writing `predictions.csv` for the first time put this row in front of me:
+
+```
+ACM-H-5003,,1.0000,review,ambiguous_candidates,ACM-CABL1016:1.0000|...
+```
+
+**Confidence 1.0000 on a line we refused to answer.** Abstentions were publishing the top
+candidate's raw text-similarity score while answers published a calibrated probability -
+two meanings in one column. That is precisely the sin TR-02 catches the vendor committing
+with `customer_sku_map.confidence`, reproduced in our own output.
+
+It also quietly corrupted a metric I had been reporting: the operating-point curve sweeps
+`confidence`, so it was sweeping a **mixture** of similarities and probabilities.
+
+**Options:** (a) publish 0.0 for every abstention; (b) publish P(top candidate is correct),
+measured per situation; (c) leave the raw score and document the two meanings.
+**Chose:** (b). (a) throws away real information - "we refused, and the top candidate is
+right 72% of the time" is a different instruction to a reviewer than "we refused, and it is
+right 57% of the time". (c) documents a defect instead of fixing it.
+
+**Measured, on train, as P(top candidate is the labelled item):**
+
+| situation | correct/n | confidence | 95% lower | action |
+|---|---|---|---|---|
+| exact identifier | 76/76 | 0.9872 | 96.6% | **answer** |
+| lexical, separated | 42/43 | 0.9556 | 90.2% | **answer** |
+| ambiguous | 101/140 | 0.7183 | 65.5% | refuse |
+| below floor | 61/106 | 0.5741 | 49.6% | refuse |
+| certain refusal | 0/55 | 0.0 | — | refuse, no candidate |
+
+Certain refusals publish **0.0** and it is not a claim of certainty: they carry no
+candidates, so "P(top candidate correct)" has nothing to be about.
+
+**What this bought beyond correctness.** The confidence values *are* the thresholds now, so
+the operating point can be read straight off the column - and the curve collapses from a
+smooth 27-point sweep to **five points, one per situation the matcher actually
+distinguishes**:
+
+```
+   floor  coverage  precision      net
+  0.5741     86.9%     76.7%  -64,600
+  0.7183     61.7%     84.6%  -34,060
+  0.9556     28.3%     99.2%  -10,480   <- shipped, and the net-value optimum
+  0.9872     18.1%    100.0%  -12,240
+  0.9872      0.0%         -  -16,800
+```
+
+Shorter and truer. The smooth version implied a resolution the system does not have.
+
+**Locked by a self-consistency test:** an answer below break-even or an abstention above it
+is incoherent - one of the gate or the calibration would be wrong, and the output would
+tell a reviewer one thing while the number told them another. Currently 0 violations.
+
+**The raw scores are not lost.** They stay per-candidate in the `candidates` column, which
+is what §5.3 defines that column for.
+
+## D-31 — The barcode lane had the same dead end, found by a guard rather than by a test
+
+**Context:** extending calibration to every reason code, the generator refused to run:
+`reason code(s) emitted but not in any pool: ['barcode_ambiguous']`. Adding it meant
+reading the barcode lane again, which is when this appeared:
+
+```python
+return self._abstain(line, "barcode_no_match")   # a barcode we do not stock kills the line
+```
+
+**The identical defect to D-29**, in the lane next door. A barcode this tenant does not
+stock - mistyped, from another supplier, or simply not loaded yet - stopped the line's text
+from ever being read.
+
+**It never fires on train**, where all 13 barcodes resolve. So no test failed, no metric
+moved, and nothing would have surfaced it. What surfaced it was a *build-time guard* on an
+unrelated property: every emitted reason code must belong to a calibration pool. The guard
+was written to stop a new lane inheriting a neighbour's confidence; it caught a control-flow
+bug three files away.
+
+**Fixed the same way** - the lane returns `None` and the line carries on.
+
+**Worth recording as a pattern, not just a fix.** This is the third instance of one shape
+across two tasks: Task 5's D6 (a 504 inside the conflict handler escaping `push()` and
+abandoning every later record), D-29 (an unknown buyer SKU killing the line), and now the
+barcode lane. **A component that cannot do its job says "not me", never "nobody".** All
+three were invisible under normal conditions, and each surfaced only when something forced
+the abnormal path to be considered.
+
+**Reversal trigger:** none. If a barcode miss ever needs to be *terminal* - say a scanned
+barcode is authoritative and a miss means the line is genuinely unorderable - that is a
+product decision and would need its own reason code, not a silent stop.

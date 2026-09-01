@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~10.6 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~15.5 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -13,29 +13,26 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | **P3 in progress** · P3-0 and P3-1 done and measured |
+| **Current phase** | **P3 complete** · next is P5, the error analysis |
 | **Last commit** | `90ee6ed feat(eval): harness built before the matcher` · tree clean · 33 tests green |
 | **Blocking question for the human** | none. D-06's semantic-lane trigger is re-checked at P3-6, not before |
 | **Runnable** | harness, sync suite, perf report. **No `predictions.csv` yet** — that is P3-8 |
 
-**One-line status:** P3-0 (index) and P3-1 (identifier lanes) are done and measured.
-**D-03 confirmed decisively: 35.9% -> 100.0% precision**, 76 TP / 0 FP, net -12,240 s against
-the null matcher's -16,800 s. D-05 closed (the `source` gate does not ship). Coverage is
-capped at 18.1% because only identifier lines are handled - **next is P3-2, the lexical
-lane**, which is where coverage has to come from.
+**One-line status:** **Task 2 is complete.** `predictions.csv` written over the holdout:
+300 rows, 98 auto (**32.7% coverage**), p95 **1.6 ms**, schema self-check clean, 0
+cross-tenant. On train the matcher measures **28.3% coverage at 99.2% precision**, net
+-10,480 s against the null matcher's -16,800. 94 tests green.
+
+**Coverage is deliberately not pushed further.** An oracle that knew the true correct-rate
+of every situation it can distinguish reaches only 34.0% - we have 81.4% of the achievable
+value - and the ceiling is label noise, not the algorithm: **143 train lines have a perfect
+text match as their top candidate and only 78.3% of the labels agree** (D-25).
 
 ### Resume here
 
-`src/matching/pipeline.py` currently runs stages 0, 1, 2, 5. Next:
-
-* **P3-2** lexical candidate generation over `TenantIndex.active_codes`
-* **P3-3** size/pack signature as a **hard filter**, not a score term (D-07)
-* **P3-4** the four abstain detectors (TR-03), and T-A7/T-A8/T-A9 to cover them
-* **P3-5** replace `PROVISIONAL_CONFIDENCE` with measured per-lane precision (D-20 says
-  these constants are temporary by construction and must not be left to become permanent)
-
-Measure after each with `python3 -m src.eval.harness --matcher pipeline --curve` and record
-the delta. A lane that does not pay gets deleted; §5.2 grades that positively.
+**P5, the error analysis** - 20 named failures, root cause, cost class, fix; group them;
+and the >=3 wrong labels §6.4 asks for (D-25 already has six named). The brief says do not
+delegate this one. Then `EVAL.md`, `SCALE.md`, and the README rewrite.
 
 ---
 
@@ -177,13 +174,13 @@ positively).
 - [x] **P3-2** Lexical candidate generation
 - [x] **P3-3** Arbitration: score floor + margin. The size hard filter was **simulated and
       rejected before being built** - 91.8%, below break-even (D-24)
-- [ ] **P3-4** Abstain detectors — four kinds, per TR-03
-- [ ] **P3-5** Arbitration + calibration: one comparable confidence across lanes
+- [x] **P3-4** Abstain detectors — four kinds, per TR-03
+- [x] **P3-5** Arbitration + calibration: one comparable confidence across lanes
 - [ ] **P3-6** *Optional* semantic lane — only if P3-1..P3-5 leaves coverage on the table.
       Measure the marginal gain; **deleting it after measuring is an acceptable outcome**
-- [ ] **P3-7** Cold-start behaviour for a tenant with zero alias history (§5.1) — must be
+- [x] **P3-7** Cold-start behaviour for a tenant with zero alias history (§5.1) — must be
       *different*, and the difference must be stated
-- [ ] **P3-8** Emit `predictions.csv` over the holdout, schema exactly per §5.3
+- [x] **P3-8** Emit `predictions.csv` over the holdout, schema exactly per §5.3
 
 **Done when:** all of — p95 ≤ 250 ms measured; zero cross-tenant violations; byte-identical
 output across two runs; every row carries a `reason_code`.

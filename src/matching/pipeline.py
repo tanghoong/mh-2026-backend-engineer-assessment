@@ -91,7 +91,12 @@ class Pipeline:
         if len(resolved) > 1:
             return self._abstain(line, "barcode_ambiguous",
                                  [Candidate(c, 0.5, "barcode") for c in resolved])
-        return self._abstain(line, "barcode_no_match")
+        # Same rule as the alias lane (D-29): a lane that cannot answer says "not me", not
+        # "nobody". A barcode this tenant does not stock - mistyped, from another supplier,
+        # or simply not yet loaded - must not stop the line's text being read. Never fires
+        # on train, where all 13 barcodes resolve; that is precisely why it is worth
+        # fixing before it is observed rather than after.
+        return None
 
     # ------------------------------------------------------------------ [2] alias
     def _alias_lane(self, line: OrderLine, idx: TenantIndex) -> Decision | None:
@@ -211,7 +216,14 @@ class Pipeline:
         cands = candidates or []
         # `review` when we have something for a human to look at, `reject` when we do not.
         # The distinction is for the operator, not for the score.
+        #
+        # The confidence is the *calibrated* probability that this refusal's top candidate
+        # is the right item - the same quantity an answer publishes. It used to be the raw
+        # text-similarity score, which put rows reading `confidence=1.0000, decision=review`
+        # into predictions.csv: a perfect string match published in a field that everywhere
+        # else meant a probability. The raw scores are still carried, per candidate, in the
+        # `candidates` column where they belong.
         return Decision(line_id=line.line_id, item_code=None,
-                        confidence=max((c.score for c in cands), default=0.0),
+                        confidence=confidence_for(reason),
                         decision=REVIEW if cands else REJECT,
                         reason_code=reason, candidates=cands)

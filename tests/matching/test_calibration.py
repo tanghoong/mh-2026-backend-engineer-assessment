@@ -29,10 +29,18 @@ def test_the_committed_table_matches_a_fresh_measurement():
         "calibration is stale; re-run: python3 -m src.matching.calibration --write")
 
 
-def test_confidence_is_never_certain_and_never_impossible():
+def test_confidence_is_never_certain_where_a_candidate_exists():
     """76 for 76 is not proof that error is impossible. Laplace keeps the published number
-    off both endpoints, which is what a sample of 76 can actually support."""
-    for reason, (_pool, conf, correct, n, _lo) in C.CALIBRATION.items():
+    off both endpoints, which is what a sample of 76 can actually support.
+
+    The certain refusals are the deliberate exception: they carry **no candidates**, so
+    "P(top candidate is correct)" has nothing to be about and 0.0 is not a claim of
+    certainty about an item - it is the absence of an item to be certain about.
+    """
+    for reason, (pool, conf, correct, n, _lo) in C.CALIBRATION.items():
+        if reason in C.CERTAIN_REFUSALS:
+            assert conf == 0.0 and pool == "certain_refusal", reason
+            continue
         assert 0.0 < conf < 1.0, reason
         if correct == n:
             assert conf < 1.0, f"{reason} publishes certainty from {n} observations"
@@ -91,3 +99,38 @@ def test_the_lexical_interval_straddles_break_even_and_says_so():
     assert n < 100                        # and this is why
     exact = C.CALIBRATION["alias_exact"]
     assert exact[4] > BREAK_EVEN_P, "the identifier pool, by contrast, IS provable"
+
+
+def test_the_decision_and_the_published_confidence_never_contradict_each_other(outcomes):
+    """Self-consistency, and the reason it is worth an assertion.
+
+    Confidence is P(top candidate correct) and break-even is the point where answering
+    starts to beat abstaining. So an *answer* below break-even and an *abstention* above
+    it are both incoherent: one of the two - the gate or the calibration - would be wrong,
+    and the output would tell a reviewer one thing while the number told them another.
+
+    This caught a real defect. Abstentions used to publish the top candidate's raw
+    text-similarity score, so `predictions.csv` carried rows reading
+    `confidence=1.0000, decision=review` - a perfect string match in a field that
+    everywhere else meant a probability.
+    """
+    for o in outcomes:
+        conf = o.decision.confidence
+        if o.decision.decision == "auto":
+            assert conf > BREAK_EVEN_P, (
+                f"{o.line_id}: answered at {conf}, below the {BREAK_EVEN_P:.4f} break-even")
+        else:
+            assert conf < BREAK_EVEN_P, (
+                f"{o.line_id}: refused at {conf}, above the {BREAK_EVEN_P:.4f} break-even")
+
+
+def test_raw_similarity_still_reaches_the_reader_where_it_belongs(outcomes):
+    """Calibrating the confidence column must not destroy the evidence. The per-candidate
+    scores stay in `candidates`, which is what section 5.3 defines that column for."""
+    ambiguous = [o for o in outcomes
+                 if o.decision.reason_code == "ambiguous_candidates" and o.decision.candidates]
+    assert ambiguous
+    o = ambiguous[0]
+    assert o.decision.candidates[0].score != o.decision.confidence
+    assert 0.0 < o.decision.candidates[0].score <= 1.0
+    assert ":" in o.decision.top3()
