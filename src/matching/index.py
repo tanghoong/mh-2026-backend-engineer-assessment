@@ -64,6 +64,10 @@ class TenantIndex:
     search_text: dict[str, str] = field(default_factory=dict)
     item_trigrams: dict[str, set[str]] = field(default_factory=dict)
 
+    # P3-4. Every word this tenant's catalogue has ever used, for the out-of-domain
+    # detector. A tenant that sells hardware has no vocabulary for 'wagyu striploin'.
+    vocabulary: set[str] = field(default_factory=set)
+
     # ---------------------------------------------------------------- TR-01
     def resolve(self, code: str) -> tuple[str | None, str]:
         """Normalise a code any lane produced into something safe to return.
@@ -127,6 +131,7 @@ def build_tenant_index(tenant: str) -> TenantIndex:
         text = normalise(idx.items[code].item_name)
         idx.search_text[code] = text
         idx.item_trigrams[code] = trigrams(text)
+        idx.vocabulary.update(text.split())
 
     # TR-06. A barcode is decisive only when it maps to exactly one active, sellable item.
     for code in idx.active_codes:

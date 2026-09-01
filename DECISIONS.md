@@ -551,3 +551,58 @@ and it is why `Nos` being both a stop-word and a `stock_uom` is harmless.
 wrong for a tenant whose buyers write differently. It has one obvious home
 (`text.STOP_WORDS`) precisely because a live change in the walkthrough is likely to land
 there.
+
+## D-27 — Four abstain classes, two of which claim to *know*
+
+**Context:** the matcher had two refusal reasons, both of them "I could not decide". §5.3
+names `not_an_item` explicitly and §5.1 requires an operator in the review queue to see
+*why*. `"subtotal"` and "these two candidates are indistinguishable" were the same code.
+
+**Options:** (a) leave one uncertain bucket and let the queue sort it out; (b) split by
+score band; (c) split by *kind of unanswerability*, with detectors that run before scoring.
+**Chose:** (c). Measured on train:
+
+| reason | n | correct refusal | right answer in top 3 |
+|---|---|---|---|
+| `not_an_item` | 10 | **100%** | n/a |
+| `out_of_domain` | 45 | **100%** | n/a |
+| `ambiguous_candidates` | 139 | 27% | **99%** |
+| `no_candidate_above_floor` | 106 | 29% | **99%** |
+
+**The split is between certainty and uncertainty, not between scores.** The first two are
+claims to knowledge and are held to 100% by a test; a detector that is merely usually right
+belongs in the uncertain bucket with the others. The last two are uncertain *by
+construction* - they exist because the system could not decide - so their low correct-refusal
+rate is the expected shape, not a defect. Judging all four by one number would call the
+system 44% right when two of its four behaviours are perfect and two are honest.
+
+**The number that matters for the uncertain two is the last column.** When the system says
+"you pick", the correct code is in the top 3 for **99%** of the lines that have one. §5.4
+scores that, and it is what decides whether a 40 s abstention is cheap or merely correct.
+
+**Two orderings that are load-bearing, and are asserted rather than assumed:**
+
+* The detectors run **after** the identifier lanes. If the buyer gave us a SKU or a barcode
+  they meant an item, and an explicit identifier outranks a heuristic read of their prose.
+  Verified: 0 detector refusals on lines carrying an identifier.
+* They run **before** scoring. Neither is a question about how close the match is -
+  `"subtotal"` does not have a weak best candidate, it has no question. Scoring it first
+  would produce a candidate list, and a candidate list invites a reviewer to pick from it.
+  Certain refusals therefore carry **no** candidates, so the two refusal kinds look
+  different to a human and not just to a grep.
+
+**On the out-of-domain threshold.** 0.34 of the query's non-numeric tokens must appear
+somewhere in the tenant's catalogue. It is chosen from a sensitivity sweep, not tuned: every
+floor from 0.00 to 0.34 refuses only unanswerable lines, the first mistake appears at 0.40,
+and by 0.60 it is discarding 23 answerable lines. **0.34 is the top of a plateau**, which is
+the property that matters - a constant tuned to the last decimal would not survive the
+holdout. A test pins the plateau, not the constant.
+
+**Net value is unchanged** at -10,480 s: every line these detectors catch was already being
+refused. They change what the refusal *says*, which is the deliverable §5.1 asks for and is
+invisible to a metric that only counts answers.
+
+**Reversal trigger:** a tenant whose catalogue vocabulary is small enough that ordinary
+lines score below the domain floor - a brand-new tenant with 20 items, for instance. That is
+the cold-start case (P3-7) and it needs the floor to scale with catalogue size, or to be
+disabled until the vocabulary is established.

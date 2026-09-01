@@ -28,6 +28,8 @@ KNOWN_REASON_CODES = {
     "no_lexical_candidate", "empty_text",
     # pipeline: arbitration (P3-3a)
     "lexical_unique", "no_candidate_above_floor", "ambiguous_candidates",
+    # pipeline: abstain detectors (P3-4)
+    "not_an_item", "out_of_domain",
 }
 
 

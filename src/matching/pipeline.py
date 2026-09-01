@@ -23,6 +23,7 @@ from __future__ import annotations
 from ..contracts import AUTO, REJECT, REVIEW, Candidate, Decision, OrderLine
 from .text import dice, normalise, trigrams
 from .index import AliasIndex, TenantIndex, build_alias_index, build_tenant_index
+from .refusals import is_not_an_item, is_out_of_domain
 
 # Provisional, and labelled as such. These are placeholders until P3-5 replaces them with
 # each lane's measured precision on train. Publishing an uncalibrated number as
@@ -144,7 +145,19 @@ class Pipeline:
         naive scan is well inside the 250 ms budget and buys exactness: no recall is lost
         to a candidate-generation shortcut that would then have to be tuned separately.
         """
-        query = trigrams(normalise(line.raw_text))
+        text = normalise(line.raw_text)
+
+        # P3-4, and the order matters. These two run AFTER the identifier lanes: if the
+        # buyer gave us a SKU or a barcode they meant an item, and an explicit identifier
+        # outranks a heuristic read of their prose. They run BEFORE scoring because
+        # neither is a question about how close the match is - "subtotal" has no best
+        # candidate, it has no question.
+        if is_not_an_item(line.raw_text, text):
+            return self._abstain(line, "not_an_item")
+        if is_out_of_domain(text, idx.vocabulary):
+            return self._abstain(line, "out_of_domain")
+
+        query = trigrams(text)
         if not query:
             return self._abstain(line, "empty_text")
 
