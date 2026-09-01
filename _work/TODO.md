@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~15.5 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~19 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -13,26 +13,36 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | **P3 complete** · next is P5, the error analysis |
+| **Current phase** | **all six tasks delivered** · `verify_docs.py` clean · walkthrough prep remains |
 | **Last commit** | `90ee6ed feat(eval): harness built before the matcher` · tree clean · 33 tests green |
 | **Blocking question for the human** | none. D-06's semantic-lane trigger is re-checked at P3-6, not before |
 | **Runnable** | harness, sync suite, perf report. **No `predictions.csv` yet** — that is P3-8 |
 
-**One-line status:** **Task 2 is complete.** `predictions.csv` written over the holdout:
-300 rows, 98 auto (**32.7% coverage**), p95 **1.6 ms**, schema self-check clean, 0
-cross-tenant. On train the matcher measures **28.3% coverage at 99.2% precision**, net
--10,480 s against the null matcher's -16,800. 94 tests green.
+**One-line status:** **Every deliverable the brief names exists and self-checks clean.**
+`python3 _work/verify_docs.py` reports 0 problems; 94 tests green; the documented commands
+verified in an offline `python:3.11-slim` container producing identical numbers.
 
-**Coverage is deliberately not pushed further.** An oracle that knew the true correct-rate
-of every situation it can distinguish reaches only 34.0% - we have 81.4% of the achievable
-value - and the ceiling is label noise, not the algorithm: **143 train lines have a perfect
-text match as their top candidate and only 78.3% of the labels agree** (D-25).
+| | |
+|---|---|
+| Task 1 Design | break-even 92.68% derived; 1,500 words |
+| Task 2 Matcher | 28.3% coverage / 99.2% precision, 1 FP, 0 cross-tenant, p95 1.5 ms |
+| Task 3 Eval | harness + 20-failure analysis + the label finding |
+| Task 4 Perf | ~100 h estimated -> 7.3-9.1 s, byte-identical |
+| Task 5 Sync | 7 defects for 3 tickets, one isolating test each |
+| Task 6 Scale | 24.2 GB resident index is the first thing to break |
 
-### Resume here
+### What is genuinely left
 
-**P5, the error analysis** - 20 named failures, root cause, cost class, fix; group them;
-and the >=3 wrong labels §6.4 asks for (D-25 already has six named). The brief says do not
-delegate this one. Then `EVAL.md`, `SCALE.md`, and the README rewrite.
+1. **The human reads `EVAL.md` §3 and makes the conclusions their own.** §6.3 says do not
+   delegate the error analysis, and the walkthrough drives from it. Material and my
+   uncertainties are in `_work/ERROR_ANALYSIS_DRAFT.md`.
+2. **Walkthrough rehearsal** (`_work/TESTING.md` T-W, `_work/QUESTIONS.md`). The two
+   highest-priority items are flagged in `COLLABORATION.md`: D-02's confidence-bound argument
+   and D-23's margin finding are *mine*, and must be re-derivable rather than recited.
+3. **One scoped code change made unaided, timed.** §12 spends 20 minutes on exactly that and
+   no document rehearses it.
+4. **Optional:** send the sharp questions in `_work/QUESTIONS.md` §1 - §11 says asking one is
+   a positive signal, and it has a deadline.
 
 ---
 

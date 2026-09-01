@@ -1,8 +1,13 @@
 # PERF — Task 4
 
-> **Result: 7.337 s median over 5 runs, byte-identical to the reference on all 13
-> baseline columns, plus `p95_latency_ms`.** Budget was 10 s. No index, no schema change,
-> no materialisation.
+> **Result: 7.3–9.1 s, byte-identical to the reference on all 13 baseline columns, plus
+> `p95_latency_ms`.** Budget was 10 s. No index, no schema change, no materialisation.
+>
+> **That is a range, not a number, and the range is the honest headline.** Four separate
+> 5-run batches on this machine gave medians of 7.32, 7.34, 8.17 and 9.13 s. Every batch
+> passes; none of them passes by much. A grader on a slower laptop could plausibly miss the
+> budget, and the lever if that happens is already measured and declined: the expression
+> index in §6 takes it to ~5.2 s at the cost of a permanent write tax.
 >
 > ```
 > cd starter
@@ -155,7 +160,9 @@ metrics were measured rather than dismissed.
 
 ## 3. The fix
 
-**Target stated before starting: full window ≤ 10 s, byte-identical. Achieved: 7.337 s.**
+**Target stated before starting: full window ≤ 10 s, byte-identical. Achieved: 7.3–9.1 s
+across four batches — inside budget every time, with less headroom than a single figure
+would suggest.**
 
 `starter/my_report.sql`, driven through `src/perf/report.py`. Eight correlated subqueries
 become five single-pass CTEs joined once:

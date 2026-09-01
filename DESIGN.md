@@ -71,8 +71,7 @@ raw line ─► [0] normalise ─► [1] tenant index ─► [2] identifier lane
 
 **Contracts.** Stages 2–4 emit `Candidate{item_code, lane, raw_score, evidence[]}`. Stage 5
 rewrites or drops candidates and may not invent them. Stage 6 emits
-`Decision{item_code|None, confidence, decision, reason_code, candidates[≤3]}`. A lane can be
-deleted by removing its call.
+`Decision{item_code|None, confidence, decision, reason_code, candidates[≤3]}`.
 
 **Stage 5 is where the design is opinionated.** The intuitive architecture places trust at
 the point of generation: exact identifier hits are trusted, fuzzy text is not. On this data
@@ -86,7 +85,7 @@ every candidate passes through; confidence is assigned afterwards, uniformly. A 
 would need re-implementing for the barcode lane (same exposure: 22 colliding barcodes in
 acme, 16 in nordic) and for every future lane.
 
-Deterministic stages run first: cheap, and their failures are *knowable* — a barcode either
+Deterministic stages run first: cheap, and their failures *knowable* — a barcode either
 resolves uniquely or it does not. The one probabilistic stage is last, converting evidence
 into a decision against the §1 floor.
 
@@ -126,7 +125,7 @@ trigger is recorded in `DECISIONS.md`.
 
 ## 4. The six most expensive ways this system can be confidently wrong
 
-Ranked by measured exposure. All six are *false positives*: at 20×, no other class competes.
+Ranked by measured exposure. All six are false positives; at 20×, no other class competes.
 
 | # | Failure mode | Exposure (measured) | Mechanism that catches it |
 |---|---|---|---|

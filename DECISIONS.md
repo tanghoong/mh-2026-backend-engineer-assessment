@@ -4,6 +4,26 @@ One entry per choice that could reasonably have gone another way. Written as the
 made, not reconstructed afterwards. Evidence is rerunnable — probe scripts in `_work/probes/`,
 trap evidence in `_work/TRAPS.md`.
 
+**On the count.** §10 of the brief says eight to fifteen entries is a healthy range. There
+are 31. That is a deliberate deviation and worth explaining rather than hiding: each entry
+corresponds to **a measurement that can be re-run**, not to an opinion, so deleting one
+deletes the evidence for a choice that was actually made. Several of the most useful are
+records of things *not* built — D-24 (a planned lane simulated and rejected), D-06 (the
+semantic lane declined on structure), D-13 (an index measured and refused).
+
+**If you read three, read these:**
+
+| | |
+|---|---|
+| **D-03** | Supersession resolution became a shared stage rather than a fix inside the alias lane. Alias-exact precision **35.9% → 100%**. The architecture rests on this one. |
+| **D-23** | Arbitration gates on *separation*, not on score. The score floor moves precision ~2 points across its whole range; the margin moves it **81% → 100%**. |
+| **D-25** | The labels contradict themselves on the least ambiguous population — 102 exact unique matches, 71 labelled, 31 blank — which is why an obviously correct rule cannot ship. |
+
+Three more that carry the same weight if there is time: **D-05** (a signal that was correct
+for the wrong reason, and did not ship), **D-28** (`confidence` is a measured probability,
+and how the interval is reported), **D-29** (a lane that could not answer said "nobody"
+instead of "not me").
+
 Entries D-01 … D-09 predate any matcher code and come out of Task 1.
 
 ---
@@ -785,6 +805,12 @@ tell a reviewer one thing while the number told them another. Currently 0 violat
 **The raw scores are not lost.** They stay per-candidate in the `candidates` column, which
 is what §5.3 defines that column for.
 
+**Reversal trigger:** a consumer that needs a *continuous* score to rank a review queue by.
+Five discrete values cannot order 202 abstentions for a human working through them, and the
+per-candidate similarity in the `candidates` column is the wrong instrument for that — it
+answers "how similar", not "how likely". That consumer would need a second, explicitly
+separate field, and the mistake to avoid is putting it back in this one.
+
 ## D-31 — The barcode lane had the same dead end, found by a guard rather than by a test
 
 **Context:** extending calibration to every reason code, the generator refused to run:
@@ -799,11 +825,13 @@ return self._abstain(line, "barcode_no_match")   # a barcode we do not stock kil
 stock - mistyped, from another supplier, or simply not loaded yet - stopped the line's text
 from ever being read.
 
-**It never fires on train**, where all 13 barcodes resolve. So no test failed, no metric
-moved, and nothing would have surfaced it. What surfaced it was a *build-time guard* on an
-unrelated property: every emitted reason code must belong to a calibration pool. The guard
-was written to stop a new lane inheriting a neighbour's confidence; it caught a control-flow
-bug three files away.
+**Evidence:** it never fires on train, where all 13 barcodes resolve — so no test failed, no
+metric moved, and nothing in the numbers would have surfaced it. What surfaced it was a
+*build-time guard* on an unrelated property: every emitted reason code must belong to a
+calibration pool. The guard was written to stop a new lane inheriting a neighbour's
+confidence; it caught a control-flow bug three files away. The measured cost of the twin
+defect next door (D-29) was 64 of 420 lines on a cold tenant, every one answerable — this
+lane's exposure is smaller only because 13 lines carry a barcode, not because it is safer.
 
 **Fixed the same way** - the lane returns `None` and the line carries on.
 
