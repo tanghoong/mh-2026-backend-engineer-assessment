@@ -87,6 +87,12 @@ the holdout, where the confound need not hold.
 **Reversal trigger:** if `source` retains predictive power *after* D-03 is applied, it is
 carrying independent signal and becomes a legitimate feature. Re-measure after P3-1.
 
+**RESOLVED at P3-1.** Re-measured with the supersession redirect in place. `manual_import`
+goes from **10.9% to 100%**; every slice of `source` and every slice of `confidence` is now
+100% (n=64). The signal is not weakened, it is **gone** - which is what a confound does once
+the thing it stood in for is removed. The gate does not ship. Had it shipped, it would have
+validated perfectly on train and had no defence on the holdout.
+
 ## D-06 — No semantic / embedding lane (provisional)
 
 **Context:** §4.3 asks where an LLM or embeddings earn their place, and §5.2 grades deleting
@@ -317,3 +323,50 @@ table.
 registered set.
 **Reversal trigger:** none. `NullMatcher` is the permanent zero point; `NaiveAliasMatcher`
 is the permanent "the obvious thing scores this badly" control.
+
+## D-19 — TR-07 and TR-08 are one trap, not two; keep both defences anyway
+
+**Context:** the brief §2 lists "the same buyer SKU pointing at two different codes" and
+"expired mappings" as separate data defects. They are the same 26 rows.
+**Evidence:** the 26 keys with more than one `item_code` are **exactly** the 26 keys
+carrying a `valid_to` - intersection 26, symmetric difference 0. Filtering by validity at a
+2026-07 order date resolves **26 of 26** to a single code, leaving zero ambiguous keys. The
+shape is always the same: a buyer SKU was remapped and the old mapping was *closed* with
+`valid_to` rather than deleted.
+
+```
+('acme','CUST-003','003793659')
+   ACM-ANGL0502   valid 2026-01-01 .. (open)
+   ACM-MASK0931   valid 2026-01-01 .. 2026-03-31
+```
+
+**Options:** (a) implement expiry only, and drop the ambiguity branch as dead code;
+(b) implement both; (c) implement ambiguity only, treating expiry as a special case.
+**Chose:** (b), with the ambiguity branch **tested synthetically** because no natural case
+exists.
+**Reasoning:** (a) is what the measurement invites and is wrong for one reason: the
+equivalence is a property of *this export*, not of the schema. Two open mappings for one key
+is one bad import away, and the failure mode if it happens is picking one arbitrarily at 20x
+cost. A branch that is dead today and cheap to keep is not the same as a branch that is
+unnecessary. (c) inverts the dependency and would silently use a 3-month-expired mapping.
+**What this changes in the write-up:** the brief's two bullets get one answer, and the
+distinction between "the ambiguity was resolved" and "the ambiguity never arose" is worth
+stating - the second is true here and the first is what a reader would assume.
+**Reversal trigger:** if a future export contains a key with two open mappings, the branch
+stops being synthetic and TR-07 becomes independently confirmed.
+
+## D-20 — Publish our own confidence, never the vendor's
+
+**Context:** the alias rows carry a `confidence` the matcher could simply pass through.
+**Options:** (a) pass `customer_sku_map.confidence` through as the published confidence;
+(b) publish a per-lane value derived from measured precision.
+**Chose:** (b). Provisional constants now, replaced by measured lane precision at P3-5.
+**Evidence:** D-04 established the column is anti-informative (22.6% precision at 1.0, 100%
+at 0.55). Passing it through would export that inversion to every downstream consumer, and
+§5.3 requires `confidence` to be *comparable across lanes* - a vendor field describing one
+lane's provenance cannot be.
+**Guarded by a test:** `test_ta4_vendor_confidence_is_not_used_as_our_confidence` asserts no
+published confidence is one of the three values that column takes. It is a cheap tripwire
+against a future "just use the confidence we already have" refactor.
+**Reversal trigger:** none for the pass-through. The provisional constants themselves are
+temporary by construction and must be replaced at P3-5, not left to become permanent.

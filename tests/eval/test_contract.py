@@ -12,12 +12,18 @@ from src.contracts import AUTO, REJECT, REVIEW, Candidate, Decision, OrderLine
 from src.eval import harness
 from src.eval.metrics import score
 
-MATCHERS = ["null", "naive_alias"]
+MATCHERS = ["null", "naive_alias", "pipeline"]
 ROWS = harness.load("order_lines_train.csv")
 
 # The closed set. An unregistered reason_code fails T-C5 rather than appearing in a report.
 KNOWN_REASON_CODES = {
-    "null_matcher_abstains", "no_alias_hit", "alias_exact",
+    # reference matchers
+    "null_matcher_abstains", "no_alias_hit",
+    # pipeline: identifier lanes (P3-1)
+    "alias_exact", "alias_exact_superseded_redirect", "alias_ambiguous",
+    "alias_expired", "alias_no_match", "alias_unresolvable",
+    "barcode_unique", "barcode_ambiguous", "barcode_no_match",
+    "no_identifier", "unknown_tenant",
 }
 
 

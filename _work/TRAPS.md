@@ -22,14 +22,14 @@ Evidence commands live in `_work/probes/`. Every number below is reproducible.
 
 | ID | Trap | Source | Verdict | Cost class | Solution status |
 |----|------|--------|---------|-----------|-----------------|
-| TR-01 | Alias table points at superseded `*-OLD` codes | **OWN** | CONFIRMED | FP (20x) | proposed |
-| TR-02 | `confidence` column is a decoy, not calibrated | **OWN** | CONFIRMED | FP (20x) | proposed |
+| TR-01 | Alias table points at superseded `*-OLD` codes | **OWN** | CONFIRMED | FP (20x) | **fixed, 35.9%->100%** |
+| TR-02 | `confidence` column is a decoy, not calibrated | **OWN** | CONFIRMED | FP (20x) | **fixed, ignored for gating** |
 | TR-03 | ~1/3 of lines have no correct answer | BRIEF | CONFIRMED | FP (20x) | proposed |
 | TR-04 | Active twins differing only by pack size | BRIEF | CONFIRMED | FP (20x) | proposed |
-| TR-05 | Non-item rows sit inside the catalogue | BRIEF | CONFIRMED | FP (20x) | proposed |
-| TR-06 | Barcode is **not** unique within a tenant | **OWN** | CONFIRMED | FP (20x) | proposed |
-| TR-07 | Same buyer SKU maps to two different codes | BRIEF | CONFIRMED | FP | proposed |
-| TR-08 | Expired mappings (`valid_to` in the past) | BRIEF | CONFIRMED | FP | proposed |
+| TR-05 | Non-item rows sit inside the catalogue | BRIEF | CONFIRMED | FP (20x) | **fixed, 18 excluded at build** |
+| TR-06 | Barcode is **not** unique within a tenant | **OWN** | CONFIRMED | FP (20x) | **fixed, uniqueness gate** |
+| TR-07 | Same buyer SKU maps to two different codes | BRIEF | CONFIRMED, **= TR-08** | FP | **fixed** (see D-19) |
+| TR-08 | Expired mappings (`valid_to` in the past) | BRIEF | CONFIRMED | FP | **fixed, resolves 26/26** |
 | TR-09 | Buyer SKUs that look like another tenant's codes | BRIEF | **REFUTED** (exact) | — | n/a, see note |
 | TR-10 | Labels themselves are wrong | BRIEF | UNVERIFIED | scoring | not started |
 | TR-11 | Task 4: wrong extrapolation axis | BRIEF | **CONFIRMED** | wasted time | resolved |
@@ -261,9 +261,17 @@ angle grinder disc and a mask, i.e. genuinely unrelated. Also
 trap is *latent on train* and may fire on the holdout. That is exactly why it must be handled
 by construction rather than by observed error.
 
-**Solution (proposed).** An ambiguous alias key does not answer from the alias lane; both
-codes are passed as candidates to the lexical lane to disambiguate on the raw text. If the
-text cannot separate them, `ambiguous_alias` abstention.
+**RESOLVED at P3-1: TR-07 is TR-08.** The 26 ambiguous keys are **exactly** the 26 keys
+carrying a `valid_to` - intersection 26, symmetric difference 0 - and the validity filter
+resolves **26/26** to a single code. The brief lists them as two data defects; in this export
+they are one phenomenon: a buyer SKU was remapped and the old mapping was closed rather than
+deleted.
+
+**Shipped anyway.** The ambiguity branch is dead code on this data and is kept, because the
+equivalence is a property of this export and not of the schema - two open mappings is one bad
+import away, and the failure mode is picking one arbitrarily at 20x cost. Tested
+synthetically (`test_ta6_...`), which is the honest way to test a defence with no natural
+case. See D-19.
 
 ---
 

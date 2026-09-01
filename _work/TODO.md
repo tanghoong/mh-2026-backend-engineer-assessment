@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~7.1 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~8.4 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -13,39 +13,29 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | **PAUSED 2026-09-01 21:45.** Group A + P2 done · **resume at P3** |
+| **Current phase** | **P3 in progress** · P3-0 and P3-1 done and measured |
 | **Last commit** | `90ee6ed feat(eval): harness built before the matcher` · tree clean · 33 tests green |
 | **Blocking question for the human** | none. D-06's semantic-lane trigger is re-checked at P3-6, not before |
 | **Runnable** | harness, sync suite, perf report. **No `predictions.csv` yet** — that is P3-8 |
 
-**One-line status:** paused after P2. **45% of the grade is banked and verified**
-(Task 1 design 20%, Task 4 perf 15%, Task 5 sync 15% — minus Task 3's share, which is
-half-done). Remaining critical path is **P3 matcher (4.5 h) → P5 error analysis (1.5 h) →
-P6 SCALE (0.75 h) → P7 ship (1.5 h)**, about 8.25 h against ~10 h of budget left.
+**One-line status:** P3-0 (index) and P3-1 (identifier lanes) are done and measured.
+**D-03 confirmed decisively: 35.9% -> 100.0% precision**, 76 TP / 0 FP, net -12,240 s against
+the null matcher's -16,800 s. D-05 closed (the `source` gate does not ship). Coverage is
+capped at 18.1% because only identifier lines are handled - **next is P3-2, the lexical
+lane**, which is where coverage has to come from.
 
 ### Resume here
 
-Start P3 by building `src/matching/pipeline.py` exposing `Pipeline` with a `match(line)
--> Decision`. `harness.build()` already looks for it and will pick it up automatically, so
-`python3 -m src.eval.harness --matcher pipeline --curve` works the moment the file exists.
+`src/matching/pipeline.py` currently runs stages 0, 1, 2, 5. Next:
 
-Build the lanes **in trap order, measuring after each one** and recording the delta in
-`DECISIONS.md`. The first lane is the one that matters: TR-01's supersession redirect
-should move alias-lane precision from the measured **35.9% to 100%** on the 64 train lines
-that reach it. If it does not, the D-03 argument is wrong and needs re-deriving before
-anything else is built on it.
+* **P3-2** lexical candidate generation over `TenantIndex.active_codes`
+* **P3-3** size/pack signature as a **hard filter**, not a score term (D-07)
+* **P3-4** the four abstain detectors (TR-03), and T-A7/T-A8/T-A9 to cover them
+* **P3-5** replace `PROVISIONAL_CONFIDENCE` with measured per-lane precision (D-20 says
+  these constants are temporary by construction and must not be left to become permanent)
 
-Two decisions carry open loops that P3 must actually close, not quietly drop:
-
-* **D-05** — after the supersession fix, re-measure whether `source` still predicts. If it
-  does, it was real signal; if it does not, it was a confound and the gate stays unshipped.
-* **D-06** — only revisit the semantic lane if the lexical lane plateaus **and** the
-  residual errors are semantic rather than dimensional. That question is answered by P5's
-  error analysis, not by intuition.
-
-`_work/TESTING.md` §3 already specifies the nine trap tests (T-A1..T-A9) the matcher has
-to pass. Write them red first, as `b7221f9` did for Task 5 — that discipline caught a real
-error there (D-12).
+Measure after each with `python3 -m src.eval.harness --matcher pipeline --curve` and record
+the delta. A lane that does not pay gets deleted; §5.2 grades that positively.
 
 ---
 
@@ -180,9 +170,9 @@ Build in trap order — the confirmed-expensive first. Measure after **each** la
 the delta in `DECISIONS.md`; a lane that does not pay gets deleted (§5.2 grades that
 positively).
 
-- [ ] **P3-0** Index build: tenant-scoped, non-items excluded (TR-05), supersession map
+- [x] **P3-0** Index build: tenant-scoped, non-items excluded (TR-05), supersession map
       built (TR-01), size signature extracted (TR-04)
-- [ ] **P3-1** Exact/normalised identifier lane: barcode (TR-06 uniqueness gate) + alias
+- [x] **P3-1** Exact/normalised identifier lane: barcode (TR-06 uniqueness gate) + alias
       (TR-07 ambiguity, TR-08 expiry, TR-01 redirect, TR-02 ignore `confidence`)
 - [ ] **P3-2** Lexical candidate generation
 - [ ] **P3-3** Size/pack arbitration as a hard filter (TR-04)
@@ -271,7 +261,7 @@ lost, P3-6 (semantic lane) and P6 are the designed sacrifices; P2 and P5 are not
 | 03 | 2026-09-01 | P4b | 2.5 h | 1.8 h | Task 5: 7 defects, 7 invariants, fixes, SYNC.md |
 | 04 | 2026-09-01 | P4a | 2.5 h | 2.2 h | Task 4: ablation, 100 h baseline estimate, 7.337 s fix |
 | 05 | 2026-09-01 | P2 | 1.5 h | 1.5 h | Eval harness, segmentation, 26 tests |
-| — | 2026-09-01 21:45 | **paused** | — | **7.1 h used** | ~10 h of budget left, 8.25 h of work planned |
+| 06 | 2026-09-01 | P3-0/1 | — | 1.3 h | Index + identifier lanes; D-03 confirmed, D-05 closed |
 
 ---
 
