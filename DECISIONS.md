@@ -370,3 +370,41 @@ published confidence is one of the three values that column takes. It is a cheap
 against a future "just use the confidence we already have" refactor.
 **Reversal trigger:** none for the pass-through. The provisional constants themselves are
 temporary by construction and must be replaced at P3-5, not left to become permanent.
+
+## D-21 — The lexical lane generates candidates before it is allowed to answer
+
+**Context:** the obvious way to add lexical matching is to build it and let it answer,
+then tune the threshold until precision looks acceptable.
+**Options:** (a) build and enable in one step; (b) build it as candidate-generation only,
+measure recall, and enable answering only once arbitration exists.
+**Chose:** (b).
+**Evidence:** the two questions are independent and answering them together makes both
+unreadable. "Can the right item be found?" is recall; "should we commit?" is precision.
+Staged this way, the measurement is unambiguous: **precision stayed at exactly 100.0% (76
+TP, 0 FP) and coverage at 18.1%**, because nothing new was answered, while **recall@3 went
+from 0% to 99.3%** on the lines the lane sees. Had they moved together, a precision drop
+could not have been attributed to the score, the threshold, or a bug.
+**What it bought immediately:** the diagnostic that shapes P3-3/P3-4. Of the 218 answerable
+lines the lane sees, the correct answer is at rank 1 for 203 (93.1%), rank 2 for 12, rank 3
+for 1, and missing for 2. Top-1 score separates answerable (0.904) from unanswerable
+(0.549); the rank-1/rank-2 margin separates a correct top hit (0.085) from a wrong one
+(0.025). **Two gates, both measured to work, before either was written.**
+**Reversal trigger:** none - this is a build order, not a shipped behaviour. The lane stops
+being candidate-only at P3-4.
+
+## D-22 — Score against the whole catalogue rather than a candidate-generation shortcut
+
+**Context:** the conventional shape is an inverted index to shortlist, then score the
+shortlist.
+**Options:** (a) inverted trigram index, score the shortlist; (b) score every active item
+in the tenant.
+**Chose:** (b).
+**Evidence:** the catalogue is 502-1114 active rows per tenant, and measured **p95 latency
+is 2.074 ms against a 250 ms budget** - two orders of magnitude of headroom. (a) would
+introduce a second thing to tune, and a shortlist that drops the right item is a recall loss
+that no amount of downstream scoring can recover. Exactness is affordable here, so it is
+bought.
+**Reversal trigger:** catalogue growth. `SCALE.md` puts this at 4M rows across 500 tenants,
+where per-tenant catalogues are ~8k and this becomes ~10x today's cost - still inside
+budget, but the shortlist earns its complexity somewhere past that. The trigger is measured
+p95 crossing ~50 ms, not a feeling about size.

@@ -13,13 +13,17 @@ Stage 5 is not a step at the end of the chain - it is a function every candidate
 through, wherever it came from (`TenantIndex.resolve`). That is the whole architectural
 claim: exactness earns candidate *generation*, not trust.
 
-**Current state: stages 0, 1, 2, 5 only.** Lines with no identifier abstain with
-`no_identifier` rather than guessing. Coverage is therefore capped at the ~18% of lines
-that carry one, and that is the point of measuring here before building further.
+**Current state: stages 0, 1, 2, 3, 5.** The lexical lane **generates candidates and
+nothing else** - it never answers. That is deliberate and temporary: it isolates "can the
+right item be found at all?" (recall@3) from "should we commit to it?" (precision), so the
+two can be measured separately. Committing needs size arbitration (P3-3) and the abstain
+detectors (P3-4); until those exist, answering from text would be the exact mistake TR-04
+describes.
 """
 from __future__ import annotations
 
 from ..contracts import AUTO, REJECT, REVIEW, Candidate, Decision, OrderLine
+from .text import dice, normalise, trigrams
 from .index import AliasIndex, TenantIndex, build_alias_index, build_tenant_index
 
 # Provisional, and labelled as such. These are placeholders until P3-5 replaces them with
@@ -55,7 +59,7 @@ class Pipeline:
             decision = lane(line, idx)
             if decision is not None:
                 return decision
-        return self._abstain(line, "no_identifier")
+        return self._lexical_lane(line, idx)
 
     # ------------------------------------------------------------------ [2] barcode
     def _barcode_lane(self, line: OrderLine, idx: TenantIndex) -> Decision | None:
@@ -113,6 +117,29 @@ class Pipeline:
         redirected = code not in distinct
         reason = "alias_exact_superseded_redirect" if redirected else "alias_exact"
         return self._answer(line, code, reason, "alias")
+
+    # ------------------------------------------------------------------ [3] lexical
+    def _lexical_lane(self, line: OrderLine, idx: TenantIndex) -> Decision:
+        """P3-2. Generates candidates. Does not answer - see the module docstring.
+
+        Scores every active item in the tenant. The catalogue is 502-1114 rows, so the
+        naive scan is well inside the 250 ms budget and buys exactness: no recall is lost
+        to a candidate-generation shortcut that would then have to be tuned separately.
+        """
+        query = trigrams(normalise(line.raw_text))
+        if not query:
+            return self._abstain(line, "empty_text")
+
+        scored = [(dice(query, tri), code) for code, tri in idx.item_trigrams.items()]
+        # Sort by score descending, then by code, so ties are broken deterministically
+        # rather than by dict order.
+        scored.sort(key=lambda s: (-s[0], s[1]))
+        top = [(sc, code) for sc, code in scored[:3] if sc > 0.0]
+        if not top:
+            return self._abstain(line, "no_lexical_candidate")
+
+        cands = [Candidate(code, round(sc, 4), "lexical") for sc, code in top]
+        return self._abstain(line, "lexical_candidates_only", cands)
 
     # ------------------------------------------------------------------ [5] + helpers
     def _resolve_all(self, codes: list[str], idx: TenantIndex) -> list[str]:

@@ -24,6 +24,8 @@ KNOWN_REASON_CODES = {
     "alias_expired", "alias_no_match", "alias_unresolvable",
     "barcode_unique", "barcode_ambiguous", "barcode_no_match",
     "no_identifier", "unknown_tenant",
+    # pipeline: lexical lane (P3-2), candidate generation only for now
+    "lexical_candidates_only", "no_lexical_candidate", "empty_text",
 }
 
 

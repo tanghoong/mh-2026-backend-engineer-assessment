@@ -21,6 +21,8 @@ import csv
 import pathlib
 from dataclasses import dataclass, field
 
+from .text import normalise, trigrams
+
 DATA = pathlib.Path(__file__).resolve().parents[2] / "data"
 
 CATALOGUES = {"acme": "catalogue_acme.csv", "nordic": "catalogue_nordic.csv"}
@@ -55,6 +57,12 @@ class TenantIndex:
     orphan_disabled: set[str] = field(default_factory=set)        # disabled, no successor
     non_items: set[str] = field(default_factory=set)
     by_barcode: dict[str, list[str]] = field(default_factory=dict)
+
+    # P3-2. Lexical search surface over ACTIVE items only, so a lexical hit cannot
+    # reach a superseded or non-item row in the first place. Stage 5 still runs on the
+    # result - defence in depth is cheap here and the failure is expensive.
+    search_text: dict[str, str] = field(default_factory=dict)
+    item_trigrams: dict[str, set[str]] = field(default_factory=dict)
 
     # ---------------------------------------------------------------- TR-01
     def resolve(self, code: str) -> tuple[str | None, str]:
@@ -110,6 +118,15 @@ def build_tenant_index(tenant: str) -> TenantIndex:
             idx.superseded[item.item_code] = successors[0]
         else:
             idx.orphan_disabled.add(item.item_code)
+
+    # P3-2. `item_name` only, for now. brand and the item_group leaf are already
+    # contained in it for every row inspected, so adding them would duplicate signal
+    # rather than add it - and an unmeasured addition is exactly what section 5.2 grades
+    # against. Revisit only if recall@3 says the surface is too thin.
+    for code in idx.active_codes:
+        text = normalise(idx.items[code].item_name)
+        idx.search_text[code] = text
+        idx.item_trigrams[code] = trigrams(text)
 
     # TR-06. A barcode is decisive only when it maps to exactly one active, sellable item.
     for code in idx.active_codes:

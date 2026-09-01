@@ -35,6 +35,7 @@ Evidence commands live in `_work/probes/`. Every number below is reproducible.
 | TR-11 | Task 4: wrong extrapolation axis | BRIEF | **CONFIRMED** | wasted time | resolved |
 | TR-12 | Task 5: more defects than tickets | BRIEF | **CONFIRMED** | marks | ✅ **fixed** |
 | TR-13 | `python3` not on PATH on this machine | **OWN** | CONFIRMED | delivery | proposed |
+| TR-14 | `(Bulk)` variants: a marker the buyer rarely writes | **OWN** | CONFIRMED | FP | open, needs P3-4 |
 
 ---
 
@@ -186,6 +187,16 @@ Any similarity metric that treats `1L` / `2L` / `200ml` as low-weight tokens wil
 return the wrong one. Lexical scoring on nordic without size-awareness is a false-positive
 generator, and nordic is 37% of the holdout.
 
+**REFINED at P3-2.** An important correction to how this was first written: **no two
+*active* items share an identical name** - 0 in acme, 0 in nordic, measured over the
+normalised `item_name`. The same-name pairs are all superseded/active pairs, and the
+superseded half is excluded at index build (TR-01).
+
+So the twins **are** separable, by the very token that names them apart. The danger is not
+an ambiguous catalogue, it is an **under-specified query**: a line that omits the size has a
+candidate set spanning several sizes and no way to choose. That reframes the fix - the test
+is a property of the *query relative to its candidates*, not a property of the catalogue.
+
 **Solution (proposed).** Extract a **normalised size/pack signature** (value + unit,
 converted to a base unit) and use it as a *hard* filter, not a soft score term:
 
@@ -326,7 +337,21 @@ tenant's catalogue, 0 point at a `disabled=1` item, 0 point at a `*-OLD` code. S
 errors are *semantic*, not structural, and will only surface from the Task 3 error analysis
 by hand.
 
-**Do not go looking for these now.** Defer to Phase 5; the error analysis is the instrument.
+**First one found, at P3-2** (1 of the >=3 the brief asks for):
+
+`ACM-T-0209` - `"pls send Masking Tape 24mm High Temp"`, `uom_text='pcs'`, labelled
+`ACM-MASK0286B`. That code is `'Tolsen Masking Tape 24mm High Temp (Bulk)'`; its sibling
+`ACM-MASK0286` is the same name without `(Bulk)`, same brand, same `stock_uom` (Roll). The
+line contains no `bulk`, `ctn`, `carton`, `box` or `outer`, and the customer has no bulk
+history - across all of acme's labelled lines only **2** point at a `(Bulk)` code, and the
+other one (`ACM-T-0152`) literally has `(Bulk)` in its text.
+
+**Nothing in the input can produce that answer.** It is either a mislabel or a line whose
+correct answer depends on context we are not given. Either way the right behaviour is to
+abstain, and any matcher that gets it right is fitting noise.
+
+**Still to find:** at least two more. Defer the systematic hunt to Phase 5; the error
+analysis is the instrument, and this one surfaced on its own.
 
 ---
 
@@ -396,3 +421,41 @@ written from local muscle memory would be undeliverable.
 `py -3`. Before submission, verify the README's exact commands in a clean container
 (`docker run --rm -v .:/app -w /app python:3.11-slim`) — Docker used as a *verification* tool
 only, never as the delivery mechanism.
+
+
+---
+
+## TR-14 - `(Bulk)` variants: separable in the catalogue, rarely separated in the order
+
+**Source:** OWN, found at P3-2 while diagnosing a recall miss.
+
+**Evidence.** 15 `(Bulk)` pairs in acme, 10 in nordic: an item code `X` and a code `XB`
+whose `item_name` is X's name plus the literal suffix `(Bulk)`.
+
+```
+ACM-HEXB0028    'Tolsen Hex Bolt M8x75 Stainless 316'
+ACM-HEXB0028B   'Tolsen Hex Bolt M8x75 Stainless 316 (Bulk)'
+```
+
+They share a **barcode** (this is where 8 of each tenant's barcode collisions come from -
+TR-06) and often a `stock_uom`, so the *only* separating signal is a 6-character marker the
+buyer has to type. Across acme's labelled lines just **2** point at a `(Bulk)` code.
+
+**Verdict.** CONFIRMED, and it is a different shape from TR-04. TR-04's twins differ by a
+size the buyer usually writes because it is how they think about the product. `(Bulk)`
+differs by a packaging distinction the buyer usually does **not** write, because from their
+side they are ordering the same thing.
+
+**Cost class.** A false positive either way, and symmetric: answering `X` when the buyer
+meant `XB` ships the wrong pack size, and vice versa. Base rates do not help - one of the
+two labelled examples has the marker and one does not.
+
+**Solution (proposed).** Treat a `(Bulk)`/base pair with no distinguishing token in the
+query as `ambiguous_variant` and abstain, exactly as for an under-specified size. The
+detector is the same one TR-04 needs: *does the query contain the token that separates its
+top candidates?* Building one mechanism for both is the point.
+
+**Open question for the business** (`_work/QUESTIONS.md`): when a buyer names an item with
+no pack qualifier, is the non-bulk variant the intended default? If it is, this becomes a
+tie-break rule rather than an abstention, and recovers ~25 items per tenant. Nobody should
+guess that from 2 labelled examples.

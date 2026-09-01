@@ -47,6 +47,12 @@ Each is tagged with the phase that must complete first, so nothing is sent prema
 - `[?]` Nordic is ~89% twin items by pack size. Is that representative of the real frozen
   food catalogue, or an artefact of generation? It decides how much of the design should
   bend around size arbitration. *(TR-04; after P3)*
+- `[ ]` **When a buyer names an item with no pack qualifier, is the non-bulk variant the
+  intended default?** 15 acme / 10 nordic items exist as a `(Bulk)` pair sharing a name, a
+  barcode and often a `stock_uom`, separated only by a marker the buyer rarely types. Of
+  acme's labelled lines, exactly 2 point at a `(Bulk)` code and only one of those says so.
+  A default would recover ~25 items per tenant; guessing it from 2 examples would not.
+  *(TR-14; after P3-4)*
 - `[ ]` `notes` on some lines reads `"price quoted per outer"`. Is `notes` a field the
   production matcher receives, or an operator annotation added after the fact? If the
   latter, using it is leakage.
