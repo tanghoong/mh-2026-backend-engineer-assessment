@@ -22,7 +22,8 @@ from __future__ import annotations
 
 from ..contracts import AUTO, REJECT, REVIEW, Candidate, Decision, OrderLine
 from .text import dice, normalise, trigrams
-from .index import AliasIndex, TenantIndex, build_alias_index, build_tenant_index
+from .index import (AliasIndex, TenantIndex, build_alias_index, build_tenant_index,
+                    known_tenants)
 from .calibration import confidence_for
 from .refusals import is_not_an_item, is_out_of_domain
 
@@ -51,9 +52,11 @@ class Pipeline:
 
     name = "pipeline"
 
-    def __init__(self) -> None:
+    def __init__(self, tenants: list[str] | None = None) -> None:
+        # Data-driven, so onboarding a tenant is dropping in a catalogue rather than
+        # editing this file. §5.1 requires a brand-new tenant to work.
         self.tenants: dict[str, TenantIndex] = {t: build_tenant_index(t)
-                                                for t in ("acme", "nordic")}
+                                                for t in (tenants or known_tenants())}
         self.alias: AliasIndex = build_alias_index()
 
     # ------------------------------------------------------------------ entry point
@@ -103,11 +106,22 @@ class Pipeline:
         if not sku:
             return None
 
-        valid, expired = self.alias.lookup(line.tenant, line.customer_id, sku,
-                                           line.order_date)
+        valid, _expired = self.alias.lookup(line.tenant, line.customer_id, sku,
+                                            line.order_date)
         if not valid:
-            reason = "alias_expired" if expired else "alias_no_match"
-            return self._abstain(line, reason)
+            # Hand the line on rather than killing it. A lane that cannot answer must say
+            # "not me", not "nobody" - the same defect shape as Task 5's D6, where one
+            # path's failure abandoned the work after it.
+            #
+            # Invisible on a mature tenant, where every SKU is already mapped. Fatal on a
+            # new one: with an empty alias table this branch swallowed 64 of 420 lines,
+            # every one of them answerable, and never looked at their text (P3-7).
+            #
+            # An expired mapping falls through for the same reason and one more: it is
+            # evidence the buyer's SKU was deliberately remapped, so the stale target is
+            # exactly what must not be returned. The text is independent evidence and has
+            # its own gates.
+            return None
 
         # TR-07: one buyer SKU pointing at two different items is not a scoring problem,
         # it is an unanswerable question until the raw text separates them. Latent on

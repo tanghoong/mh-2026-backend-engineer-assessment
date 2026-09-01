@@ -25,8 +25,21 @@ from .text import normalise, trigrams
 
 DATA = pathlib.Path(__file__).resolve().parents[2] / "data"
 
-CATALOGUES = {"acme": "catalogue_acme.csv", "nordic": "catalogue_nordic.csv"}
 CODE_PREFIX = {"acme": "ACM-", "nordic": "NRD-"}
+
+
+def known_tenants() -> list[str]:
+    """Every tenant with a catalogue on disk, discovered rather than hardcoded.
+
+    §5.1 requires a brand-new tenant to work; onboarding one should be dropping in
+    `catalogue_<tenant>.csv`, not editing a dict in this module.
+    """
+    return sorted(p.stem.removeprefix("catalogue_")
+                  for p in DATA.glob("catalogue_*.csv"))
+
+
+def catalogue_path(tenant: str) -> pathlib.Path:
+    return DATA / f"catalogue_{tenant}.csv"
 
 # TR-05. Ledger artefacts that live in the item table. Excluded by *name*, with the
 # `*-MISC*` code convention used only as a cross-check - a name is what a buyer types,
@@ -98,7 +111,7 @@ def build_tenant_index(tenant: str) -> TenantIndex:
     by_name_active: dict[str, list[str]] = {}
     disabled: list[Item] = []
 
-    with open(DATA / CATALOGUES[tenant], encoding="utf-8", newline="") as fh:
+    with open(catalogue_path(tenant), encoding="utf-8", newline="") as fh:
         for row in csv.DictReader(fh):
             item = Item(tenant=tenant, item_code=row["item_code"],
                         item_name=row["item_name"], brand=row["brand"],
@@ -152,9 +165,10 @@ def _assert_shape(idx: TenantIndex) -> None:
     that stops satisfying them fails loudly at build time instead of resolving to the
     wrong item at 20x cost.
     """
-    prefix = CODE_PREFIX[idx.tenant]
-    leaked = [c for c in idx.active_codes if not c.startswith(prefix)]
-    assert not leaked, f"{idx.tenant}: codes outside its own namespace: {leaked[:5]}"
+    prefix = CODE_PREFIX.get(idx.tenant)
+    if prefix:                       # a new tenant has no registered prefix yet
+        leaked = [c for c in idx.active_codes if not c.startswith(prefix)]
+        assert not leaked, f"{idx.tenant}: codes outside its own namespace: {leaked[:5]}"
 
     by_code = {c for c in idx.items if "MISC" in c}
     assert idx.non_items == by_code, (
@@ -226,7 +240,7 @@ def _main() -> None:
     print("=== P3-0 index build ===")
     alias = build_alias_index()
     print(f"  alias keys: {len(alias.rows)}")
-    for tenant in CATALOGUES:
+    for tenant in known_tenants():
         idx = build_tenant_index(tenant)
         dupes = sum(1 for v in idx.by_barcode.values() if len(v) > 1)
         print(f"\n  {tenant}")

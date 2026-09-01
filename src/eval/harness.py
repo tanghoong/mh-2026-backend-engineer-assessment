@@ -39,6 +39,20 @@ def load(name: str) -> list[dict]:
         return list(csv.DictReader(fh))
 
 
+def build_cold(name: str):
+    """The same matcher, for a tenant that has a catalogue and no confirmed orders yet.
+
+    §5.1 requires a brand-new tenant to work and to behave *differently*. Simulated by
+    emptying the alias index rather than by a flag, so the difference is structural: the
+    alias lane simply has nothing to say, exactly as on day one of a real onboarding.
+    """
+    from ..matching.index import AliasIndex
+    m = build(name)
+    if hasattr(m, "alias"):
+        m.alias = AliasIndex()
+    return m
+
+
 def build(name: str):
     from ..matching import baselines
     table = {"null": baselines.NullMatcher, "naive_alias": baselines.NaiveAliasMatcher}
@@ -144,11 +158,47 @@ def _main() -> None:
     ap.add_argument("--json", help="also write the full report here")
     ap.add_argument("--check-determinism", action="store_true",
                     help="run twice and require identical decisions (§5.1)")
+    ap.add_argument("--cold-start", action="store_true",
+                    help="compare a mature tenant against a brand-new one (brief 5.1)")
     ap.add_argument("--compare", nargs="*", metavar="MATCHER",
                     help="score several matchers side by side (§6.2: accuracy vs net value)")
     args = ap.parse_args()
 
     rows = load(args.data)
+
+    if args.cold_start:
+        import collections
+        print(f"\n=== cold start: a tenant with a catalogue and no confirmed orders ===")
+        print(f"  {'':<26}{'coverage':>10}{'precision':>11}{'TP':>5}{'FP':>4}{'net (s)':>11}")
+        both = {}
+        for label, m in (("mature", build(args.matcher)), ("brand-new", build_cold(args.matcher))):
+            outs = run(m, rows)
+            both[label] = outs
+            r = M.score(outs)
+            pr = f"{r.precision:10.1%}" if r.precision is not None else "         -"
+            print(f"  {label:<26}{r.coverage:>10.1%}{pr}{r.tp:>5}{r.fp:>4}{r.net:>11,.0f}")
+        a, b = (collections.Counter(o.decision.reason_code for o in both[k])
+                for k in ("mature", "brand-new"))
+        print(f"\nwhat changes, by reason code")
+        print(f"  {'reason':<34}{'mature':>8}{'new':>8}{'delta':>8}")
+        for k in sorted(set(a) | set(b), key=lambda k: -(abs(a[k] - b[k]))):
+            if a[k] != b[k]:
+                print(f"  {k:<34}{a[k]:>8}{b[k]:>8}{b[k] - a[k]:>+8}")
+        ra, rb = M.score(both["mature"]), M.score(both["brand-new"])
+        print(f"\n  Coverage roughly halves, {ra.coverage:.1%} -> {rb.coverage:.1%}. The"
+              f" false positive count does not move")
+        print(f"  ({ra.fp} -> {rb.fp}, the same line), so precision drifts only"
+              f" {ra.precision:.1%} -> {rb.precision:.1%}, and only")
+        print(f"  because the denominator shrank. The new tenant is not less careful; it"
+              f" has less")
+        print(f"  to go on. Its alias lane is empty, so every line falls through to text,"
+              f" and")
+        print(f"  lexical_unique rises by {b['lexical_unique'] - a['lexical_unique']} as"
+              f" lines a mature tenant resolves by SKU are")
+        print(f"  resolved by their words instead. It converges as confirmed orders"
+              f" populate the")
+        print(f"  map - nothing has to be configured for that to happen.")
+        return
 
     if args.compare is not None:
         names = args.compare or ["null", "naive_alias"]

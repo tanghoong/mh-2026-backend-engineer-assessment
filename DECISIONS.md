@@ -662,3 +662,67 @@ unattractive rather than neutral.
 **Reversal trigger:** more labelled volume. Both intervals tighten with n, and the lexical
 lane's is the one that needs it - at ~200 auto decisions its lower bound would clear
 break-even and the caveat in `EVAL.md` could be deleted rather than restated.
+
+## D-29 — A lane that cannot answer says "not me", never "nobody"
+
+**Context:** §5.1 requires a brand-new tenant - catalogue, zero alias history - to still
+work, and to behave differently from a mature one. Testing that surfaced a defect that is
+completely invisible on the shipped data.
+
+**The defect.** The alias lane abstained when a buyer SKU was not in the map, instead of
+handing the line to the lexical lane. On a mature tenant every SKU is already mapped, so
+the branch never fires. On a tenant with an empty alias table it swallowed **64 of 420
+lines - every one of them answerable - and never looked at their text.**
+
+It is the same shape as Task 5's D6, where a 504 inside the conflict handler escaped
+`push()` and abandoned every later record. One path's failure terminating the work after
+it, rather than passing it on. Worth naming twice because it presents differently each
+time and is invisible under normal conditions both times.
+
+**Options:** (a) abstain on an unknown SKU, as before; (b) fall through to the text lanes;
+(c) fall through only when the alias table is empty, so mature behaviour is untouched.
+**Chose:** (b). (c) is the change that makes the smallest diff and the wrong system - the
+behaviour should not depend on how mature the tenant happens to be, and a mature tenant
+also acquires new buyer SKUs.
+
+**Expired mappings fall through too**, for the same reason and one more: an expired row is
+evidence the SKU was *deliberately remapped*, so the stale target is precisely what must
+not be returned. The text is independent evidence with its own gates.
+
+**Measured:** +7 correct, 0 wrong on a cold tenant. Nothing changes on a mature one, which
+is exactly why it had no ticket.
+
+**Cold-start behaviour, which is the half of §5.1 that has to be *said*:**
+
+|  | coverage | precision | TP | FP |
+|---|---|---|---|---|
+| mature | 28.3% | 99.2% | 118 | 1 |
+| brand-new | 14.8% | 98.4% | 61 | 1 |
+
+Coverage roughly halves. **The false-positive count does not move** - it is the same single
+line - so precision drifts only because the denominator shrank. The new tenant is not less
+careful, it has less to go on: its alias lane is empty, so every line falls through to
+text, and `lexical_unique` rises by 7 as lines a mature tenant resolves by SKU are resolved
+by their words instead. It converges as confirmed orders populate the map, and **nothing
+has to be configured** for that to happen.
+
+**A risk I predicted and then measured away.** D-27 named its own reversal trigger: a new
+tenant with a small catalogue has a small vocabulary, so ordinary lines might look
+`out_of_domain`. Simulated by subsampling nordic to 50%, 25%, 10% and 5% of its
+catalogue - the vocabulary falls only from 76 words to 59, because product names share
+vocabulary heavily, and the detector flags exactly the same 17 lines at every size with
+**zero** answerable ones among them. The trigger does not fire on this data. Recorded
+because a predicted risk that fails to materialise is still a finding, and because the
+prediction was mine.
+
+**Tenants are discovered from disk**, not from a dict in the source. Onboarding is dropping
+in `catalogue_<tenant>.csv`. A hardcoded list would make "a brand-new tenant works" depend
+on someone remembering to edit it.
+
+**Still refused: a tenant with no catalogue at all.** `unknown_tenant`, no candidates. It
+must not fall through to another tenant's index - that would be a cross-tenant answer, a
+hard fail under §5.4.
+
+**Reversal trigger:** if unknown buyer SKUs turn out to be a useful ops signal ("this buyer
+has a code we have never mapped"), that wants a side-channel, not a refusal. Refusing the
+line to preserve the signal costs 40 s to record something a log line records for free.

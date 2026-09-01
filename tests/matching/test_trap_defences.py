@@ -124,19 +124,52 @@ def test_ta4_vendor_confidence_is_not_used_as_our_confidence(outcomes):
 
 # ------------------------------------------------------------------ T-A5 (TR-08)
 def test_ta5_an_expired_alias_row_is_not_used(pipe):
-    """Synthetic: on this data every expired row shares a key with a live one, so an
-    expired-only key never occurs. It is one deletion away from occurring in production."""
+    """INVARIANT: a mapping outside its validity window never supplies the answer.
+
+    Asserted on the outcome rather than on a reason code, because the reason code is not
+    the promise - "we did not return the stale item" is. Synthetic: on this data every
+    expired row shares a key with a live one, so an expired-only key never occurs. It is
+    one deletion away from occurring in production.
+    """
     key = ("acme", "CUST-001", "zz-expired")
     pipe.alias.rows[key] = [AliasRow("acme", "CUST-001", "ZZ-EXPIRED", "ACM-BALL0123",
                                      "2026-01-01", "2026-03-31", "manual_import", 1.0)]
     try:
-        d = pipe.match(line(buyer_sku="ZZ-EXPIRED", order_date="2026-07-01"))
-        assert d.decision != AUTO and d.reason_code == "alias_expired"
-        # and the same row inside its window is used, so this is expiry and not a refusal
-        d2 = pipe.match(line(buyer_sku="ZZ-EXPIRED", order_date="2026-02-01"))
-        assert d2.decision == AUTO and d2.item_code == "ACM-BALL0123"
+        after = pipe.match(line(buyer_sku="ZZ-EXPIRED", order_date="2026-07-01",
+                                raw_text="something the catalogue has never heard of"))
+        assert after.item_code != "ACM-BALL0123"
+
+        # ...and the same row inside its window IS used, so this is expiry rather than a
+        # blanket refusal to trust the alias table.
+        during = pipe.match(line(buyer_sku="ZZ-EXPIRED", order_date="2026-02-01"))
+        assert during.decision == AUTO and during.item_code == "ACM-BALL0123"
     finally:
         del pipe.alias.rows[key]
+
+
+def test_ta5_an_unusable_alias_hands_the_line_on_instead_of_killing_it(pipe):
+    """A lane that cannot answer must say "not me", not "nobody".
+
+    The same defect shape as Task 5's D6, where one path's failure abandoned the work
+    after it. Invisible on a mature tenant, where every SKU is already mapped; on a cold
+    tenant with an empty alias table this branch swallowed 64 of 420 lines - every one of
+    them answerable - and never looked at their text.
+    """
+    idx = pipe.tenants["acme"]
+    text = idx.items["ACM-BALL0511"].item_name
+    LEXICAL = {"lexical_unique", "ambiguous_candidates", "no_candidate_above_floor",
+               "no_lexical_candidate"}
+
+    with_sku = pipe.match(line(buyer_sku="SKU-NOBODY-HAS-EVER-SEEN", raw_text=text))
+    assert with_sku.reason_code in LEXICAL, (
+        f"an unknown buyer SKU stopped the line reaching the lexical lane "
+        f"(got {with_sku.reason_code})")
+
+    # The unknown SKU must change nothing at all: same text, same outcome, with or
+    # without it. Anything else means the dead lane is still leaking into the decision.
+    without = pipe.match(line(raw_text=text))
+    assert (with_sku.item_code, with_sku.reason_code) == (without.item_code,
+                                                          without.reason_code)
 
 
 # ------------------------------------------------------------------ T-A6 (TR-07)
