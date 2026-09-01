@@ -33,7 +33,7 @@ Evidence commands live in `_work/probes/`. Every number below is reproducible.
 | TR-09 | Buyer SKUs that look like another tenant's codes | BRIEF | **REFUTED** (exact) | — | n/a, see note |
 | TR-10 | Labels themselves are wrong | BRIEF | UNVERIFIED | scoring | not started |
 | TR-11 | Task 4: wrong extrapolation axis | BRIEF | UNVERIFIED | wasted time | hypothesis only |
-| TR-12 | Task 5: more defects than tickets | BRIEF | UNVERIFIED | marks | not started |
+| TR-12 | Task 5: more defects than tickets | BRIEF | **CONFIRMED** | marks | ✅ **fixed** |
 | TR-13 | `python3` not on PATH on this machine | **OWN** | CONFIRMED | delivery | proposed |
 
 ---
@@ -355,17 +355,28 @@ rewrite.
 
 ## TR-12 — Task 5: more defects than tickets
 
-**Source:** BRIEF §8.2. **Verdict:** UNVERIFIED — reading done, mechanisms not yet proven by
-test. Candidates noted from a first read of `starter/sync/sync_adapter.py`; each needs an
-isolating failing test before it is written up, and one test per defect (the brief says a
-single test that goes green because four things were fixed "is worth much less").
+**Source:** BRIEF §8.2. **Verdict:** **CONFIRMED — 7 defects for 3 tickets.** Fixed; 7/7 tests
+green. Full write-up in `SYNC.md`; decisions in `DECISIONS.md` D-10..D-12.
 
-Cursor advanced before the page is applied; a cursor stored at second resolution against an
-ERP that ties timestamps; `idempotency_key` mixing `time.time()` into the hash so a retry can
-never match the 60 s exact-string window; the `ErpTimeout` retry path that cannot know the
-write committed; the `ErpConflict` path re-writing with the remote's version and thereby
-discarding the remote edit; local UTC compared against server `+08:00` strings. All are
-**hypotheses at this stage** — listed so they are not lost, not as findings.
+Every one of the hypotheses listed here on first reading survived contact with a test, which is
+itself worth noting — the mechanisms were legible from the source, and what the tests added was
+*proof and precision*, not discovery. The one genuine surprise was in the reproduction, not the
+reading: `idempotency_key` has **two** independent defects, and the `time.time()` term is masked
+on this machine by Windows' 15.625 ms clock resolution while `attempt` breaks it unconditionally.
+
+| ID | Ticket | Mechanism (proven) |
+|----|--------|--------------------|
+| D1 | MAIA-812 | Second-resolution cursor + strict `>`; a record tied with the page's last row is skipped permanently. 16 shared timestamps in a 60-record batch |
+| D2 | MAIA-830 | `attempt` in the idempotency hash → the retry can never reuse a key → the exact-match window never fires |
+| D3 | MAIA-844 | The 409 handler refetches `version` but not `payload` |
+| D4 | — | Cursor advanced before the page is applied → a mid-page kill loses records permanently |
+| D5 | — | `pull` clears `dirty` on a record it did not push → an unsent operator edit vanishes silently |
+| D6 | — | The write inside the `ErpConflict` handler is unguarded → a 504 there abandons every later record |
+| D7 | — | Server-local `+08:00` stored in a field named `updated_at_utc` |
+
+**Also found, and not fixable by us:** `fake_erp.py` documents a 60-second idempotency TTL but
+`_idem` is a dict with no expiry. The post-window retry path is therefore both unspecified and
+unreachable from outside — a contract finding (`SYNC.md` §4), not a coverage gap.
 
 ---
 

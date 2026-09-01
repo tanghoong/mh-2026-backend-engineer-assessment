@@ -167,6 +167,57 @@ Legend for **Files touched**: `read` = inspected only · `new` = created · `edi
 
 ---
 
+## Session 04 — Task 5 end to end
+
+| | |
+|---|---|
+| **Start** | 2026-09-01 16:20 |
+| **End**   | 2026-09-01 18:05 |
+| **Duration** | ~1 h 45 m |
+| **Agent** | Claude Code, Opus 5 (1M context) |
+| **Repo state at start** | commit `1bae802`, clean |
+
+**Asked for**
+1. Confirm the "do the unblocked work first" ordering.
+2. Maintain a decision record for everything, and add a record of how the human directs
+   the work — the interview grades whose reasoning it is.
+3. Walk through the 7 defect invariants **before** any long block of work.
+
+**Done**
+- Reordered the plan by **binary vs degrades-gracefully** rather than by dependency alone.
+  The human's ordering was adopted; the justification was replaced (`TODO.md` §2).
+- Reproduced all three ticket symptoms deterministically, then proved each mechanism.
+  **7 defects for 3 tickets** — 4 are latent, each with the production condition that
+  would surface it.
+- Wrote 7 isolating tests and committed them **red** (`b7221f9`) before any fix. Inspecting
+  that red run caught a real error: D2's test was failing on **D6's** mechanism, not its own.
+- Defined the 7 invariants in `SYNC.md` §2 and stopped for review, as asked. Human chose
+  the conflict policy (detect, flag, leave dirty) → D-10.
+- Applied the fixes. 7/7 green. **Verified in both directions**: the original adapter against
+  the *current* tests still fails 7/7, each on its own assertion.
+- `SYNC.md` complete; `DECISIONS.md` D-10..D-12; `_work/COLLABORATION.md` created.
+
+**Files touched**
+- `new`  — `SYNC.md`, `tests/sync/*` (3 files), `_work/COLLABORATION.md`
+- `edit` — `starter/sync/sync_adapter.py` (the file Task 5 is about), `DECISIONS.md`,
+  `_work/TRAPS.md` (TR-12 → CONFIRMED), `_work/TODO.md`, `README.md`
+- **`data/` untouched. `starter/sync/fake_erp.py` untouched, as the brief requires.**
+
+**Findings carried forward**
+- Two fixes needed more than the obvious change. I-1: trimming the trailing timestamp group
+  is correct but stalls forever when one timestamp holds more rows than `page_size` — the
+  naive fix introduces a worse bug than it repairs. I-7 is **not** "convert everything to
+  UTC"; the cursor must stay in the ERP's zone or pagination breaks silently.
+- The fixes convert loud corruption into quiet non-convergence, so `SYNC.md` §6 changes the
+  monitoring from error-rate to **age** (`dirty_record_age`, `open_conflict_age`, `cursor_lag`).
+- `run_sync.py` still reports one failure after the fix, and that is correct: it asserts every
+  record converges, which is only true of an adapter that silently picks a conflict winner.
+
+**Open / next**
+- P4a (Task 4 PERF), the other binary task. Then Group B, starting with the eval harness.
+
+---
+
 <!-- Template for the next entry — copy, do not delete.
 
 ## Session NN — <short title>

@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~1.6 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~3.4 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -13,15 +13,14 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | P1 complete · **P4b (Task 5) in progress — defects isolated, invariants defined, fixes NOT applied** |
+| **Current phase** | P1, P4b complete · **P4a (Task 4 PERF) not started** |
 | **Last commit** | see `git log` — P1 lands as `docs: Task 1 DESIGN.md + first 9 decisions` |
 | **Blocking question for the human** | none open; OD-1/2/3 answered, see §5 |
 | **Nothing is runnable yet** | No `src/`, no tests, no `predictions.csv` |
 
-**One-line status:** Group A started. Task 5's 7 defects are isolated by 7 tests committed
-**red** at `b7221f9`, and the invariants each fix must restore are written up in `SYNC.md` §2.
-**Next action: apply the fixes**, after the one open question in `SYNC.md` §5 (the conflict
-resolution policy) is settled. Then Task 4, then Group B starting with the eval harness.
+**One-line status:** Task 5 is **done** — 7 defects (3 tickets + 4 latent), 7 invariants, 7/7
+tests green, `SYNC.md` complete, D-10..D-12 recorded. **15 % banked.** Next action is
+**P4a (Task 4 PERF)**, the other binary task; then Group B starting with the eval harness.
 
 ---
 
@@ -180,7 +179,7 @@ output across two runs; every row carries a `reason_code`.
 **Done when:** `check` prints `OK` + `PASS`, and the diagnosis ranking is backed by an
 ablation table rather than by reasoning.
 
-### P4b — Task 5: `SYNC.md` · **est 2.5 h · 1.0 h spent** · `[~]`
+### P4b — Task 5: `SYNC.md` · **est 2.5 h · actual 1.8 h** · `[x]`
 
 - [x] Reproduce each ticket symptom deterministically (fixed seed) before diagnosing
 - [x] **One failing test per defect**, each named for its single reason (§8.1) — 7 tests
@@ -188,14 +187,19 @@ ablation table rather than by reasoning.
 - [x] Map defects to MAIA-812 / 830 / 844; 4 latent ones found (D4–D7) with the production
       condition that would surface each
 - [x] Define the invariant each fix must restore, **before** fixing (`SYNC.md` §2)
-- [ ] **← NEXT:** settle `SYNC.md` §5 (conflict policy), then apply the fixes
+- [x] Settle the conflict policy (D-10: detect, flag, leave dirty) and apply the fixes
+- [x] Fixes with the invariant each restores stated explicitly (`SYNC.md` §2–§3)
+- [x] Crash-safety: at-least-once chosen deliberately over at-most-once (D-11)
+- [x] The contract to ask the vendor for, priority order + how to stay correct at "no"
+- [x] What breaks at 500 tenants, and the monitoring change the fixes force
 - [ ] Fix, stating the **invariant restored** for each
 - [ ] Crash-safety: the process can die at any moment (§8, end)
 - [ ] The contract to ask the vendor for, in priority order + how to stay correct at "no"
 - [ ] What breaks at 500 tenants x 5 min, and how we would know first
 
-**Done when:** each test fails on the pre-fix adapter for its own reason and passes after,
-demonstrated by running the suite against both.
+**Done — verified in both directions.** Against the fixed adapter: 7/7 pass. Against the
+original adapter restored from `b7221f9` with the *current* tests: 7/7 fail, each on its own
+assertion. That second run is what rules out tests reshaped to fit their fixes.
 
 ### P5 — Task 3 part 2: error analysis by hand · **est 1.5 h** · `[ ]`
 
@@ -233,6 +237,7 @@ lost, P3-6 (semantic lane) and P6 are the designed sacrifices; P2 and P5 are not
 |---|---|---|---|---|---|
 | 01 | 2026-09-01 | P0 | 0.5 h | 0.6 h | Recon, safety audit, trap verification |
 | 02 | 2026-09-01 | P1 | 2.5 h | 1.0 h | DESIGN.md + DECISIONS.md D-01..D-09 |
+| 03 | 2026-09-01 | P4b | 2.5 h | 1.8 h | Task 5: 7 defects, 7 invariants, fixes, SYNC.md |
 
 ---
 
