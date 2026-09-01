@@ -32,7 +32,7 @@ Evidence commands live in `_work/probes/`. Every number below is reproducible.
 | TR-08 | Expired mappings (`valid_to` in the past) | BRIEF | CONFIRMED | FP | proposed |
 | TR-09 | Buyer SKUs that look like another tenant's codes | BRIEF | **REFUTED** (exact) | — | n/a, see note |
 | TR-10 | Labels themselves are wrong | BRIEF | UNVERIFIED | scoring | not started |
-| TR-11 | Task 4: wrong extrapolation axis | BRIEF | UNVERIFIED | wasted time | hypothesis only |
+| TR-11 | Task 4: wrong extrapolation axis | BRIEF | **CONFIRMED** | wasted time | resolved |
 | TR-12 | Task 5: more defects than tickets | BRIEF | **CONFIRMED** | marks | ✅ **fixed** |
 | TR-13 | `python3` not on PATH on this machine | **OWN** | CONFIRMED | delivery | proposed |
 
@@ -324,34 +324,28 @@ by hand.
 
 ## TR-11 — Task 4: extrapolating along the wrong axis
 
-**Source:** BRIEF §7.1 — "two of those give answers that differ by 4x, and only one is right."
+**Source:** BRIEF §7.1. **Verdict:** **CONFIRMED.** Full write-up in `PERF.md` §1.
 
-**Verdict:** UNVERIFIED — hypothesis below, to be settled by ablation, not by argument.
+**The axis is output groups, not rows.** Measured across four slices spanning a 63x range in
+events, `s/group` varies by **1.5x** while `µs/event` varies by **26x**. Validated on a
+held-out slice (all tenants x 1 day, 144 groups): the groups axis predicts 89-137 s and the
+truth is **120.6 s**; the events axis predicts 15-319 s, a **21x spread** whose endpoints are
+wrong by 8x one way and 2.6x the other.
 
-**Facts established without running anything.** Reference result: **8,666 rows**, 40 tenants
-x 4 channels x 61 days = 9,760 possible, so 88.8% dense. Recorded baseline
-`elapsed_s = 3050.0` (**~51 min**), so the 10 s budget needs a **~305x speedup**.
+The cause is in the data: the generator gives the top three tenants ~55% of traffic, so rows
+are skewed, while groups are near-uniform (8,666 actual against 9,760 possible, 88.8% dense).
+A slice picked by rows tells you about the tenant you picked; a slice picked by groups tells
+you about the report.
 
-**Hypothesis (to test, not to assert).** The 8 correlated subqueries re-execute **once per
-output group**, and `match_event` carries only `idx_match_event_line`, so no subquery
-predicate (`tenant_id`, `substr(created_at,1,10)`) is indexable — each becomes a full scan of
-~1.12M rows. If so, **cost scales with output groups**, not rows-in-window, and narrowing the
-window is a poor proxy for narrowing rows. Secondary hypothesis: `repeat_items_prev_day`
-dominates because its inner `EXISTS` runs per candidate row, making it
-O(rows_in_tenant_day x table) rather than O(table).
+**Two things the brief did not say, found on the way:**
 
-**Also observed (cheap, exploitable).** Five subqueries — `avg_accept_score`,
-`max_latency_ms`, `avg_latency_ms`, `accepted_disabled` and `repeat_items_prev_day` — key on
-**tenant-day only, not channel**, so their value is recomputed identically for all four
-channels of a tenant-day. A tenant-day CTE computed once is a free ~4x on those terms with
-byte-identical output.
-
-**Ablation plan.** Measure a fixed slice, then remove one metric at a time and re-measure;
-separately vary *days* at fixed tenants and *tenants* at fixed days to separate the axes.
-Record the ranking including anything that surprises us — the brief grades the proof, not the
-rewrite.
-
----
+- The full-window baseline is **~359,500 s (~100 h)**, not the 3050 s the shipped reference
+  records — a 118x discrepancy, argued in `PERF.md` §1 and `DECISIONS.md` D-15.
+- The ledger contains **impossible calendar dates** (`2026-04-31`, `2026-02-30`), because
+  `make_perf_db.py` derives the day of month as `day % 31 + 1`. They sort between the real
+  dates and silently break any `LAG`-based rewrite of `repeat_items_prev_day` (825 to 159).
+  See D-14. A data-quality defect the brief does not mention, that a reasonable optimisation
+  walks straight into.
 
 ## TR-12 — Task 5: more defects than tickets
 

@@ -1,0 +1,28 @@
+{
+ "8fa87d593261e0d14f480b43": {
+  "at": "2026-09-01 16:23:27",
+  "db": "perf.sqlite:120090624:1788250774",
+  "groups": 32,
+  "label": "7 cheap, T001 x 8d",
+  "max_s": 23.189519700128585,
+  "median_s": 23.189519700128585,
+  "min_s": 23.189519700128585,
+  "predicted_over_actual": 1.103,
+  "predicted_s": 25.576,
+  "rows": 32,
+  "runs": 1
+ },
+ "c7cb0dfe7ea212e6c6925499": {
+  "at": "2026-09-01 16:24:27",
+  "db": "perf.sqlite:120090624:1788250774",
+  "groups": 8956,
+  "label": "my_report.sql (no PRAGMA)",
+  "max_s": 12.843043300090358,
+  "median_s": 12.843043300090358,
+  "min_s": 12.843043300090358,
+  "predicted_over_actual": null,
+  "predicted_s": null,
+  "rows": 8666,
+  "runs": 1
+ }
+}

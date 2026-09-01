@@ -200,3 +200,77 @@ failing, each on its own assertion. It also caught a real error: D2's test was i
 on **D6's** mechanism (an escaping `ErpTimeout`), not its own. That was only visible because the
 red run was inspected line by line rather than treated as a formality.
 **Reversal trigger:** none. This costs one extra commit.
+
+## D-13 — Decline the index; buy the speed with a connection PRAGMA instead
+
+**Context:** the rewrite landed at 13.3 s against a 10 s budget. Two levers were available.
+**Options:** (a) an expression index on `match_event(tenant_id, substr(created_at,1,10),
+item_code)`; (b) `PRAGMA temp_store=MEMORY`; (c) both.
+**Chose:** (b).
+**Evidence:** measured, not assumed. The index costs 1.6 s to build and 41 MB, and takes the
+report to 7.0 s alone or 5.15 s with the PRAGMA. The PRAGMA alone reaches **7.337 s**, inside
+budget. The ledger takes ~40 writes per order line at peak and the index sits on that hot
+table, so it is a permanent write tax paid forever to buy 2.2 s of headroom below a budget
+already met for free. Also measured and rejected: `cache_size=256MB` alone is **20.8 s**,
+slower than doing nothing, and combined with `temp_store` it is 11.4 s, slower than
+`temp_store` alone. The knob everyone reaches for made it worse in both combinations.
+**Cost accepted:** `temp_store=MEMORY` moves sort scratch into RAM, so peak memory scales with
+concurrency rather than with data. The mitigation is a concurrency limit on the report
+endpoint, not a different PRAGMA.
+**Reversal trigger:** volume growth or a tightened budget. The index is the first lever, and
+`src/perf/cache.py` is the instrument that says when — it predicts cost from group counts
+without running anything.
+
+## D-14 — Keep the self-join in `td_repeat`; reject the window-function rewrite
+
+**Context:** `repeat_items_prev_day` self-joins a 410k-row DISTINCT set. Replacing it with
+`LAG(day) OVER (PARTITION BY tenant_id, item_code ORDER BY day)` is one sort instead of a
+join — the textbook rewrite.
+**Options:** (a) `LAG`; (b) the self-join.
+**Chose:** (b).
+**Evidence:** `LAG` is **wrong on this ledger** and `bench_report.py check` caught it —
+`repeat_items_prev_day` for T001 on 2026-05-01 went 825 to 159. `make_perf_db.py` derives the
+day of month as `day % 31 + 1` regardless of month length, so **impossible calendar dates**
+(`2026-04-31`, `2026-02-30`, `2026-06-31`) exist as strings and sort lexicographically between
+the real ones. `LAG` lands on `2026-04-31` while `date('2026-05-01','-1 day')` is
+`2026-04-30`. The two formulations ask different questions — "the previous day this item
+appeared" versus "the previous calendar day" — and they agree only on a calendar-sane dataset.
+**Reversal trigger:** the ledger's dates being repaired at the write path. Until then the
+comment in the SQL exists because the next reader will have the same idea.
+
+## D-15 — State that the shipped reference's `elapsed_s` is wrong
+
+**Context:** `report_reference.json.gz` records `elapsed_s: 3050.0`. My estimate for the same
+query is ~359,500 s, 118x larger.
+**Options:** (a) quote 3050 s and report a 416x speedup; (b) investigate and say so.
+**Chose:** (b).
+**Evidence:** the estimate is built from 12 measurements, additive to within 5-12% on three
+held-out slices, and rests on a mechanism visible in `EXPLAIN QUERY PLAN` (`SCAN me8`
+containing `SCAN me9`, no usable index). For 3050 s to be right this machine would have to be
+~120x slower than the author's on a single-threaded SQLite scan. And `3050.0` is exact to
+three significant figures with a trailing `.0`, where a real `bench_report.py baseline` run
+writes a float like `3047.23`.
+**Scope of the claim:** the reference *rows* are correct and the rewrite is verified against
+them. Only the recorded elapsed time is disputed. Section 11 of the brief invites this.
+**Reversal trigger:** the author showing a completed baseline run. The claim is about a
+number, not about the data, and it is cheap to retract.
+
+## D-16 — Build the estimator and measurement cache before doing the measuring
+
+**Context:** the first calibration attempt — the smallest slice that exists, one tenant on one
+day, 2 output groups — blew a 90 s cap. Measuring was going to be the expensive part.
+**Options:** (a) measure carefully by hand and keep notes; (b) build an estimate-first,
+cache-second harness and measure through it.
+**Chose:** (b), at a cost of about 40 minutes.
+**Evidence:** it paid for itself three times. It refuses runs whose predicted cost exceeds a
+ceiling, which turns "do not run the full query" from advice into a guardrail. It returns
+cached results for identical work against an identical database — 24.3 s becomes 0.016 s — and
+keys the cache on the database's size and mtime, so rebuilding `perf.sqlite` invalidates the
+cache rather than silently serving numbers from a different dataset. Building it also forced
+the per-metric ablation into an executable form, which is what exposed the additivity check:
+the isolated rates sum to within 5.4% of the measured whole.
+**Amended during use:** the estimator initially predicted the CTE rewrite at 30,000x its
+actual cost, because the model is calibrated for the baseline's correlated-subquery shape. It
+now detects that shape and declines rather than answering. An estimator that is confidently
+wrong outside its domain is worse than one that says nothing.
+**Reversal trigger:** none. The cost was recovered inside the same task.

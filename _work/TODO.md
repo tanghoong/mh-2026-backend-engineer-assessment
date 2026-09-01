@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~3.4 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~5.6 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -13,14 +13,15 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | P1, P4b complete · **P4a (Task 4 PERF) not started** |
+| **Current phase** | **Group A complete** · P2 (eval harness) not started |
 | **Last commit** | see `git log` — P1 lands as `docs: Task 1 DESIGN.md + first 9 decisions` |
 | **Blocking question for the human** | none open; OD-1/2/3 answered, see §5 |
 | **Nothing is runnable yet** | No `src/`, no tests, no `predictions.csv` |
 
-**One-line status:** Task 5 is **done** — 7 defects (3 tickets + 4 latent), 7 invariants, 7/7
-tests green, `SYNC.md` complete, D-10..D-12 recorded. **15 % banked.** Next action is
-**P4a (Task 4 PERF)**, the other binary task; then Group B starting with the eval harness.
+**One-line status:** **Group A is done, 30% banked.** Task 5: 7 defects, 7/7 tests green.
+Task 4: full window **7.337 s** against a 10 s budget, byte-identical on 13 columns plus
+`p95_latency_ms`, with no index and no schema change. Next is Group B: the eval harness (P2),
+then the matcher (P3).
 
 ---
 
@@ -166,15 +167,15 @@ positively).
 **Done when:** all of — p95 ≤ 250 ms measured; zero cross-tenant violations; byte-identical
 output across two runs; every row carries a `reason_code`.
 
-### P4a — Task 4: `PERF.md` · **est 2.5 h** · `[ ]`
+### P4a — Task 4: `PERF.md` · **est 2.5 h · actual 2.2 h** · `[x]`
 
-- [ ] Build `perf.sqlite` (~20 s, ~120 MB, gitignored)
-- [ ] **Do not run the full query.** Measure slices; extrapolate; validate the axis (TR-11)
-- [ ] Separate the axes: vary days at fixed tenants, then tenants at fixed days
-- [ ] Ablate one metric at a time; rank by measured cost; report the surprises
-- [ ] Rewrite → `bench_report.py check` byte-identical, median ≤ 10 s
-- [ ] Add `p95_latency_ms` (nearest-rank, same tenant-day set) without blowing the budget
-- [ ] Write up: what was left unfixed, trade-offs accepted, the honest ceiling at 50x
+- [x] Build `perf.sqlite` (~20 s, ~120 MB, gitignored)
+- [x] **Never ran the full query.** Measure slices; extrapolate; validate the axis (TR-11)
+- [x] Separated the axes: vary days at fixed tenants, then tenants at fixed days
+- [x] Ablated one metric at a time; rank by measured cost; report the surprises
+- [x] Rewrite → `bench_report.py check` byte-identical, median ≤ 10 s
+- [x] Added `p95_latency_ms` (nearest-rank, same tenant-day set) without blowing the budget
+- [x] Wrote up: what was left unfixed, trade-offs accepted, the honest ceiling at 50x
 
 **Done when:** `check` prints `OK` + `PASS`, and the diagnosis ranking is backed by an
 ablation table rather than by reasoning.
@@ -238,6 +239,7 @@ lost, P3-6 (semantic lane) and P6 are the designed sacrifices; P2 and P5 are not
 | 01 | 2026-09-01 | P0 | 0.5 h | 0.6 h | Recon, safety audit, trap verification |
 | 02 | 2026-09-01 | P1 | 2.5 h | 1.0 h | DESIGN.md + DECISIONS.md D-01..D-09 |
 | 03 | 2026-09-01 | P4b | 2.5 h | 1.8 h | Task 5: 7 defects, 7 invariants, fixes, SYNC.md |
+| 04 | 2026-09-01 | P4a | 2.5 h | 2.2 h | Task 4: ablation, 100 h baseline estimate, 7.337 s fix |
 
 ---
 
