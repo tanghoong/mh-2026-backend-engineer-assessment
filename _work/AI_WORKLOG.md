@@ -218,6 +218,70 @@ Legend for **Files touched**: `read` = inspected only · `new` = created · `edi
 
 ---
 
+## Session 05 — Task 4, and a measurement harness
+
+| | |
+|---|---|
+| **Start** | 2026-09-01 18:05 |
+| **End**   | 2026-09-01 20:15 |
+| **Duration** | ~2 h 10 m |
+| **Agent** | Claude Code, Opus 5 (1M context) |
+| **Repo state at start** | commit `237f93a`, clean |
+
+**Asked for**
+1. Do Task 4, using small slices to rank and a large slice only to confirm.
+2. Flag anything unusual, expensive, long-running, or needing a different model, **in
+   advance** — so usage stays inside a known budget.
+3. Add a re-processing guard: do not re-measure what has already been measured, and
+   estimate before running.
+4. Explain **why** the query takes ~100 hours — data volume or algorithm — and say whether
+   renting a larger CPU/GPU server would be the answer.
+
+**Done**
+- Built `perf.sqlite` (11 s, 120 MB). **Never ran the baseline**, as the brief instructs.
+- First calibration attempt — the smallest slice that exists, 1 tenant x 1 day, 2 output
+  groups — **blew a 90 s cap**. That failure set the whole approach: per-metric ablation on
+  a tiny slice first, composed into a model, validated on held-out slices.
+- **Axis settled empirically**: cost tracks output *groups*, not rows. `s/group` varies 1.5x
+  across a 63x range in events; `us/event` varies 26x. Held-out prediction: groups 89-137 s,
+  events 15-319 s, truth **120.6 s**.
+- Baseline estimate **~359,500 s (99.9 h)**, of which `repeat_items_prev_day` is 98%.
+- **Rewrite: 7.337 s median over 5 runs**, byte-identical on 13 columns, plus
+  `p95_latency_ms` verified independently 40/40. No index, no schema change.
+- Built `src/perf/cache.py` per request 3: estimates before running, **refuses** anything
+  over a predicted ceiling, caches on SQL + database identity (24.3 s becomes 0.016 s).
+- Answered request 4 explicitly: **it is the algorithm, not the data.** 1.12M rows is
+  115 MB and one pass costs 0.1 s; the baseline performs ~2.5x10^12 row examinations by
+  rescanning the same table ~2.2 million times. A 10x faster machine gives ~10 h — still
+  useless. The rewrite gives 7.3 s on the same laptop. No hardware purchase competes with
+  a 40,000x algorithmic win, and the budget says "on a laptop" precisely to close that door.
+  GPUs are irrelevant: SQLite is single-threaded and scan-bound.
+
+**Files touched**
+- `new`  — `PERF.md`, `starter/my_report.sql`, `src/perf/{slices,measure,cache,report}.py`,
+  `_work/measurements.json`
+- `edit` — `DECISIONS.md` (D-13..D-16), `_work/TRAPS.md` (TR-11 CONFIRMED), `_work/TODO.md`
+- **`data/` and `starter/report_query.sql` untouched.** `perf.sqlite` is gitignored.
+
+**Findings carried forward**
+- Ablation says one column is 98% of the cost, but deleting it still leaves 7,260 s — 726x
+  over budget. **The ranking is real and the fix cannot be local to the top of it.** Ranking
+  columns would have produced a fix that was 726x short.
+- The shipped reference records `elapsed_s = 3050.0`; the estimate is 118x larger. The
+  reference *rows* are correct and the rewrite is verified against them; only the recorded
+  time is disputed (D-15).
+- The ledger contains **impossible calendar dates** (`2026-04-31`), so the textbook `LAG`
+  rewrite of `repeat_items_prev_day` is silently wrong (825 -> 159). `check` caught it (D-14).
+- `cache_size=256MB` — the knob everyone reaches for — made the query **slower** in both
+  combinations tried. Measured, not assumed.
+- The estimator initially mispredicted the rewrite by 30,000x and now declines outside its
+  calibrated shape. An estimator confidently wrong outside its domain is worse than none.
+
+**Open / next**
+- Group B: the eval harness (P2), then the matcher (P3), then the error analysis (P5).
+
+---
+
 <!-- Template for the next entry — copy, do not delete.
 
 ## Session NN — <short title>
