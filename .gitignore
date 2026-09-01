@@ -2,3 +2,14 @@
 # graders-only, never commit
 starter/make_dataset.py
 starter/score_predictions.py
+
+# generated, regenerate with starter/make_perf_db.py
+data/perf.sqlite
+starter/*.json
+starter/one_day.sql
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/

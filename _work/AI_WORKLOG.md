@@ -59,6 +59,63 @@ Legend for **Files touched**: `read` = inspected only · `new` = created · `edi
 
 ---
 
+## Session 02 — Scaffolding, trap verification, planning docs
+
+| | |
+|---|---|
+| **Start** | 2026-09-01 14:50 |
+| **End**   | 2026-09-01 15:20 |
+| **Duration** | ~30 min |
+| **Agent** | Claude Code, Opus 5 (1M context) |
+| **Repo state at start** | commit `e7ab5fd`, clean |
+
+**Asked for**
+1. Preserve the brief, commit the current state, then begin Task 1 `DESIGN.md`.
+2. A to-do / milestone document that another session or another person can resume from.
+3. For each trap: define the problem and prove it is real **before** proposing a solution.
+4. Time estimates per task, and a scoping pass so nothing is built beyond what is graded.
+5. A question bank for the walkthrough — **questions only**, no answers yet.
+6. A test strategy defined as purpose → acceptable asset → rerunnable acceptance check.
+
+**Done**
+- `README.md` → `ASSESSMENT_BRIEF.md` (verbatim); new `README.md` stub; `_work/` created.
+- Commit `7d44c91`.
+- Wrote four probe scripts and ran them read-only over `data/`. Results in
+  `_work/TRAPS.md`; scripts kept in `_work/probes/` so every number is rerunnable.
+- **9 traps CONFIRMED, 1 REFUTED, 3 deferred.** Two of the confirmed ones are not in the
+  brief at all: TR-01 (alias table points at superseded `*-OLD` codes — alias-exact
+  precision measures **35.9%**, not the ~100% the lane's name implies) and TR-06 (barcodes
+  collide **22x** within acme, **16x** within nordic). TR-02 follows from TR-01: the
+  `confidence` column is anti-correlated with correctness (1.0 → 22.6%, 0.55 → 100%).
+- TR-09 (buyer SKUs resembling another tenant's codes) **refuted** on exact match, 0/776.
+  Kept in the register with the control retained anyway — the asymmetry justifies it.
+- Wrote `_work/TODO.md` (phases, estimates, scoping, handoff state),
+  `_work/TESTING.md` (four test tiers incl. document tests), `_work/QUESTIONS.md`.
+- Task 1 `DESIGN.md` **not started** — blocked on OD-1, the operating point, which is a
+  human decision (`TODO.md` §5).
+
+**Files touched**
+- `new`  — `_work/TODO.md`, `_work/TRAPS.md`, `_work/TESTING.md`, `_work/QUESTIONS.md`,
+  `_work/probes/*` (4 scripts + README), `README.md` (stub)
+- `edit` — `_work/AI_WORKLOG.md`
+- `move` — `README.md` → `ASSESSMENT_BRIEF.md`, unmodified
+- **`data/` and `starter/` still untouched.**
+
+**Findings carried forward**
+- The intuitive lane ordering (alias exact = most trusted) is **inverted** on this data.
+  Supersession resolution has to sit downstream of every lane, not inside the alias lane.
+- Nordic is ~89% twin items separated only by a pack-size token, so size arbitration is
+  the dominant design concern for that tenant, not general text similarity.
+- `source=manual_import` looks diagnostic (10.9% vs 100%) but is a confound with `-OLD`.
+  Shipping that gate would be correct-for-the-wrong-reason and would break on the holdout.
+- Task 4 reference records `elapsed_s = 3050` (~51 min) → the 10 s budget needs ~305x.
+
+**Open / next**
+- OD-1 operating point, OD-2 semantic lane yes/no, OD-3 whether `_work/` ships.
+- Then P1 (`DESIGN.md`), then P2 (eval harness before the matcher).
+
+---
+
 <!-- Template for the next entry — copy, do not delete.
 
 ## Session NN — <short title>
