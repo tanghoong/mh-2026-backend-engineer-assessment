@@ -57,27 +57,48 @@ document, and only Task 2 requires a data output. Read this table before startin
 
 ## 2. Ordering, and why this order
 
+Revised after P1 (session 04). The sorting key is **not** "what is unblocked" but
+**which tasks are binary and which degrade gracefully**.
+
+| Task | What half-finished looks like |
+|---|---|
+| **P4a PERF** | **Binary.** The report is ≤10 s and byte-identical, or it is not. 50 % done scores 0 |
+| **P4b SYNC** | **Near-binary.** A defect either has an isolating failing test or it does not |
+| P2/P3 Matcher + Eval | **Degrades gracefully.** 60 % coverage with a sharp `EVAL.md` is still a strong submission |
+
+The critical path is 11.5 h against a 17.25 h budget — thin float. Tasks 2/3 are open-ended
+and *will* overrun; the only question is by how much. That overrun has to land somewhere, and
+it should land on the work that degrades gracefully. §11 grades the argument for stubbing
+Task 2; nothing in the brief gives partial credit for a report that misses its budget.
+
 ```
-P0 Recon ──► P1 DESIGN ──► P2 Eval harness ──► P3 Matcher ──► P5 Error analysis ──► P7 Ship
-   (done)                     (before the         (iterate         (by hand)
-                               matcher!)          against P2)
-                                   │
-                                   ├──► P4a PERF   (independent, bankable)
-                                   └──► P4b SYNC   (independent, bankable)
+GROUP A ─ bank the binary points, fully independent            5.00 h
+          P4b SYNC ──► P4a PERF
+
+GROUP B ─ critical path, degrades gracefully                   7.50 h
+          P2 harness ──► P3 matcher ──► P5 error analysis
+
+GROUP C ─ needs A + B evidence                                 2.25 h
+          P6 SCALE ──► P7 ship
 ```
 
-Three deliberate choices:
+Four deliberate choices:
 
-1. **The harness is built before the matcher.** A matcher without a scorer cannot be tuned,
-   only guessed at, and §6 grades the harness in its own right. Building it first means every
-   later change is measured, and it is the thing that makes "deleting the embedding lane was
-   the right call" provable rather than asserted.
-2. **Tasks 4 and 5 are banked in the middle, not left to the end.** They are independent of
-   Tasks 2/3, they have crisp pass/fail criteria (budget met, tests green), and they are worth
-   **30% combined**. Tasks 2/3 are open-ended and will absorb infinite time. Bank the certain
-   points before spending on the uncertain ones.
-3. **Error analysis comes after the matcher is frozen**, not during. §6.3 wants 20 named
-   failures with root causes — that requires a stable system to have failed.
+1. **Binary work first.** See above. This is the change from the original plan.
+2. **P4b before P4a inside Group A.** P4b needs no infrastructure; P4a needs a 120 MB database
+   build plus minutes of ablation wall-clock. P4b's three ticket symptoms already reproduce
+   deterministically (session 04), so it starts with momentum rather than from cold.
+3. **The harness is still built before the matcher** (D-08). A matcher without a scorer can
+   only be guessed at, and it is the instrument that makes D-05's confound test and D-06's
+   reversal trigger checkable rather than assertable.
+4. **Error analysis after the matcher is frozen**, not during. §6.3 wants 20 named failures
+   with root causes; that needs a stable system to have failed.
+
+**Why deferring Task 2 is safe here and would not have been before P0.** The usual objection
+to postponing the biggest open-ended task is discovery risk — you cannot size it until you
+start. That risk was already spent: the P0 trap probing was in effect a spike on Task 2, and
+the expensive mechanisms (supersession, twin arbitration, the abstain sub-populations) are
+already measured and written up. Without that probing, this ordering would be reckless.
 
 ---
 
