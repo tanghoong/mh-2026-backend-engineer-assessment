@@ -23,18 +23,8 @@ from __future__ import annotations
 from ..contracts import AUTO, REJECT, REVIEW, Candidate, Decision, OrderLine
 from .text import dice, normalise, trigrams
 from .index import AliasIndex, TenantIndex, build_alias_index, build_tenant_index
+from .calibration import confidence_for
 from .refusals import is_not_an_item, is_out_of_domain
-
-# Provisional, and labelled as such. These are placeholders until P3-5 replaces them with
-# each lane's measured precision on train. Publishing an uncalibrated number as
-# `confidence` is exactly the mistake TR-02 catches the vendor making, so it is not
-# allowed to survive past calibration.
-PROVISIONAL_CONFIDENCE = {
-    "barcode_unique": 0.95,
-    "alias_exact": 0.95,
-    "alias_exact_superseded_redirect": 0.95,
-    "lexical_unique": 0.90,
-}
 
 # P3-3 arbitration, chosen from a 2-D sweep of the already-generated candidates rather
 # than tuned by trial. The sweep is in PERF-style form in EVAL.md; the shape of it is the
@@ -195,7 +185,9 @@ class Pipeline:
 
     def _answer(self, line: OrderLine, code: str, reason: str, lane: str,
                 candidates: list[Candidate] | None = None) -> Decision:
-        conf = PROVISIONAL_CONFIDENCE[reason]
+        # P3-5: the published confidence is this lane's measured probability of being
+        # right, not a constant someone liked the look of. See calibration.py.
+        conf = confidence_for(reason)
         return Decision(line_id=line.line_id, item_code=code, confidence=conf,
                         decision=AUTO, reason_code=reason,
                         candidates=candidates or [Candidate(code, conf, lane)])

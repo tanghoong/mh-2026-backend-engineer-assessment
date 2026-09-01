@@ -606,3 +606,59 @@ invisible to a metric that only counts answers.
 lines score below the domain floor - a brand-new tenant with 20 items, for instance. That is
 the cold-start case (P3-7) and it needs the floor to scale with catalogue size, or to be
 disabled until the vocabulary is established.
+
+## D-28 — `confidence` is a measured probability, pooled by mechanism, and never 1.0
+
+**Context:** D-20 said the provisional constants (0.95, 0.90) were temporary by
+construction and must not be left to become permanent. §5.3 requires `confidence` to be
+"calibrated in the sense that it is comparable across lanes".
+
+**Chose:** confidence = **the lane's measured probability of being correct**, so that 0.95
+from the barcode lane and 0.95 from the lexical lane mean the same thing and a threshold on
+confidence means one thing rather than four.
+
+Three sub-decisions, each of which could have gone the other way.
+
+**(a) Pooled by mechanism, not per reason code.**
+Options: per reason code, per pool, or one global number. Measured per code:
+`alias_exact` 23/23, `barcode_unique` 12/12, `alias_exact_superseded_redirect` 41/41,
+`lexical_unique` 42/43. The first three are the same mechanism - an exact identifier,
+checked for uniqueness, normalised through supersession - and their differences are noise.
+Estimating each from a dozen observations publishes sampling error as if it were signal;
+`barcode_unique` alone has a 95% lower bound of **81.6%**, which says nothing useful.
+Pooled, the identifier mechanism is 76/76 with a lower bound of **96.6%**.
+
+**(b) Laplace, not the raw fraction.** `(correct + 1) / (n + 2)`. The identifier pool is 76
+for 76; publishing **1.000** would claim error is impossible, which no sample of 76 can
+support. Laplace never returns 0 or 1 and shrinks toward 0.5 as n falls, which is the
+behaviour a small sample deserves. Published: 0.9872 and 0.9556.
+
+**(c) The interval is published next to the number, not behind it.**
+
+| pool | correct/n | raw | confidence | 95% lower |
+|---|---|---|---|---|
+| exact identifier | 76/76 | 100.0% | 0.9872 | **96.6%** |
+| lexical, separation-gated | 42/43 | 97.7% | 0.9556 | **90.2%** |
+
+The second row straddles the 92.68% break-even. **At n=43 the lexical lane cannot be
+*proved* to pay, even though it measures 97.7%.** That is a fact about 420 labelled lines,
+not about the lane, and it is the same argument as D-02 applied one level down. It ships,
+because the estimate says ship, and the uncertainty is reported rather than rounded away.
+
+**No feedback loop.** The arbitration gates use raw similarity scores, not confidence, so
+calibrating on train does not change what the matcher chooses - only what it publishes.
+
+**Guarded by a staleness test.** `test_the_committed_table_matches_a_fresh_measurement`
+re-measures and diffs. Mutation-checked: inflating one published confidence from 0.9556 to
+0.9900 fails that test and nothing else. A committed constant that has drifted from what
+the code does is worse than no constant, because it is quoted with the authority of a
+measurement.
+
+**Also guarded:** a lane that answers without belonging to a pool raises at generation
+time, so a new lane cannot silently inherit its neighbour's confidence, and the
+uncalibrated default (0.50) sits **below** break-even so an unmeasured lane looks
+unattractive rather than neutral.
+
+**Reversal trigger:** more labelled volume. Both intervals tighten with n, and the lexical
+lane's is the one that needs it - at ~200 auto decisions its lower bound would clear
+break-even and the caveat in `EVAL.md` could be deleted rather than restated.
