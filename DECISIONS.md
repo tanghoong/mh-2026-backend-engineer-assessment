@@ -408,3 +408,103 @@ bought.
 where per-tenant catalogues are ~8k and this becomes ~10x today's cost - still inside
 budget, but the shortlist earns its complexity somewhere past that. The trigger is measured
 p95 crossing ~50 ms, not a feeling about size.
+
+## D-23 — Arbitrate on separation, not on score
+
+**Context:** the obvious gate for a lexical lane is a score floor.
+**Options:** (a) score floor; (b) margin between the top two candidates; (c) both.
+**Chose:** (c), but the weights are the opposite of what was expected.
+**Evidence:** a 2-D sweep over candidates that already existed - free, no code written:
+
+```
+precision   floor=0.80   0.85   0.90   0.93   0.95
+margin 0.00     81.1%   83.1%  83.1%  83.9%  83.5%
+margin 0.10     98.3%   98.3%  99.1%  99.1%  99.0%
+margin 0.15    100.0%  100.0% 100.0% 100.0% 100.0%
+```
+
+Reading **down** a column, the score floor moves precision about 2 points across its entire
+range. Reading **across** a row, the margin moves it from 81% to 100%. The score floor is
+nearly inert; the margin does the work.
+
+**Why that is not a curiosity.** A score floor asks "is this a good match?". On a catalogue
+of near-identical rows that question is almost always yes, including when the answer is the
+wrong twin. The margin asks "is this match *distinguishable* from its runner-up?", which is
+the question the 20x cost actually cares about. It generalises D-07 from pack sizes to every
+attribute that separates two catalogue rows, without needing to enumerate them.
+
+**Operating point:** floor 0.90, margin 0.10. Margin 0.15 reaches 100% precision but a lower
+net value - it refuses lines worth more than the false positive it prevents.
+**Measured:** coverage 26.2%, precision 99.1%, net -11,020 s, exactly reproducing the
+offline prediction to the digit. Agreement between a model built from candidates and the
+implementation is the check that the implementation has no bug.
+**Reversal trigger:** if the catalogue becomes less homogeneous - fewer twin groups - the
+margin loses its discriminating power and the floor matters more. Re-run the sweep per
+tenant; nordic (89% twins) and acme (34%) may not want the same constants.
+
+## D-24 — Do not build the size discriminator. Measured first, and it does not pay
+
+**Context:** P3-3b was planned as a size/pack hard filter to recover coverage from lines the
+margin gate refuses. `DESIGN.md` and D-07 both anticipate it.
+**Options:** (a) build it and measure; (b) simulate it on existing candidates and only build
+if it pays.
+**Chose:** (b), and it does not pay, so it was never built.
+**Evidence:** simulated over the 121 lines the margin gate refuses. The rule fires on 61 and
+picks the labelled answer on 56 - **91.8% precision, below the 92.68% break-even**, worth
+-440 s. Every refinement tried lands in the same place:
+
+```
+size picks exactly one                   n=61  91.8%   -440 s
+size picks one AND it is rank 1          n=61  91.8%   -440 s
+size set matches exactly, not subset     n=62  91.9%   -380 s
+size picks one AND margin >= 0.04        n=61  91.8%   -440 s
+size picks one AND margin >= 0.06        n=55  90.9%   -800 s
+```
+
+**And the margin gate already does better on the same population.** Of the 102 train lines
+whose text is an exact unique match to one active item, the shipped matcher answers 23 and
+gets 22 right (95.7%), abstaining on the rest. Adding the size rule would replace a 95.7%
+selector with a 91.8% one.
+**What this is worth saying:** §5.2 grades deleting a lane after measuring that it did not
+pay as a positive result. Measuring *before* building is the same result for less time, and
+the simulation cost about ten minutes against a couple of hours of implementation.
+**Reversal trigger:** the label problem in D-25. If the 5 failures are mislabels rather than
+signal, this rule is 100% and clearly pays. It is one answered question away from shipping,
+which is why it is documented rather than forgotten.
+
+## D-25 — The labels contradict themselves on the least ambiguous population
+
+**Context:** the 5 lines the size rule gets "wrong" are each **byte-identical**, after
+normalisation, to exactly one active catalogue item, and are labelled blank.
+
+```
+ACM-T-0015  '- Hitex Angle Grinder Disc 7" Flap'
+ACM-ANGL0280   'Hitex Angle Grinder Disc 7" Flap'      <- unique active match, label blank
+ACM-T-0001  'Tolsen Wall Plug 12mm Red'
+ACM-WALL0029   'Tolsen Wall Plug 12mm Red'             <- unique active match, label ACM-WALL0029
+```
+
+**Evidence.** 102 train lines are an exact, unique match to one active item. **71 (69.6%)
+are labelled with that code; 31 (30.4%) are labelled blank.** The same input pattern carries
+both labels, so no decision procedure can satisfy both populations.
+
+**Partly explained, and the explanation is a real signal.** A `(Bulk)` sibling accounts for
+9 of the 31: where the matched item has a `XB` twin sharing its name and barcode, the line
+is labelled blank **90% of the time** (9/10), against 23.9% (22/92) where it does not. That
+is TR-14 confirmed by the labels: an exact match is not an answer when a pack variant makes
+it ambiguous. The remaining 22 have no attribute that separates them - not
+`available_qty` (49 labelled answers point at qty=0 items), not `disabled`, not price, not
+`stock_uom`, not customer, not channel.
+
+**What was checked before concluding.** `available_qty`, `disabled`, `list_price`,
+`stock_uom`, `item_group`, `brand`, customer id, channel, and whether the catalogue name was
+genuinely unique. None separates the two groups.
+
+**Consequence for the design, and it is the reason this entry exists.** "Answer an exact
+unique name match" scores **69.6%**, and 76.1% after excluding `(Bulk)` pairs. Both are far
+below break-even, so the rule cannot ship - *even though it is obviously correct*. The
+matcher abstains on most exact matches, which looks over-cautious until you see this table.
+**We are scored against their key, so the shipped behaviour follows their labels and the
+disagreement is reported rather than assumed away.**
+**Reversal trigger:** confirmation that these are label errors. Then D-24 flips too, and
+coverage rises materially. Filed as the first question in `_work/QUESTIONS.md` §1b.

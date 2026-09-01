@@ -4,7 +4,7 @@
 person — read this file first, then `_work/TRAPS.md`, then `DECISIONS.md`. Everything
 needed to resume is here or linked from here.
 
-Budget: **14–18 h over 3 calendar days.** Spent so far: **~8.4 h**.
+Budget: **14–18 h over 3 calendar days.** Spent so far: **~10.6 h**.
 Timezone UTC+08:00. Update the status board on every session close.
 
 ---
@@ -174,8 +174,9 @@ positively).
       built (TR-01), size signature extracted (TR-04)
 - [x] **P3-1** Exact/normalised identifier lane: barcode (TR-06 uniqueness gate) + alias
       (TR-07 ambiguity, TR-08 expiry, TR-01 redirect, TR-02 ignore `confidence`)
-- [ ] **P3-2** Lexical candidate generation
-- [ ] **P3-3** Size/pack arbitration as a hard filter (TR-04)
+- [x] **P3-2** Lexical candidate generation
+- [x] **P3-3** Arbitration: score floor + margin. The size hard filter was **simulated and
+      rejected before being built** - 91.8%, below break-even (D-24)
 - [ ] **P3-4** Abstain detectors — four kinds, per TR-03
 - [ ] **P3-5** Arbitration + calibration: one comparable confidence across lanes
 - [ ] **P3-6** *Optional* semantic lane — only if P3-1..P3-5 leaves coverage on the table.

@@ -31,11 +31,11 @@ Evidence commands live in `_work/probes/`. Every number below is reproducible.
 | TR-07 | Same buyer SKU maps to two different codes | BRIEF | CONFIRMED, **= TR-08** | FP | **fixed** (see D-19) |
 | TR-08 | Expired mappings (`valid_to` in the past) | BRIEF | CONFIRMED | FP | **fixed, resolves 26/26** |
 | TR-09 | Buyer SKUs that look like another tenant's codes | BRIEF | **REFUTED** (exact) | — | n/a, see note |
-| TR-10 | Labels themselves are wrong | BRIEF | UNVERIFIED | scoring | not started |
+| TR-10 | Labels themselves are wrong | BRIEF | **CONFIRMED** | scoring | reported, see D-25 |
 | TR-11 | Task 4: wrong extrapolation axis | BRIEF | **CONFIRMED** | wasted time | resolved |
 | TR-12 | Task 5: more defects than tickets | BRIEF | **CONFIRMED** | marks | ✅ **fixed** |
 | TR-13 | `python3` not on PATH on this machine | **OWN** | CONFIRMED | delivery | proposed |
-| TR-14 | `(Bulk)` variants: a marker the buyer rarely writes | **OWN** | CONFIRMED | FP | open, needs P3-4 |
+| TR-14 | `(Bulk)` variants: a marker the buyer rarely writes | **OWN** | CONFIRMED **by the labels** | FP | handled by the margin gate |
 
 ---
 
@@ -350,8 +350,26 @@ other one (`ACM-T-0152`) literally has `(Bulk)` in its text.
 correct answer depends on context we are not given. Either way the right behaviour is to
 abstain, and any matcher that gets it right is fitting noise.
 
-**Still to find:** at least two more. Defer the systematic hunt to Phase 5; the error
-analysis is the instrument, and this one surfaced on its own.
+**CONFIRMED at P3-3, systematically rather than anecdotally.**
+
+102 train lines are an exact, unique match to one active catalogue item after normalisation.
+**71 are labelled with that code; 31 are labelled blank** - the same input pattern, both
+labels, in a 70/30 split that mirrors the overall 29.8% blank rate.
+
+9 of the 31 are explained, and the explanation is a real signal rather than an error: the
+matched item has a `(Bulk)` sibling (TR-14), and those are labelled blank 90% of the time
+against 23.9% elsewhere. **22 are not explained by anything measurable** - not
+`available_qty`, `disabled`, `list_price`, `stock_uom`, `item_group`, `brand`, customer or
+channel, all checked.
+
+Named examples for `EVAL.md` §4, well past the three the brief asks for: `ACM-T-0015`,
+`ACM-T-0050`, `ACM-T-0055`, `ACM-T-0198`, `ACM-T-0212` (each byte-identical to a unique
+active item, labelled blank), and `ACM-T-0209` (labelled the `(Bulk)` variant with no bulk
+token anywhere in the line).
+
+**What we do about it in production:** nothing unilateral. We are scored against their key,
+so the shipped matcher follows the labels and abstains, and the disagreement is reported with
+the table rather than assumed away. See D-25.
 
 ---
 

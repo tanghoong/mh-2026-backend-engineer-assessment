@@ -13,12 +13,10 @@ Stage 5 is not a step at the end of the chain - it is a function every candidate
 through, wherever it came from (`TenantIndex.resolve`). That is the whole architectural
 claim: exactness earns candidate *generation*, not trust.
 
-**Current state: stages 0, 1, 2, 3, 5.** The lexical lane **generates candidates and
-nothing else** - it never answers. That is deliberate and temporary: it isolates "can the
-right item be found at all?" (recall@3) from "should we commit to it?" (precision), so the
-two can be measured separately. Committing needs size arbitration (P3-3) and the abstain
-detectors (P3-4); until those exist, answering from text would be the exact mistake TR-04
-describes.
+**Current state: stages 0, 1, 2, 3, 5, and the score/margin half of 6.** The lexical lane
+now answers, gated on *separation from its runner-up* rather than on absolute score. The
+size/variant discriminator (P3-3b) and the four abstain detectors (P3-4) are still to come;
+they exist to recover coverage from lines the margin gate currently refuses.
 """
 from __future__ import annotations
 
@@ -34,7 +32,27 @@ PROVISIONAL_CONFIDENCE = {
     "barcode_unique": 0.95,
     "alias_exact": 0.95,
     "alias_exact_superseded_redirect": 0.95,
+    "lexical_unique": 0.90,
 }
+
+# P3-3 arbitration, chosen from a 2-D sweep of the already-generated candidates rather
+# than tuned by trial. The sweep is in PERF-style form in EVAL.md; the shape of it is the
+# finding:
+#
+#   precision   floor=0.80   0.85   0.90   0.93   0.95
+#   margin 0.00     81.1%   83.1%  83.1%  83.9%  83.5%
+#   margin 0.10     98.3%   98.3%  99.1%  99.1%  99.0%
+#   margin 0.15    100.0%  100.0% 100.0% 100.0% 100.0%
+#
+# Reading down a column, the score floor moves precision ~2 points across its whole
+# range. Reading across a row, the margin moves it 81% -> 100%. **The margin does the
+# work; the floor is nearly inert.** That generalises D-07: the question is not "is this
+# a good match?" but "is it distinguishable from its runner-up?".
+#
+# 0.10 rather than 0.15 because it is the net-value optimum: 0.15 buys the last 0.9 points
+# of precision by refusing lines worth more than the false positive it prevents.
+LEXICAL_SCORE_FLOOR = 0.90
+LEXICAL_MARGIN_FLOOR = 0.10
 
 
 class Pipeline:
@@ -139,7 +157,18 @@ class Pipeline:
             return self._abstain(line, "no_lexical_candidate")
 
         cands = [Candidate(code, round(sc, 4), "lexical") for sc, code in top]
-        return self._abstain(line, "lexical_candidates_only", cands)
+        best = cands[0]
+        runner_up = cands[1].score if len(cands) > 1 else 0.0
+        margin = best.score - runner_up
+
+        if best.score < LEXICAL_SCORE_FLOOR:
+            return self._abstain(line, "no_candidate_above_floor", cands)
+        if margin < LEXICAL_MARGIN_FLOOR:
+            # The top candidate is good but not *separable*. Answering here is the
+            # twin-item false positive: a confident-looking pick between near-identical
+            # rows the query did not say enough to choose between.
+            return self._abstain(line, "ambiguous_candidates", cands)
+        return self._answer(line, best.item_code, "lexical_unique", "lexical", cands)
 
     # ------------------------------------------------------------------ [5] + helpers
     def _resolve_all(self, codes: list[str], idx: TenantIndex) -> list[str]:
@@ -151,11 +180,12 @@ class Pipeline:
                 out.append(resolved)
         return sorted(out)
 
-    def _answer(self, line: OrderLine, code: str, reason: str, lane: str) -> Decision:
+    def _answer(self, line: OrderLine, code: str, reason: str, lane: str,
+                candidates: list[Candidate] | None = None) -> Decision:
         conf = PROVISIONAL_CONFIDENCE[reason]
         return Decision(line_id=line.line_id, item_code=code, confidence=conf,
                         decision=AUTO, reason_code=reason,
-                        candidates=[Candidate(code, conf, lane)])
+                        candidates=candidates or [Candidate(code, conf, lane)])
 
     def _abstain(self, line: OrderLine, reason: str,
                  candidates: list[Candidate] | None = None) -> Decision:

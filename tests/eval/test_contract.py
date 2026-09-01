@@ -25,7 +25,9 @@ KNOWN_REASON_CODES = {
     "barcode_unique", "barcode_ambiguous", "barcode_no_match",
     "no_identifier", "unknown_tenant",
     # pipeline: lexical lane (P3-2), candidate generation only for now
-    "lexical_candidates_only", "no_lexical_candidate", "empty_text",
+    "no_lexical_candidate", "empty_text",
+    # pipeline: arbitration (P3-3a)
+    "lexical_unique", "no_candidate_above_floor", "ambiguous_candidates",
 }
 
 
