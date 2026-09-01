@@ -13,15 +13,39 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | Group A complete · **P2 done** · P3 (matcher) not started |
-| **Last commit** | see `git log` — P1 lands as `docs: Task 1 DESIGN.md + first 9 decisions` |
-| **Blocking question for the human** | none open; OD-1/2/3 answered, see §5 |
-| **Nothing is runnable yet** | No `src/`, no tests, no `predictions.csv` |
+| **Current phase** | **PAUSED 2026-09-01 21:45.** Group A + P2 done · **resume at P3** |
+| **Last commit** | `90ee6ed feat(eval): harness built before the matcher` · tree clean · 33 tests green |
+| **Blocking question for the human** | none. D-06's semantic-lane trigger is re-checked at P3-6, not before |
+| **Runnable** | harness, sync suite, perf report. **No `predictions.csv` yet** — that is P3-8 |
 
-**One-line status:** Group A banked (30%). **P2 done**: the eval harness runs one command,
-is covered by 26 tests, and already produced the section 6.2 finding — accuracy ranks
-`naive_alias` above `null` while net value ranks it 2.8x worse. Zero point fixed at
-**-16,800 s**. Next is **P3, the matcher**, built lane by lane against this harness.
+**One-line status:** paused after P2. **45% of the grade is banked and verified**
+(Task 1 design 20%, Task 4 perf 15%, Task 5 sync 15% — minus Task 3's share, which is
+half-done). Remaining critical path is **P3 matcher (4.5 h) → P5 error analysis (1.5 h) →
+P6 SCALE (0.75 h) → P7 ship (1.5 h)**, about 8.25 h against ~10 h of budget left.
+
+### Resume here
+
+Start P3 by building `src/matching/pipeline.py` exposing `Pipeline` with a `match(line)
+-> Decision`. `harness.build()` already looks for it and will pick it up automatically, so
+`python3 -m src.eval.harness --matcher pipeline --curve` works the moment the file exists.
+
+Build the lanes **in trap order, measuring after each one** and recording the delta in
+`DECISIONS.md`. The first lane is the one that matters: TR-01's supersession redirect
+should move alias-lane precision from the measured **35.9% to 100%** on the 64 train lines
+that reach it. If it does not, the D-03 argument is wrong and needs re-deriving before
+anything else is built on it.
+
+Two decisions carry open loops that P3 must actually close, not quietly drop:
+
+* **D-05** — after the supersession fix, re-measure whether `source` still predicts. If it
+  does, it was real signal; if it does not, it was a confound and the gate stays unshipped.
+* **D-06** — only revisit the semantic lane if the lexical lane plateaus **and** the
+  residual errors are semantic rather than dimensional. That question is answered by P5's
+  error analysis, not by intuition.
+
+`_work/TESTING.md` §3 already specifies the nine trap tests (T-A1..T-A9) the matcher has
+to pass. Write them red first, as `b7221f9` did for Task 5 — that discipline caught a real
+error there (D-12).
 
 ---
 
@@ -247,6 +271,7 @@ lost, P3-6 (semantic lane) and P6 are the designed sacrifices; P2 and P5 are not
 | 03 | 2026-09-01 | P4b | 2.5 h | 1.8 h | Task 5: 7 defects, 7 invariants, fixes, SYNC.md |
 | 04 | 2026-09-01 | P4a | 2.5 h | 2.2 h | Task 4: ablation, 100 h baseline estimate, 7.337 s fix |
 | 05 | 2026-09-01 | P2 | 1.5 h | 1.5 h | Eval harness, segmentation, 26 tests |
+| — | 2026-09-01 21:45 | **paused** | — | **7.1 h used** | ~10 h of budget left, 8.25 h of work planned |
 
 ---
 

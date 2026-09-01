@@ -282,6 +282,62 @@ Legend for **Files touched**: `read` = inspected only · `new` = created · `edi
 
 ---
 
+## Session 06 — Evaluation harness, then paused
+
+| | |
+|---|---|
+| **Start** | 2026-09-01 20:15 |
+| **End**   | 2026-09-01 21:45 |
+| **Duration** | ~1 h 30 m |
+| **Agent** | Claude Code, Opus 5 (1M context) |
+| **Repo state at start** | commit `e9d591e`, clean |
+
+**Asked for**
+1. Build the eval harness (P2).
+2. Flag anything needing extra resources or pointing at an algorithmic problem, and ask
+   before spending.
+3. Pause and mark a resume point.
+
+**Done**
+- `src/contracts.py` — the matcher/harness contract, defined before either side existed.
+  `OrderLine` has **no field a label could arrive in**, so leakage is structural rather
+  than conventional.
+- `src/eval/segments.py` — six noise classes as a priority-ordered partition computed
+  from the raw line alone (D-17). Measured 11 candidate features before choosing.
+- `src/eval/{metrics,harness}.py` — precision@auto, coverage, net value, recall@3,
+  refusal precision, nearest-rank p95, per-tenant/channel/class breakdowns, the
+  precision-coverage sweep, determinism check, cross-tenant leak counting.
+- `src/matching/baselines.py` — `NullMatcher` (the zero point, -16,800 s) and
+  `NaiveAliasMatcher` (the obvious design, measured) (D-18).
+- 26 tests across `tests/eval/`; 33 in the repo, all green.
+- Paused at a clean tree with the resume point written into `TODO.md` §0.
+
+**Files touched**
+- `new` — `src/contracts.py`, `src/eval/*`, `src/matching/*`, `tests/eval/*`, `pytest.ini`
+- `edit` — `DECISIONS.md` (D-17, D-18), `README.md` (run instructions), `_work/TODO.md`,
+  `_work/TESTING.md`
+- **`data/` and `starter/` originals untouched.**
+
+**Findings carried forward**
+- The section 6.2 answer is now a measurement, not a claim: accuracy ranks `naive_alias`
+  **above** `null` (35.2% vs 29.8%) while net value ranks it 2.8x worse
+  (-46,580 vs -16,800 s).
+- `naive_alias`'s operating curve **slopes the wrong way** — raising the confidence floor
+  0.55 → 1.0 drops precision 35.9% → 22.6%. TR-02 as a shape rather than a table.
+- The segmentation transfers to the holdout (shares within ~1.5 points on five of six
+  classes), which is what makes the per-class breakdown worth reporting at all.
+- **A real defect in my own harness:** the operating curve read `candidates[0]` and ignored
+  `item_code`, making a matcher that answers without publishing candidates invisible to the
+  sweep. Caught by a test written before any matcher existed to hide behind it.
+- Two of my own tests were wrong and were fixed rather than the code they accused.
+
+**Open / next**
+- **P3, the matcher.** `harness.build()` already looks for `src.matching.pipeline:Pipeline`,
+  so it is picked up automatically once written. Build lanes in trap order, measure after
+  each, and close D-05's and D-06's open loops rather than dropping them.
+
+---
+
 <!-- Template for the next entry — copy, do not delete.
 
 ## Session NN — <short title>
