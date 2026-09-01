@@ -148,3 +148,55 @@ one-sided.
 **Reversal trigger:** none. A free control against a task-fatal outcome stays. What could
 change is the *verdict*: fuzzy resemblance has not been tested, so TR-09 may yet be upgraded
 before `EVAL.md`.
+
+## D-10 — On a 409, refuse to resolve: detect, flag, leave dirty
+
+**Context:** MAIA-844. The old handler refetched the remote *version* and rewrote our payload
+with it, turning the ERP's "someone else changed this row" into permission to overwrite.
+**Options:** (a) field-level merge; (b) newest `updated_at` wins; (c) detect, write nothing,
+record the conflict, leave the record dirty for review.
+**Chose:** (c).
+**Evidence:** the same asymmetry as `DESIGN.md` §1, in a different system. Not pushing our edit
+is **recoverable** — it is still local, still flagged, still visible. Overwriting theirs is
+**unrecoverable** — gone from both systems, and nobody knows it existed. (a) needs a record of
+which fields we changed, which `LocalRecord` does not have, and resolves a same-field collision
+silently anyway. (b) depends on two clocks agreeing, which is exactly the trap I-7 documents,
+and still discards one side without telling anyone.
+**Cost accepted:** the local edit is delayed, indefinitely if nobody works the queue. `SYNC.md`
+§6 names that as the second thing to break at 500 tenants and specifies the alert
+(`open_conflict_age` p95 over one business day).
+**Reversal trigger:** if the conflict rate makes the queue unworkable, move to (a) — but only
+after adding change-tracking to `LocalRecord`, because merge without it is (b) wearing a
+disguise.
+
+## D-11 — At-least-once delivery, chosen over at-most-once
+
+**Context:** I-4 moves the cursor advance to after the batch is applied, so a crash between the
+two causes re-delivery.
+**Options:** (a) cursor first (at-most-once, the existing behaviour); (b) cursor last
+(at-least-once); (c) cursor and apply in one transaction.
+**Chose:** (b).
+**Evidence:** (a) is what D4 is — a mid-page kill loses every record between the cursor and the
+last commit, permanently and silently. (b) re-delivers, which is harmless because `_apply` is
+idempotent on `external_id`. (c) is the ideal and is not available: the cursor and the records
+would have to share a transaction with a remote read, and the vendor gives no such handle.
+**Consequence made explicit:** idempotent apply stops being a nice property and becomes a
+*precondition*. A future change that breaks it reintroduces duplication with no test failing —
+so it is asserted rather than assumed.
+**Reversal trigger:** if re-delivery volume ever becomes a cost centre, the fix is a durable
+per-record applied-version check, not a return to (a).
+
+## D-12 — Commit the failing tests before the fixes, in a separate commit
+
+**Context:** §8.1 asks for "a failing test that isolates it and passes after your fix", one per
+defect, and warns that a single test going green because four things were fixed is worth much
+less.
+**Options:** (a) write tests and fixes together, then assert in prose that each test isolates
+one defect; (b) commit the tests red first, fixes in a later commit.
+**Chose:** (b) — `b7221f9` red, fixes after.
+**Evidence:** under (a) the claim is unverifiable by a reader: a test written after its fix can
+be shaped to pass. Under (b) checking out the earlier commit and running pytest shows all seven
+failing, each on its own assertion. It also caught a real error: D2's test was initially failing
+on **D6's** mechanism (an escaping `ErpTimeout`), not its own. That was only visible because the
+red run was inspected line by line rather than treated as a formality.
+**Reversal trigger:** none. This costs one extra commit.

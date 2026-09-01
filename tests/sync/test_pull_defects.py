@@ -5,6 +5,8 @@ Each test states the invariant it restores. A test that would pass because a
 """
 from __future__ import annotations
 
+from datetime import datetime, timedelta
+
 import pytest
 
 from sync_adapter import pull
@@ -56,7 +58,10 @@ def test_d4_cursor_advances_before_the_page_is_applied(erp_factory, store):
 
     if store.cursor is None:
         return  # nothing durably advanced: correct
-    highest_applied = max(store.records[eid].updated_at_utc for eid in applied)
+    # Compare against the ERP's own timestamps, not the local record's. The cursor lives
+    # in the server's zone by necessity (I-7), so reading the applied timestamps from the
+    # ERP keeps this assertion zone-neutral and true both before and after the fix.
+    highest_applied = max(erp.records[eid].updated_at for eid in applied)
     assert store.cursor <= highest_applied, (
         f"cursor={store.cursor!r} is ahead of the last applied record "
         f"({highest_applied!r}); everything between them is lost on restart."
@@ -115,7 +120,13 @@ def test_d7_server_local_timestamps_are_stored_in_a_field_named_utc(erp_factory,
     server_local = erp.records[eid].updated_at
     stored = store.records[eid].updated_at_utc
 
-    assert stored != server_local, (
-        f"stored updated_at_utc={stored!r} is the raw server-local (+08:00) string; "
-        "the field name claims UTC and the value is 8 hours ahead of it"
+    # Expected value computed here, independently of the adapter's own helper, so this
+    # test cannot pass by agreeing with a broken conversion.
+    expected = (datetime.strptime(server_local, "%Y-%m-%d %H:%M:%S")
+                - timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
+
+    assert stored == expected, (
+        f"stored updated_at_utc={stored!r} but the ERP stamped {server_local!r} in "
+        f"+08:00, so UTC is {expected!r}. The field name claims UTC; storing the raw "
+        "server string leaves an 8-hour skew for the first comparison that trusts it."
     )
