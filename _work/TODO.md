@@ -13,14 +13,15 @@ Timezone UTC+08:00. Update the status board on every session close.
 
 | | |
 |---|---|
-| **Current phase** | P1 complete → **P2 (eval harness) not started** |
+| **Current phase** | P1 complete · **P4b (Task 5) in progress — defects isolated, invariants defined, fixes NOT applied** |
 | **Last commit** | see `git log` — P1 lands as `docs: Task 1 DESIGN.md + first 9 decisions` |
 | **Blocking question for the human** | none open; OD-1/2/3 answered, see §5 |
 | **Nothing is runnable yet** | No `src/`, no tests, no `predictions.csv` |
 
-**One-line status:** traps confirmed with numbers, operating point derived (break-even
-92.68 %, floor 98 %), `DESIGN.md` and `DECISIONS.md` D-01..D-09 written. Next executable
-step is the eval harness (P2) — deliberately before the matcher, per D-08.
+**One-line status:** Group A started. Task 5's 7 defects are isolated by 7 tests committed
+**red** at `b7221f9`, and the invariants each fix must restore are written up in `SYNC.md` §2.
+**Next action: apply the fixes**, after the one open question in `SYNC.md` §5 (the conflict
+resolution policy) is settled. Then Task 4, then Group B starting with the eval harness.
 
 ---
 
@@ -179,12 +180,15 @@ output across two runs; every row carries a `reason_code`.
 **Done when:** `check` prints `OK` + `PASS`, and the diagnosis ranking is backed by an
 ablation table rather than by reasoning.
 
-### P4b — Task 5: `SYNC.md` · **est 2.5 h** · `[ ]`
+### P4b — Task 5: `SYNC.md` · **est 2.5 h · 1.0 h spent** · `[~]`
 
-- [ ] Reproduce each ticket symptom deterministically (fixed seed) before diagnosing
-- [ ] **One failing test per defect**, each named for its single reason (§8.1)
-- [ ] Map defects to MAIA-812 / 830 / 844; find the latent ones (TR-12) and state the
-      production condition that would surface each
+- [x] Reproduce each ticket symptom deterministically (fixed seed) before diagnosing
+- [x] **One failing test per defect**, each named for its single reason (§8.1) — 7 tests
+      committed red at `b7221f9`; each fails on its own assertion, verified
+- [x] Map defects to MAIA-812 / 830 / 844; 4 latent ones found (D4–D7) with the production
+      condition that would surface each
+- [x] Define the invariant each fix must restore, **before** fixing (`SYNC.md` §2)
+- [ ] **← NEXT:** settle `SYNC.md` §5 (conflict policy), then apply the fixes
 - [ ] Fix, stating the **invariant restored** for each
 - [ ] Crash-safety: the process can die at any moment (§8, end)
 - [ ] The contract to ask the vendor for, in priority order + how to stay correct at "no"
